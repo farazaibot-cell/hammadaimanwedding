@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hammad & Aiman - Wedding Invitation</title>
+    
+    <!-- Meta Tags for Open Graph -->
+    <meta property="og:title" content="Hammad & Aiman - Wedding Invitation">
+    <meta property="og:description" content="Two Souls, One Path. We invite you to share our joy.">
+    <meta property="og:image" content="assets/images/og-image.jpg">
+    <meta property="og:type" content="website">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/fonts/fonts.css">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+</head>
+<body>
+    <!-- Envelope Intro -->
+    <div id="envelope-screen" class="envelope-screen">
+        <div class="envelope-back"></div>
+        <div class="envelope-pocket"></div>
+        <div class="envelope-flap"></div>
+        <button id="open-envelope-btn" class="wax-seal" aria-label="Open Invitation">
+            <span class="seal-text">H&A</span>
+        </button>
+        <p class="tap-to-open">Tap or scroll to open</p>
+    </div>
+
+    <!-- Music Control -->
+    <button id="music-toggle" class="music-toggle" aria-label="Toggle Music">
+        <svg id="icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        <svg id="icon-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+    </button>
+
+    <!-- Main Content -->
+    <main id="main-content" class="hidden">
+        
+        <!-- Hero Section -->
+        <section class="hero section-animate">
+            <div class="hero-content">
+                <p class="wedding-day-text">Wedding Day</p>
+                <p class="wedding-date" id="hero-date"></p>
+                <h1 class="couple-names" id="hero-names"></h1>
+                
+                <div class="scroll-indicator">
+                    <p>Scroll down</p>
+                    <div class="chevron"></div>
+                </div>
+            </div>
+            <!-- Deckled Edge Divider -->
+            <div class="deckled-edge bottom"></div>
+        </section>
+
+        <!-- Blessing Section -->
+        <section class="blessing section-animate">
+            <!-- Bismillah SVG or Text -->
+            <div class="bismillah">
+                بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
+            </div>
+            <div class="blessing-text" id="blessing-text">
+                <!-- Injected via JS -->
+            </div>
+            <div class="deckled-edge bottom"></div>
+        </section>
+
+        <!-- Countdown Section -->
+        <section class="countdown section-animate">
+            <h2 class="section-title">The Celebration Begins In</h2>
+            <div class="countdown-timer" id="countdown-timer">
+                <div class="time-block"><span id="cd-days">00</span><label>Days</label></div>
+                <div class="time-separator">:</div>
+                <div class="time-block"><span id="cd-hours">00</span><label>Hours</label></div>
+                <div class="time-separator">:</div>
+                <div class="time-block"><span id="cd-mins">00</span><label>Minutes</label></div>
+                <div class="time-separator">:</div>
+                <div class="time-block"><span id="cd-secs">00</span><label>Seconds</label></div>
+            </div>
+            <div class="deckled-edge bottom"></div>
+        </section>
+
+        <!-- Formal Invitation Section -->
+        <section class="formal-invitation section-animate">
+            <div class="invitation-text" id="invitation-text">
+                <!-- Injected via JS -->
+            </div>
+            <div class="deckled-edge bottom"></div>
+        </section>
+
+        <!-- Schedule Section -->
+        <section class="schedule section-animate">
+            <h2 class="section-title">Schedule of Events</h2>
+            <div class="timeline" id="timeline">
+                <!-- Injected via JS -->
+            </div>
+            <div class="deckled-edge bottom"></div>
+        </section>
+
+        <!-- Location Section -->
+        <section class="location section-animate">
+            <h2 class="section-title">Locations</h2>
+            <img src="assets/images/venue-bg.jpg" class="location-img" alt="Beautiful Venue Illustration">
+            <div id="venues-container">
+                <!-- Injected via JS -->
+            </div>
+            <div class="deckled-edge bottom"></div>
+        </section>
+
+        <!-- RSVP Trigger Section -->
+        <section class="rsvp-trigger-section section-animate">
+            <h2 class="section-title">Confirm Your Attendance</h2>
+            <p class="rsvp-sub">To help us prepare for a joyful celebration, kindly confirm your attendance.</p>
+            <button id="open-rsvp-modal" class="wax-seal rsvp-seal" aria-label="RSVP">
+                <span>RSVP</span>
+            </button>
+            <p class="click-to-open">Click to open</p>
+            <div class="deckled-edge bottom"></div>
+        </section>
+
+        <!-- Closing Section -->
+        <section class="closing section-animate">
+            <div class="closing-content" id="closing-content">
+                <!-- Injected via JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- RSVP Modal -->
+    <div id="rsvp-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <button class="close-modal" aria-label="Close modal">&times;</button>
+            <h2 class="section-title">Confirm Your Attendance</h2>
+            
+            <form id="rsvp-form">
+                <div class="form-group">
+                    <label for="guest-name">Your Name</label>
+                    <input type="text" id="guest-name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Will you be attending?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="attending" value="yes" required> Accepts with pleasure</label>
+                        <label><input type="radio" name="attending" value="no"> Declines with regret</label>
+                    </div>
+                </div>
+                
+                <div class="form-group attending-only">
+                    <label for="guest-count">Number of Guests Attending</label>
+                    <input type="number" id="guest-count" name="guests" min="1" max="10">
+                </div>
+                
+                <div class="form-group attending-only">
+                    <label for="children-info">Children Attending</label>
+                    <input type="text" id="children-info" name="children" placeholder="Please include names and ages">
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submit-rsvp-btn">Submit</button>
+            </form>
+            
+            <div id="rsvp-success" class="hidden">
+                <p>Thank you! Your RSVP has been received.</p>
+            </div>
+            <div id="rsvp-error" class="hidden">
+                <p>Something went wrong. Please try again.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bg-music" loop>
+        <source src="assets/music/bgm.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

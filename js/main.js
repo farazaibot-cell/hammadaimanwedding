@@ -1,0 +1,227 @@
+document.addEventListener("DOMContentLoaded", () => {
+    // =====================================
+    // 1. Populate Content from Config
+    // =====================================
+    document.title = `${config.couple.names} - Wedding Invitation`;
+    
+    document.getElementById("hero-names").textContent = config.couple.names;
+    document.getElementById("hero-date").textContent = config.dates.wedding;
+    
+    document.getElementById("blessing-text").textContent = config.copy.opening;
+    document.getElementById("invitation-text").textContent = config.copy.invitationText;
+    document.getElementById("closing-content").textContent = config.copy.closing;
+
+    // Populate Schedule
+    const timeline = document.getElementById("timeline");
+    config.schedule.forEach(event => {
+        const item = document.createElement("div");
+        item.className = "timeline-item";
+        item.innerHTML = `
+            <div class="timeline-time">${event.time}</div>
+            <div class="timeline-node"></div>
+            <div class="timeline-title">${event.title}</div>
+        `;
+        timeline.appendChild(item);
+    });
+
+    // Populate Venues
+    const venuesContainer = document.getElementById("venues-container");
+    config.venues.forEach(venue => {
+        const card = document.createElement("div");
+        card.className = "venue-card";
+        card.innerHTML = `
+            <h3>${venue.title}</h3>
+            <h4>${venue.name}</h4>
+            <p>${venue.address}</p>
+            <a href="${venue.mapLink}" target="_blank" rel="noopener noreferrer" class="btn-map">Open in Maps</a>
+        `;
+        venuesContainer.appendChild(card);
+    });
+
+    // =====================================
+    // 2. Envelope & Music
+    // =====================================
+    const envScreen = document.getElementById("envelope-screen");
+    const mainContent = document.getElementById("main-content");
+    const openEnvBtn = document.getElementById("open-envelope-btn");
+    
+    const bgMusic = document.getElementById("bg-music");
+    const musicToggle = document.getElementById("music-toggle");
+    const iconPlay = document.getElementById("icon-play");
+    const iconPause = document.getElementById("icon-pause");
+
+    let isPlaying = false;
+
+    function openEnvelope() {
+        if (envScreen.classList.contains("hidden") || envScreen.classList.contains("is-open")) return;
+        
+        // Trigger envelope opening animation
+        envScreen.classList.add("is-open");
+        
+        // Wait for flap to open before fading out whole screen and showing content
+        setTimeout(() => {
+            envScreen.classList.add("hidden");
+            mainContent.classList.remove("hidden");
+            // Attempt to play music
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                iconPlay.style.display = 'none';
+                iconPause.style.display = 'block';
+            }).catch(() => {
+                // Autoplay blocked by browser (needs click)
+                isPlaying = false;
+                iconPlay.style.display = 'block';
+                iconPause.style.display = 'none';
+            });
+            
+            // Trigger initial scroll animations
+            observeElements();
+        }, 1500);
+    }
+
+    openEnvBtn.addEventListener("click", openEnvelope);
+    envScreen.addEventListener("wheel", openEnvelope);
+    envScreen.addEventListener("touchmove", openEnvelope);
+
+    musicToggle.addEventListener("click", () => {
+        if (isPlaying) {
+            bgMusic.pause();
+            iconPlay.style.display = 'block';
+            iconPause.style.display = 'none';
+        } else {
+            bgMusic.play();
+            iconPlay.style.display = 'none';
+            iconPause.style.display = 'block';
+        }
+        isPlaying = !isPlaying;
+    });
+
+    // =====================================
+    // 3. Scroll Animations
+    // =====================================
+    function observeElements() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.section-animate').forEach(sec => {
+            observer.observe(sec);
+        });
+    }
+
+    // =====================================
+    // 4. Countdown Timer
+    // =====================================
+    const targetDate = new Date(config.dates.countdownTarget).getTime();
+    
+    const elDays = document.getElementById("cd-days");
+    const elHours = document.getElementById("cd-hours");
+    const elMins = document.getElementById("cd-mins");
+    const elSecs = document.getElementById("cd-secs");
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance < 0) {
+            elDays.textContent = "00";
+            elHours.textContent = "00";
+            elMins.textContent = "00";
+            elSecs.textContent = "00";
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        elDays.textContent = days.toString().padStart(2, '0');
+        elHours.textContent = hours.toString().padStart(2, '0');
+        elMins.textContent = minutes.toString().padStart(2, '0');
+        elSecs.textContent = seconds.toString().padStart(2, '0');
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // =====================================
+    // 5. RSVP Modal & Form Logic
+    // =====================================
+    const modal = document.getElementById("rsvp-modal");
+    const openRsvpBtn = document.getElementById("open-rsvp-modal");
+    const closeRsvpBtn = document.querySelector(".close-modal");
+    const form = document.getElementById("rsvp-form");
+    const radios = document.querySelectorAll('input[name="attending"]');
+    const attendingOnlyFields = document.querySelectorAll(".attending-only");
+    
+    // Open modal
+    openRsvpBtn.addEventListener("click", () => {
+        modal.classList.add("active");
+        modal.setAttribute("aria-hidden", "false");
+        document.getElementById("guest-name").focus();
+        document.body.style.overflow = "hidden"; // prevent background scroll
+    });
+
+    // Close modal
+    function closeModal() {
+        modal.classList.remove("active");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        openRsvpBtn.focus();
+    }
+
+    closeRsvpBtn.addEventListener("click", closeModal);
+    
+    // Close on escape key
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.classList.contains("active")) {
+            closeModal();
+        }
+    });
+
+    // Close on click outside
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Toggle fields based on attendance
+    radios.forEach(radio => {
+        radio.addEventListener("change", (e) => {
+            if (e.target.value === "yes") {
+                attendingOnlyFields.forEach(f => f.style.display = "block");
+                document.getElementById("guest-count").setAttribute("required", "true");
+            } else {
+                attendingOnlyFields.forEach(f => f.style.display = "none");
+                document.getElementById("guest-count").removeAttribute("required");
+            }
+        });
+    });
+
+    // Handle Form Submission (simulated for now, backend instructions in README)
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById("submit-rsvp-btn");
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending...";
+
+        // Simulate network request
+        setTimeout(() => {
+            form.classList.add("hidden");
+            document.getElementById("rsvp-success").classList.remove("hidden");
+            
+            // To actually connect to Google Sheets, you would do a fetch() to the Apps Script URL here.
+            // Example:
+            // const formData = new FormData(form);
+            // fetch('YOUR_APPS_SCRIPT_URL', { method: 'POST', body: formData })
+            //   .then(...)
+            
+        }, 1500);
+    });
+});
