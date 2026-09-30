@@ -65,8 +65,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // =====================================
-    // 2. Music
+    // 2. Gatefold & Music
     // =====================================
+    const envScreen = document.getElementById("envelope-screen");
+    const openEnvBtn = document.getElementById("open-envelope-btn");
+
     const bgMusic = document.getElementById("bg-music");
     const musicToggle = document.getElementById("music-toggle");
     const iconPlay = document.getElementById("icon-play");
@@ -74,8 +77,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let isPlaying = false;
 
-    // Reveal the cards straight away, like the reference site - no envelope to open
-    observeElements();
+    function openEnvelope() {
+        if (envScreen.classList.contains("hidden") || envScreen.classList.contains("is-open")) return;
+
+        // Swing the doors open
+        envScreen.classList.add("is-open");
+
+        // Let the card fade/rise in as the doors swing apart
+        setTimeout(() => {
+            observeElements();
+        }, 300);
+
+        // Fully remove the overlay once the doors have finished swinging
+        setTimeout(() => {
+            envScreen.classList.add("hidden");
+            // This is a real user gesture (tap/scroll), so autoplay should be allowed
+            bgMusic.play().then(() => {
+                isPlaying = true;
+                iconPlay.style.display = 'none';
+                iconPause.style.display = 'block';
+            }).catch(() => {
+                isPlaying = false;
+                iconPlay.style.display = 'block';
+                iconPause.style.display = 'none';
+            });
+        }, 1200);
+    }
+
+    openEnvBtn.addEventListener("click", openEnvelope);
+    envScreen.addEventListener("wheel", openEnvelope);
+    envScreen.addEventListener("touchmove", openEnvelope);
 
     musicToggle.addEventListener("click", () => {
         if (isPlaying) {

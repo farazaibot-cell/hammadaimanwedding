@@ -20,9 +20,20 @@
     <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
 </head>
 <body>
+    <!-- Gatefold Intro: two doors swing open on their outer edges, like a cabinet opening -->
+    <div id="envelope-screen" class="gatefold-screen">
+        <div class="gate gate-left">
+            <button id="open-envelope-btn" class="wax-seal gate-handle" aria-label="Open Invitation">
+                <span class="seal-text">H&A</span>
+            </button>
+        </div>
+        <div class="gate gate-right"></div>
+        <p class="tap-to-open">Tap or scroll to open</p>
+    </div>
+
     <button id="music-toggle" class="music-toggle" aria-label="Toggle Music">
-        <svg id="icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-        <svg id="icon-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+        <svg id="icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        <svg id="icon-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
     </button>
 
     <!-- Main Content -->
