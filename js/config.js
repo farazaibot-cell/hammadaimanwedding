@@ -6,8 +6,8 @@ const config = {
     },
     copy: {
         opening: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nGuide this marriage to the best of understandings, happiness, prosperity & success - Ameen.",
-        invitationText: "Haji Begum (Late) Shahnawaz Akhtar\nrequests the pleasure of your company on the auspicious occasion of Walima of her son\n\nHammad Nawaz\n(S/O. Mrs. & Haji (Late) Shahnawaz Akhtar)\n\nwith\n\nAiman Fatima\n(D/O Mrs. Shahin Fatima & Late Arif Ahmad)",
-        closing: "With Best Compliments:\nDr. Rehan Jamil, Faraz Arshad, Bilal Nawaz, Daniyal Nawaz"
+        invitationText: "Haji Begum (Late) Shahnawaz Akhtar\nrequests the pleasure of your company on the auspicious occasion of Walima of her son\n\n**Hammad Nawaz**\n(S/O. Mrs. & Haji (Late) Shahnawaz Akhtar)\n\nwith\n\n**Aiman Fatima**\n(D/O Mrs. Shahin Fatima & Late Arif Ahmad)",
+        closing: "With Best Compliments:\n\nDr. Rehan Jamil\nFaraz Arshad\nBilal Nawaz\nDaniyal Nawaz"
     },
     // Master list of all possible events
     events: {

@@ -7,7 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("hero-names").textContent = config.couple.names;
     
     document.getElementById("blessing-text").textContent = config.copy.opening;
-    document.getElementById("invitation-text").textContent = config.copy.invitationText;
+    // **name** markers become highlighted spans (e.g. the couple's names in the invitation)
+    document.getElementById("invitation-text").innerHTML = config.copy.invitationText
+        .replace(/\*\*(.+?)\*\*/g, '<span class="highlight-name">$1</span>');
     document.getElementById("closing-content").textContent = config.copy.closing;
 
     // Determine which events to show based on URL parameter
@@ -63,12 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // =====================================
-    // 2. Envelope & Music
+    // 2. Music
     // =====================================
-    const envScreen = document.getElementById("envelope-screen");
-    const mainContent = document.getElementById("main-content");
-    const openEnvBtn = document.getElementById("open-envelope-btn");
-    
     const bgMusic = document.getElementById("bg-music");
     const musicToggle = document.getElementById("music-toggle");
     const iconPlay = document.getElementById("icon-play");
@@ -76,40 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let isPlaying = false;
 
-    function openEnvelope() {
-        if (envScreen.classList.contains("hidden") || envScreen.classList.contains("is-open")) return;
-        
-        // Trigger envelope opening animation
-        envScreen.classList.add("is-open");
-        
-        // Reveal main content immediately so it sits behind the opening gates
-        mainContent.classList.remove("hidden");
-        
-        // Trigger initial scroll animations (with a slight delay so it feels like it's sliding up as the gates open)
-        setTimeout(() => {
-            observeElements();
-        }, 300);
-
-        // Wait for gates to open before completely hiding the envelope screen overlay
-        setTimeout(() => {
-            envScreen.classList.add("hidden");
-            // Attempt to play music
-            bgMusic.play().then(() => {
-                isPlaying = true;
-                iconPlay.style.display = 'none';
-                iconPause.style.display = 'block';
-            }).catch(() => {
-                // Autoplay blocked by browser (needs click)
-                isPlaying = false;
-                iconPlay.style.display = 'block';
-                iconPause.style.display = 'none';
-            });
-        }, 1500);
-    }
-
-    openEnvBtn.addEventListener("click", openEnvelope);
-    envScreen.addEventListener("wheel", openEnvelope);
-    envScreen.addEventListener("touchmove", openEnvelope);
+    // Reveal the cards straight away, like the reference site - no envelope to open
+    observeElements();
 
     musicToggle.addEventListener("click", () => {
         if (isPlaying) {
