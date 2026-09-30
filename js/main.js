@@ -82,10 +82,17 @@ document.addEventListener("DOMContentLoaded", () => {
         // Trigger envelope opening animation
         envScreen.classList.add("is-open");
         
-        // Wait for flap to open before fading out whole screen and showing content
+        // Reveal main content immediately so it sits behind the opening gates
+        mainContent.classList.remove("hidden");
+        
+        // Trigger initial scroll animations (with a slight delay so it feels like it's sliding up as the gates open)
+        setTimeout(() => {
+            observeElements();
+        }, 300);
+
+        // Wait for gates to open before completely hiding the envelope screen overlay
         setTimeout(() => {
             envScreen.classList.add("hidden");
-            mainContent.classList.remove("hidden");
             // Attempt to play music
             bgMusic.play().then(() => {
                 isPlaying = true;
@@ -97,9 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 iconPlay.style.display = 'block';
                 iconPause.style.display = 'none';
             });
-            
-            // Trigger initial scroll animations
-            observeElements();
         }, 1500);
     }
 
