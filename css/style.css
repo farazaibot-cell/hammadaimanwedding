@@ -71,21 +71,29 @@ section {
     scroll-snap-align: start;
     height: 100vh;
     width: 100%;
-    padding: 2rem;
-    box-sizing: border-box;
     position: relative;
     text-align: center;
     background-color: var(--clr-bg);
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     /* Inset frame drawn as an outline (not a child element) so it stays fixed
        to the viewport instead of scrolling away with tall section content. */
     outline: 1px solid rgba(139, 48, 66, 0.4);
     outline-offset: -15px;
     border-radius: 20px;
+}
+
+/* Scrolling lives on this inner wrapper, clipped exactly at the outline's
+   15px inset - so tall content is hidden before it ever reaches the frame,
+   instead of visibly scrolling underneath/through it. */
+.section-scroll {
+    position: absolute;
+    top: 15px; left: 15px; right: 15px; bottom: 15px;
+    overflow-y: auto;
+    padding: 2rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Text Gradients */
@@ -191,7 +199,9 @@ section {
 .gate {
     position: absolute;
     top: 0; width: 50%; height: 100%;
-    background: linear-gradient(135deg, #FBF2EC 0%, #F2E1D6 55%, #EAD3C4 100%);
+    background-color: #F2E1D6;
+    background-repeat: no-repeat;
+    background-size: cover;
     transition: transform 1.1s cubic-bezier(0.65, 0, 0.35, 1);
     transform-style: preserve-3d;
     backface-visibility: hidden;
@@ -201,7 +211,8 @@ section {
 .gate-left {
     left: 0;
     transform-origin: left center;
-    border-right: 1px solid rgba(212, 163, 115, 0.5);
+    background-image: url('../assets/images/gatefold-left.jpg');
+    background-position: right center;
     /* Paint above .gate-right so the handle (a child of this door, straddling
        the seam) isn't covered by the other door's box where they meet. */
     z-index: 2;
@@ -210,21 +221,10 @@ section {
 .gate-right {
     right: 0;
     transform-origin: right center;
-    border-left: 1px solid rgba(212, 163, 115, 0.5);
+    background-image: url('../assets/images/gatefold-right.jpg');
+    background-position: left center;
     z-index: 1;
 }
-
-/* Faint inset frame on each door, echoing the card border used elsewhere on the site */
-.gate::before {
-    content: '';
-    position: absolute;
-    top: 20px; bottom: 20px;
-    left: 12px; right: 12px;
-    border: 1px solid rgba(139, 48, 66, 0.3);
-}
-
-.gate-left::before { border-right: none; }
-.gate-right::before { border-left: none; }
 
 .gatefold-screen.is-open .gate-left {
     transform: rotateY(-108deg);
@@ -234,14 +234,20 @@ section {
     transform: rotateY(108deg);
 }
 
-/* The wax seal sits on the seam like a clasp/handle, mounted to the left
-   door so it swings open together with it. */
+/* The monogram sits on the seam, over the embossed oval baked into the door
+   photos, mounted to the left door so it swings open together with it. */
 .gate-handle {
     position: absolute;
     top: 50%;
-    right: -45px;
+    right: -42px;
     transform: translateY(-50%);
-    font-size: 1.5rem;
+    width: 84px;
+    height: 84px;
+    background: none;
+    box-shadow: none;
+    color: var(--clr-primary);
+    font-size: 1.4rem;
+    text-shadow: 0 0 6px rgba(255,255,255,0.9), 0 0 12px rgba(255,255,255,0.7);
     animation: pulse-seal-env 2s infinite;
 }
 
@@ -659,7 +665,7 @@ section {
 /* =========================================
    Closing Section
    ========================================= */
-.closing {
+.closing .section-scroll {
     padding-bottom: 8rem;
 }
 .closing-content {
