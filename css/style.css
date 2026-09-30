@@ -114,59 +114,49 @@ section {
 /* =========================================
    Envelope Intro
    ========================================= */
-.envelope-screen {
+.gatefold-screen {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100vh;
     z-index: 100;
-    perspective: 1500px;
     background: #000;
-    transition: opacity 1.5s 1s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 1.5s 1s;
+    transition: opacity 1.5s 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 1.5s 0.8s;
     overflow: hidden;
 }
 
-.envelope-screen.hidden {
+.gatefold-screen.hidden {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
 }
 
-.envelope-back {
+.gate {
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
+    top: 0; width: 50%; height: 100%;
     background: url('../assets/images/envelope-bg.jpg') center/cover no-repeat;
-    z-index: 1;
-}
-
-.envelope-back::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.15); /* shadow inside */
-    z-index: 2;
-}
-
-.envelope-pocket {
-    position: absolute;
-    bottom: 0; left: 0; width: 100%; height: 60%;
-    background: url('../assets/images/envelope-bg.jpg') center/cover no-repeat;
-    clip-path: polygon(0 0, 50% 30%, 100% 0, 100% 100%, 0 100%);
     z-index: 3;
-    filter: drop-shadow(0 -10px 20px rgba(0,0,0,0.5));
+    transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
 }
 
-.envelope-flap {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 50%;
-    background: url('../assets/images/envelope-bg.jpg') center/cover no-repeat;
-    clip-path: polygon(0 0, 100% 0, 50% 100%);
-    transform-origin: top center;
-    transition: transform 1s cubic-bezier(0.25, 0.8, 0.25, 1);
-    z-index: 4;
-    filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6));
+.gate-left {
+    left: 0;
+    transform-origin: left center;
+    border-right: 1px solid rgba(212, 163, 115, 0.4);
+    box-shadow: 5px 0 15px rgba(0,0,0,0.3);
 }
 
-.envelope-screen.is-open .envelope-flap {
-    transform: rotateX(180deg);
+.gate-right {
+    right: 0;
+    transform-origin: right center;
+    border-left: 1px solid rgba(212, 163, 115, 0.4);
+    box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+}
+
+.gatefold-screen.is-open .gate-left {
+    transform: translateX(-100%);
+}
+
+.gatefold-screen.is-open .gate-right {
+    transform: translateX(100%);
 }
 
 .wax-seal {
@@ -191,14 +181,14 @@ section {
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
 }
 
-.envelope-screen .wax-seal {
+.gatefold-screen .wax-seal {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     animation: pulse-seal-env 2s infinite;
 }
 
-.envelope-screen.is-open .wax-seal {
+.gatefold-screen.is-open .wax-seal {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.5);
     pointer-events: none;
@@ -209,7 +199,7 @@ section {
     50% { transform: translate(-50%, -50%) scale(1.05); box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 20px 35px rgba(0,0,0,0.6), 0 0 40px rgba(212, 163, 115, 0.8); }
 }
 
-.envelope-screen .wax-seal:hover {
+.gatefold-screen .wax-seal:hover {
     transform: translate(-50%, -50%) scale(1.15) !important;
     animation: none;
 }
@@ -245,7 +235,7 @@ section {
     white-space: nowrap;
 }
 
-.envelope-screen.is-open .tap-to-open {
+.gatefold-screen.is-open .tap-to-open {
     opacity: 0;
 }
 

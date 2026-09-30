@@ -5,34 +5,58 @@ document.addEventListener("DOMContentLoaded", () => {
     document.title = `${config.couple.names} - Wedding Invitation`;
     
     document.getElementById("hero-names").textContent = config.couple.names;
-    document.getElementById("hero-date").textContent = config.dates.wedding;
     
     document.getElementById("blessing-text").textContent = config.copy.opening;
     document.getElementById("invitation-text").textContent = config.copy.invitationText;
     document.getElementById("closing-content").textContent = config.copy.closing;
 
+    // Determine which events to show based on URL parameter
+    // Examples: ?invite=walima, ?invite=barat, ?invite=barat-walima
+    const urlParams = new URLSearchParams(window.location.search);
+    const inviteType = urlParams.get('invite') || 'full'; 
+
+    let allowedEvents = ['ijtema', 'barat', 'walima']; // default to all
+    if (inviteType === 'walima') {
+        allowedEvents = ['walima'];
+    } else if (inviteType === 'barat') {
+        allowedEvents = ['barat'];
+    } else if (inviteType === 'barat-walima') {
+        allowedEvents = ['barat', 'walima'];
+    }
+
+    // Sort to maintain chronological order
+    const orderedKeys = ['ijtema', 'barat', 'walima'];
+    allowedEvents.sort((a, b) => orderedKeys.indexOf(a) - orderedKeys.indexOf(b));
+
+    // Set Hero Date & Countdown Target to their FIRST event
+    const firstEvent = config.events[allowedEvents[0]];
+    document.getElementById("hero-date").textContent = firstEvent.date;
+    window.countdownTargetDate = new Date(firstEvent.targetDate).getTime();
+
     // Populate Schedule
     const timeline = document.getElementById("timeline");
-    config.schedule.forEach(event => {
+    allowedEvents.forEach(eventId => {
+        const event = config.events[eventId];
         const item = document.createElement("div");
         item.className = "timeline-item";
         item.innerHTML = `
             <div class="timeline-time">${event.time}</div>
             <div class="timeline-node"></div>
-            <div class="timeline-title">${event.title}</div>
+            <div class="timeline-title">${event.title}<br><small style="font-size:0.9rem; opacity:0.8; font-family: var(--font-sans);">${event.date}</small></div>
         `;
         timeline.appendChild(item);
     });
 
     // Populate Venues
     const venuesContainer = document.getElementById("venues-container");
-    config.venues.forEach(venue => {
+    allowedEvents.forEach(eventId => {
+        const venue = config.events[eventId];
         const card = document.createElement("div");
         card.className = "venue-card";
         card.innerHTML = `
-            <h3>${venue.title}</h3>
-            <h4>${venue.name}</h4>
-            <p>${venue.address}</p>
+            <h3>${venue.venueTitle}</h3>
+            <h4>${venue.venueName}</h4>
+            <p>${venue.venueAddress}</p>
             <a href="${venue.mapLink}" target="_blank" rel="noopener noreferrer" class="btn-map">Open in Maps</a>
         `;
         venuesContainer.appendChild(card);
@@ -116,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // =====================================
     // 4. Countdown Timer
     // =====================================
-    const targetDate = new Date(config.dates.countdownTarget).getTime();
+    const targetDate = window.countdownTargetDate;
     
     const elDays = document.getElementById("cd-days");
     const elHours = document.getElementById("cd-hours");
