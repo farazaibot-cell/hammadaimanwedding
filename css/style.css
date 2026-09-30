@@ -75,7 +75,8 @@ section {
     box-sizing: border-box;
     position: relative;
     text-align: center;
-    background: url('../assets/images/envelope-bg.jpg') center/cover no-repeat;
+    background-color: var(--clr-bg);
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
