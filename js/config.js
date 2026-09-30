@@ -1,6 +1,6 @@
 const config = {
     couple: {
-        names: "Hammad & Aiman",
+        names: "Hammad\n&\nAiman",
         fullName1: "Hammad Nawaz",
         fullName2: "Aiman Fatima"
     },
@@ -15,8 +15,8 @@ const config = {
             id: "ijtema",
             title: "Ijtema",
             date: "20th December 2026",
-            time: "After Namaz-e-Asr/Magrib",
-            targetDate: "2026-12-20T16:00:00+05:30",
+            time: "7:30 PM", // Standardized time format
+            targetDate: "2026-12-20T19:30:00+05:30",
             venueTitle: "Ijtema",
             venueName: "Community Hall, Palm Spring Apartments",
             venueAddress: "PS Group, Flat 9B, New Tangra Rd, Near Beijing Restaurant, Kolkata",
@@ -25,7 +25,7 @@ const config = {
         "barat": {
             id: "barat",
             title: "Barat & Reception of Barat",
-            date: "22nd December 2026", // Assumed from earlier context
+            date: "22nd December 2026",
             time: "7:30 PM",
             targetDate: "2026-12-22T19:30:00+05:30",
             venueTitle: "Barat",
@@ -37,11 +37,11 @@ const config = {
             id: "walima",
             title: "Walima",
             date: "24th December 2026",
-            time: "Followed by Dinner",
-            targetDate: "2026-12-24T19:30:00+05:30",
+            time: "8:00 PM", // Standardized time format
+            targetDate: "2026-12-24T20:00:00+05:30",
             venueTitle: "Walima",
-            venueName: "Celebrations",
-            venueAddress: "Kolkata",
+            venueName: "Celebration Banquet",
+            venueAddress: "6th floor, Aurora Waterfront Ncsm Guest House, GN Block, Sector V, Bidhannagar, Kolkata, West Bengal 700091",
             mapLink: "https://maps.app.goo.gl/placeholder_reception"
         }
     }

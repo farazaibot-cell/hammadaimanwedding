@@ -31,7 +31,8 @@
 }
 
 html, body {
-    overflow-x: hidden;
+    height: 100%;
+    overflow: hidden;
     background-color: #000; /* Dark outside to make it pop */
     color: var(--clr-text-main);
     font-family: var(--font-serif);
@@ -58,16 +59,37 @@ main {
     margin: 0 auto;
     background-color: var(--clr-bg);
     box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
-    min-height: 100vh;
+    height: 100vh;
     position: relative;
-    overflow: hidden;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
 }
 
 section {
-    padding: 5rem 2rem;
+    scroll-snap-align: start;
+    height: 100vh;
+    width: 100%;
+    padding: 2rem;
+    box-sizing: border-box;
     position: relative;
     text-align: center;
-    background-color: var(--clr-bg); /* Base background */
+    background: url('../assets/images/envelope-bg.jpg') center/cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+section::before {
+    content: '';
+    position: absolute;
+    top: 15px; left: 15px; right: 15px; bottom: 15px;
+    border: 1px solid rgba(139, 48, 66, 0.4);
+    border-radius: 20px;
+    pointer-events: none;
+    z-index: 10;
 }
 
 /* Text Gradients */
@@ -300,14 +322,7 @@ section {
    Hero Section
    ========================================= */
 .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     background: url('../assets/images/hero-bg.jpg') center/cover no-repeat;
-    padding: 2rem;
-    position: relative;
 }
 
 /* Dreamy overlay for text readability */
@@ -322,8 +337,14 @@ section {
 .hero-content {
     position: relative;
     z-index: 2;
-    width: 100%;
+    width: 90%;
     text-align: center;
+    background: rgba(255, 255, 255, 0.65);
+    padding: 3rem 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid rgba(212, 163, 115, 0.4);
+    backdrop-filter: blur(5px);
 }
 
 .wedding-day-text {
@@ -344,11 +365,12 @@ section {
 
 .couple-names {
     font-family: var(--font-script);
-    font-size: 4rem;
-    line-height: 1.1;
+    font-size: 3.2rem;
+    line-height: 1.2;
     margin-bottom: 2rem;
     color: var(--clr-primary);
-    text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 2px 4px rgba(0,0,0,0.3); /* White glow behind dark text to make it pop */
+    white-space: pre-wrap;
+    text-shadow: 0 0 15px rgba(255,255,255,1), 0 0 25px rgba(212, 163, 115, 0.9), 0 2px 4px rgba(0,0,0,0.5); /* Highlight effect */
 }
 
 .scroll-indicator {
