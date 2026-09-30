@@ -193,7 +193,8 @@ section {
     height: 100vh;
     z-index: 100;
     perspective: 1600px;
-    transition: opacity 0.8s ease 0.6s, visibility 0.8s ease 0.6s;
+    cursor: pointer;
+    transition: opacity 1s ease 1.1s, visibility 1s ease 1.1s;
 }
 
 .gatefold-screen.hidden {
@@ -208,7 +209,7 @@ section {
     background-color: #F2E1D6;
     background-repeat: no-repeat;
     background-size: cover;
-    transition: transform 1.1s cubic-bezier(0.65, 0, 0.35, 1);
+    transition: transform 1.9s cubic-bezier(0.45, 0.05, 0.15, 1);
     transform-style: preserve-3d;
     backface-visibility: hidden;
     box-shadow: 0 0 50px rgba(0,0,0,0.15);
@@ -240,37 +241,6 @@ section {
     transform: rotateY(108deg);
 }
 
-/* The monogram sits on the seam, over the embossed oval baked into the door
-   photos, mounted to the left door so it swings open together with it. */
-.gate-handle {
-    position: absolute;
-    top: 50%;
-    right: -42px;
-    transform: translateY(-50%);
-    width: 84px;
-    height: 84px;
-    background: none;
-    box-shadow: none;
-    color: var(--clr-primary);
-    font-size: 1.4rem;
-    text-shadow: 0 0 6px rgba(255,255,255,0.9), 0 0 12px rgba(255,255,255,0.7);
-    animation: pulse-seal-env 2s infinite;
-}
-
-.gatefold-screen.is-open .gate-handle {
-    animation: none;
-}
-
-.gate-handle:hover {
-    transform: translateY(-50%) scale(1.1);
-    animation: none;
-}
-
-@keyframes pulse-seal-env {
-    0%, 100% { transform: translateY(-50%) scale(1); }
-    50% { transform: translateY(-50%) scale(1.06); }
-}
-
 .tap-to-open {
     position: absolute;
     bottom: 15%;
@@ -278,10 +248,11 @@ section {
     transform: translateX(-50%);
     font-family: var(--font-serif);
     color: var(--clr-primary);
+    font-weight: 600;
     font-style: italic;
-    opacity: 0.8;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     letter-spacing: 2px;
+    text-shadow: 0 0 8px rgba(255,255,255,0.95), 0 0 16px rgba(255,255,255,0.8), 0 1px 2px rgba(255,255,255,0.9);
     z-index: 5;
     white-space: nowrap;
     animation: pulse 2s infinite;
@@ -580,55 +551,74 @@ section {
 
 /* =========================================
    Location Section
+   Sized to fit all venues (up to 3) on one screen without scrolling, so
+   invitees can't miss a location by not noticing they need to scroll.
    ========================================= */
+.location .section-scroll {
+    padding: 1.1rem 1.25rem;
+}
+
+.location .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
 .location-img {
     width: 100%;
-    border-radius: 10px;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
-    margin-bottom: 2rem;
-    border: 2px solid rgba(212, 163, 115, 0.3);
+    max-height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+    margin-bottom: 0.6rem;
+    border: 1px solid rgba(212, 163, 115, 0.3);
 }
 
 .venue-card {
-    margin-bottom: 3rem;
-    padding: 2rem 1rem;
+    width: 100%;
+    margin-bottom: 0.6rem;
+    padding: 0.7rem 0.6rem;
     background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.03);
+    border-radius: 8px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.03);
     border: 1px solid rgba(232, 208, 211, 0.5);
+}
+
+.venue-card:last-child {
+    margin-bottom: 0;
 }
 
 .venue-card h3 {
     font-family: var(--font-script);
-    font-size: 2rem;
+    font-size: 1.15rem;
     color: var(--clr-primary);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.15rem;
 }
 
 .venue-card h4 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    margin-bottom: 0.15rem;
     color: var(--clr-text-main);
 }
 
 .venue-card p {
     color: var(--clr-text-light);
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.72rem;
+    line-height: 1.3;
 }
 
 .btn-map {
     display: inline-block;
-    padding: 0.7rem 2rem;
+    padding: 0.4rem 1.1rem;
     background: var(--gold-grad);
     color: #fff;
     text-decoration: none;
     text-transform: uppercase;
-    font-size: 0.9rem;
-    letter-spacing: 2px;
+    font-size: 0.65rem;
+    letter-spacing: 1.5px;
     border-radius: 30px;
     transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-    box-shadow: 0 5px 15px rgba(212, 163, 115, 0.4);
+    box-shadow: 0 4px 10px rgba(212, 163, 115, 0.4);
 }
 
 .btn-map:hover {

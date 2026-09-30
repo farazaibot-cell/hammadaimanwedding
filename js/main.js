@@ -68,7 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. Gatefold & Music
     // =====================================
     const envScreen = document.getElementById("envelope-screen");
-    const openEnvBtn = document.getElementById("open-envelope-btn");
 
     const bgMusic = document.getElementById("bg-music");
     const musicToggle = document.getElementById("music-toggle");
@@ -86,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Let the card fade/rise in as the doors swing apart
         setTimeout(() => {
             observeElements();
-        }, 300);
+        }, 500);
 
         // Fully remove the overlay once the doors have finished swinging
         setTimeout(() => {
@@ -101,10 +100,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 iconPlay.style.display = 'block';
                 iconPause.style.display = 'none';
             });
-        }, 1200);
+        }, 2100);
     }
 
-    openEnvBtn.addEventListener("click", openEnvelope);
+    envScreen.addEventListener("click", openEnvelope);
+    envScreen.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openEnvelope();
+        }
+    });
     envScreen.addEventListener("wheel", openEnvelope);
     envScreen.addEventListener("touchmove", openEnvelope);
 
