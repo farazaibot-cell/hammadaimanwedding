@@ -233,28 +233,25 @@ section {
 .gate-left {
     left: 0;
     transform-origin: left center;
-    /* The plain variant - gatefold-left.jpg still has its own half-seal
-       baked in near this edge, which was sitting directly under .gate-seal
-       below and causing a doubled/ghosted look at the seam. */
-    background-image: url('../assets/images/gatefold-left-plain.jpg');
+    background-image: url('../assets/images/gatefold-left.jpg');
     background-position: right center;
     overflow: visible;
-    /* Paint above .gate-right so the seal (a child of this door, straddling
-       the seam) isn't covered by the other door's box where they meet. */
+    /* Paint above .gate-right so the seal extension on the right side
+       isn't covered by the other door where they meet. */
     z-index: 2;
 }
 
-/* The intact seal rests over the seam while closed, and swings away with
-   the left door - the right door underneath uses a plain image with no
-   half-seal baked in, so nothing is left behind once it opens. */
+/* The right half of the seal is attached directly to the left door's right
+   seam edge (left: 100%). It seamlessly completes the oval when closed, and
+   swings open with the left door, leaving the right door completely plain. */
 .gate-seal {
     position: absolute;
     top: 50%;
-    right: -47px;
+    left: 100%;
     transform: translateY(-50%);
-    width: 94px;
-    height: 118px;
-    background: url('../assets/images/gate-seal.png') center/contain no-repeat;
+    width: calc(100vh * (76 / 1376));
+    height: calc(100vh * (184 / 1376));
+    background: url('../assets/images/gate-seal-right.png') left center / 100% 100% no-repeat;
     pointer-events: none;
     z-index: 10;
 }
@@ -646,12 +643,15 @@ section {
 }
 
 .location .section-scroll {
-    /* Smaller inset than the generous default - the venue cards below are
-       opaque white, so they stay legible even sitting closer to the floral
-       artwork, and this section's content was already tuned to fit all
-       three venues on one screen without scrolling (see commit history). */
-    top: 11%; bottom: 9%; left: 13%; right: 13%;
-    padding: 0.6rem 0.75rem;
+    /* Top needs to clear the hanging lanterns baked into this border image
+       (they hang lower than the florals above them, down to roughly a
+       third of the image height) - the venue cards are still opaque
+       white, so they stay legible even sitting closer to the artwork on
+       the sides/bottom, and the "Locations" title was dropped (the arch +
+       lantern framing already reads as a locations/venue section) to
+       recover the room this costs. */
+    top: 32%; bottom: 7%; left: 13%; right: 13%;
+    padding: 0.3rem 0.75rem;
 }
 
 .location .section-title {
@@ -661,18 +661,18 @@ section {
 
 .location-img {
     width: 100%;
-    max-height: 55px;
+    max-height: 38px;
     object-fit: cover;
     border-radius: 8px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.08);
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.3rem;
     border: 1px solid rgba(212, 163, 115, 0.3);
 }
 
 .venue-card {
     width: 100%;
-    margin-bottom: 0.3rem;
-    padding: 0.4rem 0.6rem;
+    margin-bottom: 0.25rem;
+    padding: 0.3rem 0.6rem;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 6px 14px rgba(0,0,0,0.03);
@@ -685,41 +685,43 @@ section {
 
 .venue-card h3 {
     font-family: var(--font-script);
-    font-size: 1.15rem;
+    font-size: 1rem;
     color: var(--clr-primary);
-    margin-bottom: 0.15rem;
+    margin-bottom: 0.1rem;
 }
 
 .venue-card h4 {
-    font-size: 0.85rem;
-    margin-bottom: 0.15rem;
+    font-size: 0.78rem;
+    margin-bottom: 0.1rem;
     color: var(--clr-text-main);
 }
 
 .venue-card p {
     color: var(--clr-text-light);
-    margin-bottom: 0.4rem;
-    font-size: 0.72rem;
-    line-height: 1.3;
+    margin-bottom: 0.25rem;
+    font-size: 0.68rem;
+    line-height: 1.25;
 }
 
 .btn-map {
     display: inline-block;
-    padding: 0.4rem 1.1rem;
-    background: var(--gold-grad);
-    color: #fff;
+    padding: 0.25rem 1rem;
+    background: transparent;
+    color: var(--clr-primary);
     text-decoration: none;
     text-transform: uppercase;
-    font-size: 0.65rem;
-    letter-spacing: 1.5px;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    border: 1px solid var(--clr-secondary);
     border-radius: 30px;
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-    box-shadow: 0 4px 10px rgba(212, 163, 115, 0.4);
+    transition: background var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed);
 }
 
 .btn-map:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(212, 163, 115, 0.6);
+    background: var(--gold-grad);
+    color: #fff;
+    border-color: transparent;
 }
 
 /* =========================================

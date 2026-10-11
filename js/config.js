@@ -23,7 +23,7 @@ const config = {
             venueTitle: "Ijtema",
             venueName: "Community Hall, Palm Spring Apartments",
             venueAddress: "PS Group, Flat 9B, New Tangra Rd, Near Beijing Restaurant, Kolkata",
-            mapLink: "#",
+            mapLink: "https://share.google/yLj2hS1xujwpTZUh4",
             cards: [
                 {
                     type: "invitation",
@@ -40,7 +40,7 @@ const config = {
             venueTitle: "Barat",
             venueName: "Myrah Banquet",
             venueAddress: "Prasad Square, 164, AJC Bose Rd, Entally, Kolkata",
-            mapLink: "https://maps.app.goo.gl/placeholder_wedding",
+            mapLink: "https://share.google/eqG40KCgWDRZpAHOS",
             cards: [
                 {
                     type: "programme",
@@ -58,7 +58,7 @@ const config = {
             venueTitle: "Walima",
             venueName: "Celebration Banquet",
             venueAddress: "6th floor, Aurora Waterfront Ncsm Guest House, GN Block, Sector V, Bidhannagar, Kolkata, West Bengal 700091",
-            mapLink: "https://maps.app.goo.gl/placeholder_reception",
+            mapLink: "https://share.google/MrHb02o1rq696AcRD",
             cards: [
                 {
                     type: "invitation",
