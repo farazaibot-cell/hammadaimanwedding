@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.title = `${config.couple.names} - Wedding Invitation`;
 
     document.getElementById("hero-names").textContent = config.couple.names;
-    document.getElementById("closing-content").textContent = config.copy.closing;
 
     // Turns **bold** markers into highlighted spans (e.g. the couple's names)
     function formatCardText(raw) {
@@ -41,6 +40,13 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("blessing-text").textContent = config.copy.blessing;
     } else {
         document.getElementById("blessing-section").remove();
+    }
+
+    // "With Best Compliments" doesn't apply to the Ijtema-only edition.
+    if (inviteType === 'ijtema') {
+        document.getElementById("closing-section").remove();
+    } else {
+        document.getElementById("closing-content").textContent = config.copy.closing;
     }
 
     // Build one invitation/programme card per entry in each included event's
