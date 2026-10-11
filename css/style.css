@@ -650,8 +650,8 @@ section {
        opaque white, so they stay legible even sitting closer to the floral
        artwork, and this section's content was already tuned to fit all
        three venues on one screen without scrolling (see commit history). */
-    top: 11%; bottom: 9%; left: 7%; right: 7%;
-    padding: 0.6rem 1.25rem;
+    top: 11%; bottom: 9%; left: 13%; right: 13%;
+    padding: 0.6rem 0.75rem;
 }
 
 .location .section-title {
