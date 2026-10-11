@@ -650,23 +650,13 @@ section {
        the sides/bottom, and the "Locations" title was dropped (the arch +
        lantern framing already reads as a locations/venue section) to
        recover the room this costs. */
-    top: 32%; bottom: 7%; left: 13%; right: 13%;
+    top: 32%; bottom: 13%; left: 13%; right: 13%;
     padding: 0.3rem 0.75rem;
 }
 
 .location .section-title {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
-}
-
-.location-img {
-    width: 100%;
-    max-height: 38px;
-    object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.08);
-    margin-bottom: 0.3rem;
-    border: 1px solid rgba(212, 163, 115, 0.3);
 }
 
 .venue-card {
@@ -705,14 +695,14 @@ section {
 
 .btn-map {
     display: inline-block;
-    padding: 0.25rem 1rem;
+    padding: 0.2rem 0.75rem;
     background: transparent;
     color: var(--clr-primary);
     text-decoration: none;
     text-transform: uppercase;
-    font-size: 0.62rem;
+    font-size: 0.55rem;
     font-weight: 600;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     border: 1px solid var(--clr-secondary);
     border-radius: 30px;
     transition: background var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed);
