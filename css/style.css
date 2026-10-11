@@ -74,25 +74,33 @@ section {
     position: relative;
     text-align: center;
     background-color: var(--clr-bg);
-    /* Inset frame drawn as an outline (not a child element) so it stays fixed
-       to the viewport instead of scrolling away with tall section content. */
-    outline: 1px solid rgba(139, 48, 66, 0.4);
-    outline-offset: -15px;
-    border-radius: 20px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-/* Scrolling lives on this inner wrapper, clipped exactly at the outline's
-   15px inset - so tall content is hidden before it ever reaches the frame,
-   instead of visibly scrolling underneath/through it. */
+/* Scrolling lives on this inner wrapper, clipped well inside the floral
+   border artwork's irregular (arch-shaped) frame - so tall content is
+   hidden before it ever reaches the florals, instead of visibly scrolling
+   underneath/through them. Generous default for sections whose text sits
+   directly on the border image with no opaque card behind it; .location
+   below gets its own smaller inset since its venue cards are opaque white
+   and its content was already tuned to fit without scrolling. */
 .section-scroll {
     position: absolute;
-    top: 15px; left: 15px; right: 15px; bottom: 15px;
+    top: 25%; left: 11%; right: 11%; bottom: 23%;
     overflow-y: auto;
-    padding: 2rem;
+    padding: 1.5rem 0.5rem;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    /* "safe" falls back to start-alignment exactly when centering would
+       push content out of scrollable reach - without it, a card taller
+       than its box can leave its top portion permanently unscrollable-to,
+       since centered overflow extends above the container's reachable
+       scroll origin. No visual change for cards that already fit. */
+    justify-content: safe center;
     align-items: center;
 }
 
@@ -319,29 +327,26 @@ section {
    Hero Section
    ========================================= */
 .hero {
-    background: url('../assets/images/hero-bg.jpg') center/cover no-repeat;
+    background-image: url('../assets/borders/hero-border.jpg');
 }
 
-/* Dreamy overlay for text readability */
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.2) 40%, rgba(255,255,255,0.8) 100%);
-    z-index: 1;
+/* hero-border.jpg's floral clusters are noticeably thinner than the
+   programme-card images the default inset is sized for, and this is the
+   very first thing a guest sees - give it back the extra room rather than
+   relying on an inner scroll just to see the couple's names. */
+.hero .section-scroll {
+    top: 17%; bottom: 15%;
 }
 
 .hero-content {
+    /* No background/blur card - the floral border's own ivory center is
+       already clean, and a translucent white card on top of it just washed
+       the artwork out into a hazy blur. */
     position: relative;
     z-index: 2;
     width: 90%;
     text-align: center;
-    background: rgba(255, 255, 255, 0.65);
     padding: 3rem 1.5rem;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    border: 1px solid rgba(212, 163, 115, 0.4);
-    backdrop-filter: blur(5px);
 }
 
 .wedding-day-text {
@@ -362,9 +367,9 @@ section {
 
 .couple-names {
     font-family: var(--font-script);
-    font-size: 3.2rem;
-    line-height: 1.2;
-    margin-bottom: 2rem;
+    font-size: 2.7rem;
+    line-height: 1.15;
+    margin-bottom: 1rem;
     color: var(--clr-primary);
     white-space: pre-wrap;
     text-shadow: 0 0 15px rgba(255,255,255,1), 0 0 25px rgba(212, 163, 115, 0.9), 0 2px 4px rgba(0,0,0,0.5); /* Highlight effect */
@@ -408,6 +413,10 @@ section {
 /* =========================================
    Blessing Section
    ========================================= */
+#blessing-section {
+    background-image: url('../assets/borders/blessing-border.jpg');
+}
+
 .bismillah {
     font-size: 3rem;
     background: var(--gold-grad);
@@ -419,17 +428,17 @@ section {
 
 .blessing-text,
 .invitation-text {
-    font-size: 1.4rem;
-    line-height: 1.8;
+    font-size: 1.3rem;
+    line-height: 1.6;
     color: var(--clr-primary);
     white-space: pre-line;
     font-style: italic;
 }
 
 .invitation-text {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-family: var(--font-serif);
-    padding: 0 1rem;
+    padding: 0 0.5rem;
     text-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
@@ -475,6 +484,12 @@ section {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+/* Per-event floral borders on the dynamically-generated invitation/
+   programme cards (see js/main.js) - both Walima cards share one image. */
+.card-ijtema { background-image: url('../assets/borders/ijtema-border.jpg'); }
+.card-barat { background-image: url('../assets/borders/barat-border.jpg'); }
+.card-walima { background-image: url('../assets/borders/walima-border.jpg'); }
 
 /* =========================================
    Countdown Section
@@ -528,6 +543,10 @@ section {
 /* =========================================
    Schedule Section
    ========================================= */
+.schedule {
+    background-image: url('../assets/borders/schedule-border.jpg');
+}
+
 .timeline {
     position: relative;
     max-width: 320px;
@@ -586,7 +605,16 @@ section {
    Sized to fit all venues (up to 3) on one screen without scrolling, so
    invitees can't miss a location by not noticing they need to scroll.
    ========================================= */
+.location {
+    background-image: url('../assets/borders/schedule-border.jpg');
+}
+
 .location .section-scroll {
+    /* Smaller inset than the generous default - the venue cards below are
+       opaque white, so they stay legible even sitting closer to the floral
+       artwork, and this section's content was already tuned to fit all
+       three venues on one screen without scrolling (see commit history). */
+    top: 11%; bottom: 9%; left: 7%; right: 7%;
     padding: 1.1rem 1.25rem;
 }
 
@@ -662,7 +690,7 @@ section {
    RSVP Section
    ========================================= */
 .rsvp-trigger-section {
-    background: radial-gradient(circle, rgba(232, 208, 211, 0.4) 0%, var(--clr-bg) 70%);
+    background-image: url('../assets/borders/rsvp-border.jpg');
 }
 
 .rsvp-sub {
@@ -693,6 +721,10 @@ section {
 /* =========================================
    Closing Section
    ========================================= */
+.closing {
+    background-image: url('../assets/borders/rsvp-border.jpg');
+}
+
 .closing .section-scroll {
     padding-bottom: 8rem;
 }

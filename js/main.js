@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cardsHTML = allowedEvents.map(eventId => {
         const event = config.events[eventId];
         return (event.cards || []).map(card => `
-            <section class="formal-invitation section-animate">
+            <section class="formal-invitation card-${eventId} section-animate">
                 <div class="section-scroll">
                     ${card.label ? `<p class="programme-label">${card.label}</p>` : ''}
                     <div class="invitation-text">${formatCardText(card.body)}</div>
