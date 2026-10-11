@@ -94,7 +94,7 @@ section {
        trimming content to compensate. */
     top: 28%; left: 11%; right: 11%; bottom: 24%;
     overflow-y: auto;
-    padding: 1rem 0.5rem;
+    padding: 0.5rem 0.4rem;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -118,8 +118,12 @@ section {
 
 .section-title {
     font-family: var(--font-script);
-    font-size: 2.4rem;
-    margin-bottom: 1rem;
+    font-size: 2.6rem;
+    /* Extra clearance below a script font's descenders (e.g. the long
+       swash on "Your") - the computed line box doesn't reach as far as
+       the glyph actually renders, so a plain 1rem gap let the tail
+       visually cross into the text below it. */
+    margin-bottom: 2rem;
     font-weight: normal;
     background: var(--gold-grad);
     -webkit-background-clip: text;
@@ -374,14 +378,14 @@ section {
 
 .wedding-day-text {
     font-family: var(--font-script);
-    font-size: 1.8rem;
+    font-size: 2rem;
     color: var(--clr-primary);
     margin-bottom: 0.25rem;
     text-shadow: 0 0 10px rgba(255,255,255,0.8);
 }
 
 .wedding-date {
-    font-size: 1rem;
+    font-size: 1.1rem;
     letter-spacing: 3px;
     color: var(--clr-primary);
     margin-bottom: 1rem;
@@ -390,7 +394,7 @@ section {
 
 .couple-names {
     font-family: var(--font-script);
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     line-height: 1.1;
     margin-bottom: 0.5rem;
     color: var(--clr-primary);
@@ -441,7 +445,7 @@ section {
 }
 
 .bismillah {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     background: var(--gold-grad);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -451,23 +455,36 @@ section {
 
 .blessing-text,
 .invitation-text {
-    font-size: 0.95rem;
-    line-height: 1.3;
+    font-size: 1.08rem;
+    line-height: 1.38;
     color: var(--clr-primary);
     white-space: pre-line;
     font-style: italic;
 }
 
 .invitation-text {
-    font-size: 0.95rem;
+    font-size: 1.08rem;
     font-family: var(--font-serif);
     padding: 0 0.5rem;
     text-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
+/* Walima's formal invite is the single longest card on the site (Bismillah
+   opener + full formal address + two names each with a relation line) -
+   a small, targeted reduction here instead of shrinking every card's text
+   to fit this one outlier. */
+.card-walima.card-type-invitation .invitation-text {
+    font-size: 0.92rem;
+    line-height: 1.3;
+}
+
+.card-walima.card-type-invitation .highlight-name {
+    font-size: 1.3rem;
+}
+
 .highlight-name {
     font-family: var(--font-script);
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-style: normal;
     font-weight: 600;
     background: var(--gold-grad);
@@ -479,7 +496,7 @@ section {
 /* Eyebrow label on "Programme" style cards (Barat, Walima programme) */
 .programme-label {
     font-family: var(--font-serif);
-    font-size: 0.8rem;
+    font-size: 0.88rem;
     font-weight: 600;
     letter-spacing: 3px;
     /* letter-spacing adds trailing space after the last character too, which
@@ -505,7 +522,7 @@ section {
     padding-top: 0.75rem;
     text-align: right;
     font-family: var(--font-script);
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     line-height: 1.3;
     white-space: pre-line;
     background: var(--gold-grad);
@@ -606,7 +623,7 @@ section {
     text-align: right;
     font-weight: 600;
     color: var(--clr-primary);
-    font-size: 0.95rem;
+    font-size: 1.05rem;
 }
 
 .timeline-node {
@@ -624,7 +641,7 @@ section {
 .timeline-title {
     width: 45%;
     text-align: left;
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     color: var(--clr-text-main);
 }
 
@@ -661,8 +678,8 @@ section {
 
 .venue-card {
     width: 100%;
-    margin-bottom: 0.25rem;
-    padding: 0.3rem 0.6rem;
+    margin-bottom: 0.2rem;
+    padding: 0.25rem 0.6rem;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 6px 14px rgba(0,0,0,0.03);
@@ -675,13 +692,13 @@ section {
 
 .venue-card h3 {
     font-family: var(--font-script);
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: var(--clr-primary);
     margin-bottom: 0.1rem;
 }
 
 .venue-card h4 {
-    font-size: 0.78rem;
+    font-size: 0.84rem;
     margin-bottom: 0.1rem;
     color: var(--clr-text-main);
 }
@@ -689,7 +706,7 @@ section {
 .venue-card p {
     color: var(--clr-text-light);
     margin-bottom: 0.25rem;
-    font-size: 0.68rem;
+    font-size: 0.73rem;
     line-height: 1.25;
 }
 
@@ -722,16 +739,16 @@ section {
 }
 
 .rsvp-sub {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem;
     color: var(--clr-primary);
-    font-size: 1rem;
+    font-size: 1.05rem;
 }
 
 .rsvp-seal {
     width: 72px;
     height: 72px;
     font-size: 1.5rem;
-    margin: 0 auto 0.75rem;
+    margin: 0 auto 0.4rem;
 }
 
 .click-to-open {
@@ -758,7 +775,7 @@ section {
 }
 .closing-content {
     font-family: var(--font-script);
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     background: var(--gold-grad);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

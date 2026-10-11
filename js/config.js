@@ -27,7 +27,7 @@ const config = {
             cards: [
                 {
                     type: "invitation",
-                    body: "Mrs. Farah Naz\ncordially invites you to join us for\n\n**Ijtema**\nInsha Allah\n\non 20th December 2026\nafter Namaz-e-Asr / Maghrib\nfollowed by dinner\n\nat\nCommunity Hall, Palm Spring\nPS Group, Kolkata"
+                    body: "Mrs. Farah Naz\ncordially invites you to join us for\n\n**Ijtema**\nInsha Allah\non 20th December 2026\nafter Namaz-e-Asr / Maghrib\nfollowed by dinner\n\nat\nCommunity Hall, Palm Spring\nPS Group, Kolkata"
                 }
             ]
         },
@@ -62,7 +62,7 @@ const config = {
             cards: [
                 {
                     type: "invitation",
-                    body: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nBegum (Late) Haji Shahnawaz Akhtar\nrequests the pleasure of your company on the\nauspicious occasion of Walima of her son\n\n**Hammad Nawaz**\n(S/O. Mrs. & Haji (Late) Shahnawaz Akhtar)\nwith\n**Aiman Fatima**\n(D/O Mrs. Shahin Fatima & Late Arif Ahmad)"
+                    body: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nBegum (Late) Haji Shahnawaz Akhtar\nrequests the pleasure of your company on the\nauspicious occasion of Walima of her son\n\n**Hammad Nawaz**\n(S/O. Mrs. & Haji (Late) Shahnawaz Akhtar)\n\nwith\n\n**Aiman Fatima**\n(D/O Mrs. Shahin Fatima & Late Arif Ahmad)"
                 },
                 {
                     // showCompliments renders config.copy.closing as a bottom-right
