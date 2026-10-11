@@ -450,6 +450,10 @@ section {
     font-size: 0.95rem;
     font-weight: 600;
     letter-spacing: 4px;
+    /* letter-spacing adds trailing space after the last character too, which
+       isn't balanced by anything - that pulls the visible text left of true
+       center. Cancel just that trailing gap so it centers correctly. */
+    margin-right: -4px;
     text-transform: uppercase;
     color: var(--clr-secondary);
     margin-bottom: 1rem;
