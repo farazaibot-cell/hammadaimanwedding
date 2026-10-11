@@ -60,6 +60,15 @@ main {
     background-color: var(--clr-bg);
     box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
     height: 100vh;
+    /* dvh tracks the real, current visible viewport as mobile Safari/Chrome's
+       address bar collapses on scroll, instead of a snapshot taken once (vh).
+       Plain vh is a fallback for older browsers - cascade means it's simply
+       overridden below on anything that understands dvh. Without this, each
+       section's fixed vh height falls out of sync with the actually-visible
+       viewport mid-scroll (only noticeable scrolling down, since that's the
+       direction that collapses the toolbar), forcing a corrective re-snap
+       that reads as a rough bounce-back. */
+    height: 100dvh;
     position: relative;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -76,6 +85,7 @@ main {
 section {
     scroll-snap-align: start;
     height: 100vh;
+    height: 100dvh;
     width: 100%;
     position: relative;
     text-align: center;
@@ -213,6 +223,7 @@ section {
     max-width: 500px;
     margin: 0 auto;
     height: 100vh;
+    height: 100dvh;
     z-index: 100;
     perspective: 1600px;
     cursor: pointer;
@@ -257,8 +268,8 @@ section {
     top: 50%;
     left: 100%;
     transform: translateY(-50%);
-    width: calc(100vh * (76 / 1376));
-    height: calc(100vh * (184 / 1376));
+    width: calc(100dvh * (76 / 1376));
+    height: calc(100dvh * (184 / 1376));
     background: url('../assets/images/gate-seal-right.png') left center / 100% 100% no-repeat;
     pointer-events: none;
     z-index: 10;
