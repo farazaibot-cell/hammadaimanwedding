@@ -52,16 +52,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="section-scroll">
                     ${card.label ? `<p class="programme-label">${card.label}</p>` : ''}
                     <div class="invitation-text">${formatCardText(card.body)}</div>
+                    ${card.showCompliments ? `<div class="card-compliments">${formatCardText(config.copy.closing)}</div>` : ''}
                 </div>
             </section>
         `).join('');
     }).join('');
     document.getElementById("countdown-section").insertAdjacentHTML('afterend', cardsHTML);
 
-    // Set Hero Date & Countdown Target to their FIRST event
+    // Set Countdown Target to the FIRST included event
     const firstEvent = config.events[allowedEvents[0]];
-    document.getElementById("hero-date").textContent = firstEvent.date;
     window.countdownTargetDate = new Date(firstEvent.targetDate).getTime();
+
+    // "Wedding Day" on the Hero always means the Nikah/Barat date specifically,
+    // not just "whichever event is first" - falls back to the single included
+    // event's own date on the ijtema-only/walima-only editions.
+    const weddingDayEvent = allowedEvents.includes('barat') ? config.events.barat : firstEvent;
+    document.getElementById("hero-date").textContent = weddingDayEvent.date;
 
     // Populate Schedule
     const timeline = document.getElementById("timeline");

@@ -7,7 +7,7 @@ const config = {
     copy: {
         // Shown only on the "barat" and "full" editions (see js/main.js), matching
         // the physical card set where this blessing accompanies the Barat card.
-        blessing: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nGuide this marriage to the best of understandings, happiness, prosperity & success - Ameen.",
+        blessing: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nO Allah, guide this marriage to the best of understandings, happiness, prosperity & success\n- Ameen.",
         closing: "With Best Compliments:\n\nDr. Rehan Jamil\nFaraz Arshad\nBilal Nawaz\nDaniyal Nawaz"
     },
     // Master list of all possible events. Each event carries its own invitation
@@ -27,16 +27,16 @@ const config = {
             cards: [
                 {
                     type: "invitation",
-                    body: "Mrs. Farah Naz\ncordially invites you to join us for\n\n**Ijtema**\n\nInsha Allah\n\non 20th December 2026\nafter Namaz-e-Asr / Maghrib\n\nfollowed by dinner\n\nat\nCommunity Hall, Palm Spring\nNear Beijing Restaurant, Kolkata"
+                    body: "Mrs. Farah Naz\ncordially invites you to join us for\n\n**Ijtema**\n\nInsha Allah\n\non 20th December 2026\nafter Namaz-e-Asr / Maghrib\n\nfollowed by dinner\n\nat\nCommunity Hall, Palm Spring\nPS Group, Kolkata"
                 }
             ]
         },
         "barat": {
             id: "barat",
-            title: "Barat & Reception of Barat",
-            date: "22nd December 2026",
+            title: "Barat",
+            date: "23rd December 2026",
             time: "7:30 PM",
-            targetDate: "2026-12-22T19:30:00+05:30",
+            targetDate: "2026-12-23T19:30:00+05:30",
             venueTitle: "Barat",
             venueName: "Myrah Banquet",
             venueAddress: "Prasad Square, 164, AJC Bose Rd, Entally, Kolkata",
@@ -45,7 +45,7 @@ const config = {
                 {
                     type: "programme",
                     label: "Programme",
-                    body: "**Barat**\nInsha Allah\n\nBarat & Reception of Barat\nfrom Palm Spring\n\nVenue: Myrah Banquet\nPrasad Square\n\nTime: 7:30 PM\n\nfollowed by dinner"
+                    body: "**Barat**\nInsha Allah\n\nBarat\nfrom Palm Spring\n\nDate: 23rd December 2026\n\nVenue: Myrah Banquet\nPrasad Square\n\nTime: 7:30 PM\n\nfollowed by dinner"
                 }
             ]
         },
@@ -61,18 +61,17 @@ const config = {
             mapLink: "https://maps.app.goo.gl/placeholder_reception",
             cards: [
                 {
-                    // TODO: confirm the parent line - see note to Faraz. Left exactly
-                    // as previously published pending confirmation of "Farah Naz".
                     type: "invitation",
-                    body: "Haji Begum (Late) Shahnawaz Akhtar\nrequests the pleasure of your company on the auspicious occasion of Walima of her son\n\n**Hammad Nawaz**\n(S/O. Mrs. & Haji (Late) Shahnawaz Akhtar)\n\nwith\n\n**Aiman Fatima**\n(D/O Mrs. Shahin Fatima & Late Arif Ahmad)"
+                    body: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nBegum (Late) Haji Shahnawaz Akhtar\nrequests the pleasure of your company on the auspicious occasion of Walima of her son\n\n**Hammad Nawaz**\n(S/O. Mrs. & Haji (Late) Shahnawaz Akhtar)\n\nwith\n\n**Aiman Fatima**\n(D/O Mrs. Shahin Fatima & Late Arif Ahmad)"
                 },
                 {
-                    // "With Best Compliments" isn't repeated here - the closing
-                    // section at the end of the page already carries it on every
-                    // edition (config.copy.closing).
+                    // showCompliments renders config.copy.closing as a bottom-right
+                    // block on this card (see js/main.js), matching where that
+                    // block sits on the physical programme card.
                     type: "programme",
                     label: "Programme",
-                    body: "**Walima**\nInsha Allah\n\nDate: 24th December 2026\n\nVenue: Celebration Banquet\n\nfollowed by dinner"
+                    body: "**Walima**\nInsha Allah\n\nDate: 24th December 2026\n\nVenue: Celebration Banquet\n\nfollowed by dinner",
+                    showCompliments: true
                 }
             ]
         }

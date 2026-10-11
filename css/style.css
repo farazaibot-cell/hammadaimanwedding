@@ -455,6 +455,23 @@ section {
     margin-bottom: 1rem;
 }
 
+/* "With Best Compliments" block on cards that opt in via showCompliments
+   (see js/main.js) - pinned to the bottom-right of the card instead of
+   centered with the rest of its text, matching the physical card. */
+.card-compliments {
+    align-self: flex-end;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    text-align: right;
+    font-family: var(--font-script);
+    font-size: 1.1rem;
+    line-height: 1.5;
+    white-space: pre-line;
+    background: var(--gold-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 /* =========================================
    Countdown Section
    ========================================= */
