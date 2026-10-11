@@ -70,7 +70,7 @@ const config = {
                     // block sits on the physical programme card.
                     type: "programme",
                     label: "Programme",
-                    body: "**Walima**\nInsha Allah\n\nDate: 24th December 2026\nVenue: Celebration Banquet\nfollowed by dinner",
+                    body: "**Walima**\nInsha Allah\n\nDate: 24th December 2026\n\nVenue: Celebration Banquet\nfollowed by dinner",
                     showCompliments: true
                 }
             ]

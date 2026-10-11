@@ -474,12 +474,22 @@ section {
    a small, targeted reduction here instead of shrinking every card's text
    to fit this one outlier. */
 .card-walima.card-type-invitation .invitation-text {
-    font-size: 0.92rem;
-    line-height: 1.3;
+    font-size: 1.02rem;
+    line-height: 1.32;
 }
 
 .card-walima.card-type-invitation .highlight-name {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
+}
+
+/* walima-border.jpg's roses sit further into the corners than the other
+   border images (rather than a full-width top/bottom garland), leaving
+   more clear ivory above/below centered text - reclaiming that room here
+   specifically to afford this card's larger font without re-trimming
+   every other section's shared inset. */
+.card-walima .section-scroll {
+    top: 23%;
+    bottom: 19%;
 }
 
 .highlight-name {
