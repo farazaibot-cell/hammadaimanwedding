@@ -217,7 +217,10 @@ section {
     background-color: #F2E1D6;
     background-repeat: no-repeat;
     background-size: cover;
-    transition: transform 1.9s cubic-bezier(0.45, 0.05, 0.15, 1);
+    /* A standard, well-behaved ease-in-out curve - the previous curve's
+       control points weren't monotonic in time, which produced a subtly
+       jerky, uneven swing rather than a smooth one. */
+    transition: transform 1.9s cubic-bezier(0.65, 0, 0.35, 1);
     transform-style: preserve-3d;
     backface-visibility: hidden;
     box-shadow: 0 0 50px rgba(0,0,0,0.15);
@@ -228,15 +231,30 @@ section {
     transform-origin: left center;
     background-image: url('../assets/images/gatefold-left.jpg');
     background-position: right center;
-    /* Paint above .gate-right so the handle (a child of this door, straddling
+    /* Paint above .gate-right so the seal (a child of this door, straddling
        the seam) isn't covered by the other door's box where they meet. */
     z-index: 2;
+}
+
+/* The intact seal rests over the seam while closed, and swings away with
+   the left door - the right door underneath uses a plain image with no
+   half-seal baked in, so nothing is left behind once it opens. */
+.gate-seal {
+    position: absolute;
+    top: 50%;
+    right: -41px;
+    transform: translateY(-50%);
+    width: 82px;
+    height: 100px;
+    background: url('../assets/images/gate-seal.png') center/contain no-repeat;
+    pointer-events: none;
+    z-index: 10;
 }
 
 .gate-right {
     right: 0;
     transform-origin: right center;
-    background-image: url('../assets/images/gatefold-right.jpg');
+    background-image: url('../assets/images/gatefold-right-plain.jpg');
     background-position: left center;
     z-index: 1;
 }
