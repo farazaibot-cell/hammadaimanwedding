@@ -27,7 +27,7 @@ const config = {
             cards: [
                 {
                     type: "invitation",
-                    body: "Mrs. Farah Naz\ncordially invites you to join us for\n\n**Ijtema**\nInsha Allah\non 20th December 2026\nafter Namaz-e-Asr / Maghrib\nfollowed by dinner\n\nat\nCommunity Hall, Palm Spring\nPS Group, Kolkata"
+                    body: "Mrs. Farah Naz\ncordially invites you to join us for\n\n**Ijtema**\nInsha Allah\non 20th December 2026\nTime: 7:30 PM (after Namaz-e-Asr/Maghrib)\nfollowed by dinner\nat Community Hall, Palm Spring\nPS Group, Kolkata"
                 }
             ]
         },
@@ -70,7 +70,7 @@ const config = {
                     // block sits on the physical programme card.
                     type: "programme",
                     label: "Programme",
-                    body: "**Walima**\nInsha Allah\n\nDate: 24th December 2026\n\nVenue: Celebration Banquet\nfollowed by dinner",
+                    body: "**Walima**\nInsha Allah\n\nDate: 24th December 2026\nVenue: Celebration Banquet\nTime: 8:00 PM\nfollowed by dinner",
                     showCompliments: true
                 }
             ]

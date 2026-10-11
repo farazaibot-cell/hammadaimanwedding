@@ -64,35 +64,47 @@ document.addEventListener("DOMContentLoaded", () => {
     window.countdownTargetDate = new Date(firstEvent.targetDate).getTime();
 
     // "Wedding Day" on the Hero always means the Nikah/Barat date specifically,
-    // not just "whichever event is first" - falls back to the single included
-    // event's own date on the ijtema-only/walima-only editions.
-    const weddingDayEvent = allowedEvents.includes('barat') ? config.events.barat : firstEvent;
-    document.getElementById("hero-date").textContent = weddingDayEvent.date;
+    // consistently on every edition - even Ijtema-only/Walima-only - not
+    // whichever single event that particular link happens to be for. The
+    // countdown further down still targets that edition's own event.
+    document.getElementById("hero-date").textContent = config.events.barat.date;
 
-    // Populate Schedule
-    const timeline = document.getElementById("timeline");
-    allowedEvents.forEach(eventId => {
-        const event = config.events[eventId];
-        const item = document.createElement("div");
-        item.className = "timeline-item";
-        item.innerHTML = `
-            <div class="timeline-time">${event.time}</div>
-            <div class="timeline-node"></div>
-            <div class="timeline-title">${event.title}<br><small style="font-size:0.9rem; opacity:0.8; font-family: var(--font-sans);">${event.date}</small></div>
-        `;
-        timeline.appendChild(item);
-    });
+    // Schedule only makes sense when more than one event is on this edition -
+    // a single-event link already states its own date/time on its card, so
+    // the Schedule section (which lists every included event) is dropped
+    // entirely rather than showing a redundant one-line list.
+    const isSingleEvent = allowedEvents.length === 1;
+    if (isSingleEvent) {
+        document.getElementById("schedule-section").remove();
+    } else {
+        const timeline = document.getElementById("timeline");
+        allowedEvents.forEach(eventId => {
+            const event = config.events[eventId];
+            const item = document.createElement("div");
+            item.className = "timeline-item";
+            item.innerHTML = `
+                <div class="timeline-time">${event.time}</div>
+                <div class="timeline-node"></div>
+                <div class="timeline-title">${event.title}<br><small style="font-size:0.9rem; opacity:0.8; font-family: var(--font-sans);">${event.date}</small></div>
+            `;
+            timeline.appendChild(item);
+        });
+    }
 
-    // Populate Venues
+    // Populate Venues - single-event editions get an embedded map too (no
+    // API key needed, Google's plain "output=embed" query form), since
+    // there's just the one card and the extra room reads as sparse without it.
     const venuesContainer = document.getElementById("venues-container");
     allowedEvents.forEach(eventId => {
         const venue = config.events[eventId];
         const card = document.createElement("div");
         card.className = "venue-card";
+        const mapQuery = encodeURIComponent(`${venue.venueName}, ${venue.venueAddress}`);
         card.innerHTML = `
             <h3>${venue.venueTitle}</h3>
             <h4>${venue.venueName}</h4>
             <p>${venue.venueAddress}</p>
+            ${isSingleEvent ? `<iframe class="venue-map" src="https://maps.google.com/maps?q=${mapQuery}&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="${venue.venueTitle} location"></iframe>` : ''}
             <a href="${venue.mapLink}" target="_blank" rel="noopener noreferrer" class="btn-map">Open in Maps</a>
         `;
         venuesContainer.appendChild(card);
