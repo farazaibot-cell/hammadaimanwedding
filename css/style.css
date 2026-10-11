@@ -64,7 +64,13 @@ main {
     overflow-y: scroll;
     overflow-x: hidden;
     scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
+    /* No scroll-behavior:smooth here on purpose - on touch devices it fights
+       the browser's own momentum/snap physics (two different easing curves
+       trying to animate the same scroll at once), which is what was causing
+       the rough, double-animated bounce-back past a section boundary. The
+       native snap engine already has well-tuned physics for this; letting
+       it run alone is smoother than layering CSS smoothing on top of it. */
+    overscroll-behavior-y: contain;
 }
 
 section {
