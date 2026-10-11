@@ -229,8 +229,12 @@ section {
 .gate-left {
     left: 0;
     transform-origin: left center;
-    background-image: url('../assets/images/gatefold-left.jpg');
+    /* The plain variant - gatefold-left.jpg still has its own half-seal
+       baked in near this edge, which was sitting directly under .gate-seal
+       below and causing a doubled/ghosted look at the seam. */
+    background-image: url('../assets/images/gatefold-left-plain.jpg');
     background-position: right center;
+    overflow: visible;
     /* Paint above .gate-right so the seal (a child of this door, straddling
        the seam) isn't covered by the other door's box where they meet. */
     z-index: 2;
@@ -242,10 +246,10 @@ section {
 .gate-seal {
     position: absolute;
     top: 50%;
-    right: -41px;
+    right: -47px;
     transform: translateY(-50%);
-    width: 82px;
-    height: 100px;
+    width: 94px;
+    height: 118px;
     background: url('../assets/images/gate-seal.png') center/contain no-repeat;
     pointer-events: none;
     z-index: 10;
