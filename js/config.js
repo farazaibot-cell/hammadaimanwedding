@@ -5,11 +5,14 @@ const config = {
         fullName2: "Aiman Fatima"
     },
     copy: {
-        opening: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nGuide this marriage to the best of understandings, happiness, prosperity & success - Ameen.",
-        invitationText: "Haji Begum (Late) Shahnawaz Akhtar\nrequests the pleasure of your company on the auspicious occasion of Walima of her son\n\n**Hammad Nawaz**\n(S/O. Mrs. & Haji (Late) Shahnawaz Akhtar)\n\nwith\n\n**Aiman Fatima**\n(D/O Mrs. Shahin Fatima & Late Arif Ahmad)",
+        // Shown only on the "barat" and "full" editions (see js/main.js), matching
+        // the physical card set where this blessing accompanies the Barat card.
+        blessing: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nGuide this marriage to the best of understandings, happiness, prosperity & success - Ameen.",
         closing: "With Best Compliments:\n\nDr. Rehan Jamil\nFaraz Arshad\nBilal Nawaz\nDaniyal Nawaz"
     },
-    // Master list of all possible events
+    // Master list of all possible events. Each event carries its own invitation
+    // card(s) (transcribed from the physical cards), shown only when that event
+    // is included in the current link edition - see allowedEvents in js/main.js.
     events: {
         "ijtema": {
             id: "ijtema",
@@ -20,7 +23,13 @@ const config = {
             venueTitle: "Ijtema",
             venueName: "Community Hall, Palm Spring Apartments",
             venueAddress: "PS Group, Flat 9B, New Tangra Rd, Near Beijing Restaurant, Kolkata",
-            mapLink: "#"
+            mapLink: "#",
+            cards: [
+                {
+                    type: "invitation",
+                    body: "Mrs. Farah Naz\ncordially invites you to join us for\n\n**Ijtema**\n\nInsha Allah\n\non 20th December 2026\nafter Namaz-e-Asr / Maghrib\n\nfollowed by dinner\n\nat\nCommunity Hall, Palm Spring\nNear Beijing Restaurant, Kolkata"
+                }
+            ]
         },
         "barat": {
             id: "barat",
@@ -31,7 +40,14 @@ const config = {
             venueTitle: "Barat",
             venueName: "Myrah Banquet",
             venueAddress: "Prasad Square, 164, AJC Bose Rd, Entally, Kolkata",
-            mapLink: "https://maps.app.goo.gl/placeholder_wedding"
+            mapLink: "https://maps.app.goo.gl/placeholder_wedding",
+            cards: [
+                {
+                    type: "programme",
+                    label: "Programme",
+                    body: "**Barat**\nInsha Allah\n\nBarat & Reception of Barat\nfrom Palm Spring\n\nVenue: Myrah Banquet\nPrasad Square\n\nTime: 7:30 PM\n\nfollowed by dinner"
+                }
+            ]
         },
         "walima": {
             id: "walima",
@@ -42,7 +58,23 @@ const config = {
             venueTitle: "Walima",
             venueName: "Celebration Banquet",
             venueAddress: "6th floor, Aurora Waterfront Ncsm Guest House, GN Block, Sector V, Bidhannagar, Kolkata, West Bengal 700091",
-            mapLink: "https://maps.app.goo.gl/placeholder_reception"
+            mapLink: "https://maps.app.goo.gl/placeholder_reception",
+            cards: [
+                {
+                    // TODO: confirm the parent line - see note to Faraz. Left exactly
+                    // as previously published pending confirmation of "Farah Naz".
+                    type: "invitation",
+                    body: "Haji Begum (Late) Shahnawaz Akhtar\nrequests the pleasure of your company on the auspicious occasion of Walima of her son\n\n**Hammad Nawaz**\n(S/O. Mrs. & Haji (Late) Shahnawaz Akhtar)\n\nwith\n\n**Aiman Fatima**\n(D/O Mrs. Shahin Fatima & Late Arif Ahmad)"
+                },
+                {
+                    // "With Best Compliments" isn't repeated here - the closing
+                    // section at the end of the page already carries it on every
+                    // edition (config.copy.closing).
+                    type: "programme",
+                    label: "Programme",
+                    body: "**Walima**\nInsha Allah\n\nDate: 24th December 2026\n\nVenue: Celebration Banquet\n\nfollowed by dinner"
+                }
+            ]
         }
     }
 };

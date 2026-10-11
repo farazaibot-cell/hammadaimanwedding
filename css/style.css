@@ -444,6 +444,17 @@ section {
     text-shadow: 0px 0px 20px rgba(212, 163, 115, 0.4);
 }
 
+/* Eyebrow label on "Programme" style cards (Barat, Walima programme) */
+.programme-label {
+    font-family: var(--font-serif);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--clr-secondary);
+    margin-bottom: 1rem;
+}
+
 /* =========================================
    Countdown Section
    ========================================= */

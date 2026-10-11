@@ -3,32 +3,60 @@ document.addEventListener("DOMContentLoaded", () => {
     // 1. Populate Content from Config
     // =====================================
     document.title = `${config.couple.names} - Wedding Invitation`;
-    
+
     document.getElementById("hero-names").textContent = config.couple.names;
-    
-    document.getElementById("blessing-text").textContent = config.copy.opening;
-    // **name** markers become highlighted spans (e.g. the couple's names in the invitation)
-    document.getElementById("invitation-text").innerHTML = config.copy.invitationText
-        .replace(/\*\*(.+?)\*\*/g, '<span class="highlight-name">$1</span>');
     document.getElementById("closing-content").textContent = config.copy.closing;
 
-    // Determine which events to show based on URL parameter
-    // Examples: ?invite=walima, ?invite=barat, ?invite=barat-walima
+    // Turns **bold** markers into highlighted spans (e.g. the couple's names)
+    function formatCardText(raw) {
+        return raw.replace(/\*\*(.+?)\*\*/g, '<span class="highlight-name">$1</span>');
+    }
+
+    // Four link editions, matching the physical card set:
+    //   ?invite=barat  -> blessing + Barat programme card
+    //   ?invite=ijtema -> Ijtema invitation card only
+    //   ?invite=walima -> Walima invitation + programme cards
+    //   (no param, or ?invite=full) -> everything, in chronological order
     const urlParams = new URLSearchParams(window.location.search);
-    const inviteType = urlParams.get('invite') || 'full'; 
+    const inviteType = urlParams.get('invite') || 'full';
 
     let allowedEvents = ['ijtema', 'barat', 'walima']; // default to all
+    let showBlessing = true;
     if (inviteType === 'walima') {
         allowedEvents = ['walima'];
+        showBlessing = false;
     } else if (inviteType === 'barat') {
         allowedEvents = ['barat'];
-    } else if (inviteType === 'barat-walima') {
-        allowedEvents = ['barat', 'walima'];
+        showBlessing = true;
+    } else if (inviteType === 'ijtema') {
+        allowedEvents = ['ijtema'];
+        showBlessing = false;
     }
 
     // Sort to maintain chronological order
     const orderedKeys = ['ijtema', 'barat', 'walima'];
     allowedEvents.sort((a, b) => orderedKeys.indexOf(a) - orderedKeys.indexOf(b));
+
+    if (showBlessing) {
+        document.getElementById("blessing-text").textContent = config.copy.blessing;
+    } else {
+        document.getElementById("blessing-section").remove();
+    }
+
+    // Build one invitation/programme card per entry in each included event's
+    // `cards` array, and inject them right after the countdown section.
+    const cardsHTML = allowedEvents.map(eventId => {
+        const event = config.events[eventId];
+        return (event.cards || []).map(card => `
+            <section class="formal-invitation section-animate">
+                <div class="section-scroll">
+                    ${card.label ? `<p class="programme-label">${card.label}</p>` : ''}
+                    <div class="invitation-text">${formatCardText(card.body)}</div>
+                </div>
+            </section>
+        `).join('');
+    }).join('');
+    document.getElementById("countdown-section").insertAdjacentHTML('afterend', cardsHTML);
 
     // Set Hero Date & Countdown Target to their FIRST event
     const firstEvent = config.events[allowedEvents[0]];

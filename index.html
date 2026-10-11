@@ -51,8 +51,8 @@
             </div>
         </section>
 
-        <!-- Blessing Section -->
-        <section class="blessing section-animate">
+        <!-- Blessing Section (removed by JS on editions that don't include it) -->
+        <section class="blessing section-animate" id="blessing-section">
             <div class="section-scroll">
                 <!-- Bismillah SVG or Text -->
                 <div class="bismillah">
@@ -65,7 +65,7 @@
         </section>
 
         <!-- Countdown Section -->
-        <section class="countdown section-animate">
+        <section class="countdown section-animate" id="countdown-section">
             <div class="section-scroll">
                 <h2 class="section-title">The Celebration Begins In</h2>
                 <div class="countdown-timer" id="countdown-timer">
@@ -80,14 +80,7 @@
             </div>
         </section>
 
-        <!-- Formal Invitation Section -->
-        <section class="formal-invitation section-animate">
-            <div class="section-scroll">
-                <div class="invitation-text" id="invitation-text">
-                    <!-- Injected via JS -->
-                </div>
-            </div>
-        </section>
+        <!-- Invitation/Programme cards for each included event are injected here by JS, one per card in config.events[x].cards -->
 
         <!-- Schedule Section -->
         <section class="schedule section-animate">
