@@ -237,28 +237,23 @@ section {
 .gate-left {
     left: 0;
     transform-origin: left center;
-    /* The plain variant - gatefold-left.jpg has its own half-seal baked
-       in near this edge, which sits directly under .gate-seal below and
-       causes a doubled/ghosted look at the seam. */
-    background-image: url('../assets/images/gatefold-left-plain.jpg');
+    background-image: url('../assets/images/gatefold-left.jpg');
     background-position: right center;
     overflow: visible;
-    /* Paint above .gate-right so the seal (a child of this door, straddling
-       the seam) isn't covered by the other door's box where they meet. */
     z-index: 2;
 }
 
-/* The intact seal rests over the seam while closed, and swings away with
-   the left door - the right door underneath uses a plain image with no
-   half-seal baked in, so nothing is left behind once it opens. */
+/* The right half of the seal is attached directly to the left door's right
+   seam edge (left: 100%). It seamlessly completes the intact oval seal when closed,
+   and swings open with the left door, leaving the right door completely plain. */
 .gate-seal {
     position: absolute;
     top: 50%;
-    right: -47px;
+    left: 100%;
     transform: translateY(-50%);
-    width: 94px;
-    height: 118px;
-    background: url('../assets/images/gate-seal.png') center/contain no-repeat;
+    width: calc(100vh * (76 / 1376));
+    height: calc(100vh * (184 / 1376));
+    background: url('../assets/images/gate-seal-right.png') left center / 100% 100% no-repeat;
     pointer-events: none;
     z-index: 10;
 }
