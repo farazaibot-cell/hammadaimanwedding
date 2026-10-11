@@ -556,24 +556,28 @@ section {
 .countdown-timer {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    width: 100%;
+    max-width: 100%;
+    gap: 6px;
     font-family: var(--font-serif);
     background: rgba(255, 255, 255, 0.6);
-    padding: 2rem 1rem;
+    padding: 1.5rem 0.5rem;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.05);
     border: 1px solid rgba(212, 163, 115, 0.2);
+    box-sizing: border-box;
 }
 
 .time-block {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 65px;
+    width: 54px;
+    flex-shrink: 0;
 }
 
 .time-block span {
-    font-size: 2.5rem;
+    font-size: 2.1rem;
     background: var(--gold-grad);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -589,10 +593,11 @@ section {
 }
 
 .time-separator {
-    font-size: 2.5rem;
+    font-size: 2.1rem;
     color: var(--clr-primary);
     line-height: 1.2;
     opacity: 0.5;
+    flex-shrink: 0;
 }
 
 /* =========================================
