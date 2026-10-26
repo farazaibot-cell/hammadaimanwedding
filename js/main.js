@@ -165,6 +165,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let isPlaying = false;
 
+    // Shared by openEnvelope() and the touchstart "unlock" below - calling
+    // play() on an already-playing/already-attempted element is harmless,
+    // so both can safely call this without coordinating.
+    function tryPlayMusic() {
+        bgMusic.play().then(() => {
+            isPlaying = true;
+            iconPlay.style.display = 'none';
+            iconPause.style.display = 'block';
+        }).catch(() => {
+            isPlaying = false;
+            iconPlay.style.display = 'block';
+            iconPause.style.display = 'none';
+        });
+    }
+
     function openEnvelope() {
         if (envScreen.classList.contains("hidden") || envScreen.classList.contains("is-open")) return;
 
@@ -176,15 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // direct response to input. Call it from inside a setTimeout (as
         // this used to) and the "direct response" window has closed by the
         // time it fires, so play() silently rejects and music never starts.
-        bgMusic.play().then(() => {
-            isPlaying = true;
-            iconPlay.style.display = 'none';
-            iconPause.style.display = 'block';
-        }).catch(() => {
-            isPlaying = false;
-            iconPlay.style.display = 'block';
-            iconPause.style.display = 'none';
-        });
+        tryPlayMusic();
 
         // Let the card fade/rise in as the doors swing apart
         setTimeout(() => {
@@ -206,6 +213,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     envScreen.addEventListener("wheel", openEnvelope);
     envScreen.addEventListener("touchmove", openEnvelope);
+
+    // iOS Safari doesn't count scroll/swipe as a valid gesture for starting
+    // audio-with-sound - only a discrete tap does. But the very first finger
+    // contact (touchstart) IS a discrete tap-like event, before the browser
+    // has decided the gesture is actually a scroll - so firing here, ahead
+    // of the touchmove that actually opens the doors, gets the music
+    // started even when someone opens by swiping rather than tapping.
+    envScreen.addEventListener("touchstart", tryPlayMusic, { once: true });
 
     musicToggle.addEventListener("click", () => {
         if (isPlaying) {
