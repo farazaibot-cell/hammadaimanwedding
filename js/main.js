@@ -171,6 +171,21 @@ document.addEventListener("DOMContentLoaded", () => {
         // Swing the doors open
         envScreen.classList.add("is-open");
 
+        // Start playback synchronously, in the same tick as the user's
+        // gesture - browsers only honor audio-with-sound autoplay as a
+        // direct response to input. Call it from inside a setTimeout (as
+        // this used to) and the "direct response" window has closed by the
+        // time it fires, so play() silently rejects and music never starts.
+        bgMusic.play().then(() => {
+            isPlaying = true;
+            iconPlay.style.display = 'none';
+            iconPause.style.display = 'block';
+        }).catch(() => {
+            isPlaying = false;
+            iconPlay.style.display = 'block';
+            iconPause.style.display = 'none';
+        });
+
         // Let the card fade/rise in as the doors swing apart
         setTimeout(() => {
             observeElements();
@@ -179,16 +194,6 @@ document.addEventListener("DOMContentLoaded", () => {
         // Fully remove the overlay once the doors have finished swinging
         setTimeout(() => {
             envScreen.classList.add("hidden");
-            // This is a real user gesture (tap/scroll), so autoplay should be allowed
-            bgMusic.play().then(() => {
-                isPlaying = true;
-                iconPlay.style.display = 'none';
-                iconPause.style.display = 'block';
-            }).catch(() => {
-                isPlaying = false;
-                iconPlay.style.display = 'block';
-                iconPause.style.display = 'none';
-            });
         }, 2100);
     }
 
