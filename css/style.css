@@ -84,6 +84,12 @@ main {
 
 section {
     scroll-snap-align: start;
+    /* Without this, a fast flick on iOS Safari can carry momentum PAST the
+       very next section before scroll-snap-type:mandatory corrects it back -
+       that correction is what reads as an abrupt "overshoot then bounce
+       back". This forces the browser to stop at each section instead of
+       letting a fling skip through it, so there's nothing left to correct. */
+    scroll-snap-stop: always;
     height: 100vh;
     height: 100dvh;
     width: 100%;
