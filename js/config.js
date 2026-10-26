@@ -65,13 +65,12 @@ const config = {
                     body: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nBegum (Late) Haji Shahnawaz Akhtar\nMG 6/32 KDA Colony Jajmau Kanpur\nrequests the pleasure of your company on the\nauspicious occasion of Walima of her son\n\n**Hammad Nawaz**\n(S/O. Mrs. & Haji (Late) Shahnawaz Akhtar)\n\nwith\n\n**Aiman Fatima**\n(D/O Mrs. Shahin Fatima & Late Arif Ahmad)"
                 },
                 {
-                    // showCompliments renders config.copy.closing as a bottom-right
-                    // block on this card (see js/main.js), matching where that
-                    // block sits on the physical programme card.
+                    // No showCompliments here - the dedicated Closing section
+                    // already shows "With best compliments..." right after
+                    // this card, so repeating it here read as redundant.
                     type: "programme",
                     label: "Programme",
-                    body: "**Walima**\nInsha Allah\n\nDate: 24th December 2026\nVenue: Celebration Banquet, Aurora Waterfront Ncsm Guest House, GN Block, Sector V, Bidhannagar, Kolkata, West Bengal 700091\nTime: 8:00 PM\n\n__followed by dinner__",
-                    showCompliments: true
+                    body: "**Walima**\nInsha Allah\n\nDate: 24th December 2026\n\nVenue: Celebration Banquet, Aurora Waterfront Ncsm Guest House, GN Block, Sector V, Bidhannagar, Kolkata, West Bengal 700091\n\nTime: 8:00 PM\n\n__followed by dinner__"
                 }
             ]
         }

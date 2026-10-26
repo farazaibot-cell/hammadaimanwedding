@@ -156,21 +156,26 @@ section {
 /* =========================================
    Animations (Fade & Rise)
    ========================================= */
+/* Opacity-only - no transform/translateY here. That used to run its own
+   1s slide-up animation on the exact same element whose scroll position
+   the browser's scroll-snap is independently settling at the same moment,
+   which looked exactly like a scroll overshoot-then-bounce (it wasn't -
+   the scroll had already arrived, the section's own content was still
+   sliding). Confirmed by it only ever happening on a section's FIRST
+   reveal - once .visible is set (and nothing ever removes it), re-scrolling
+   past an already-visited section triggers no animation and no "bounce". */
 .section-animate {
     opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 1s cubic-bezier(0.25, 0.8, 0.25, 1), transform 1s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: opacity 1s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .section-animate.visible {
     opacity: 1;
-    transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
     .section-animate {
         transition: none;
-        transform: none;
         opacity: 1;
     }
 }
@@ -487,13 +492,6 @@ section {
 .card-walima .section-scroll {
     top: 23%;
     bottom: 19%;
-}
-
-/* The programme card additionally carries the compliments block - give it
-   more bottom clearance than the invitation card so that text doesn't run
-   down into the dense bottom-left rose cluster this border image has. */
-.card-walima.card-type-programme .section-scroll {
-    bottom: 27%;
 }
 
 .highlight-name {
