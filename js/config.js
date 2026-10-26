@@ -8,7 +8,7 @@ const config = {
         // Shown only on the "barat" and "full" editions (see js/main.js), matching
         // the physical card set where this blessing accompanies the Barat card.
         blessing: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nO Allah, guide this marriage to the best of understandings, happiness, prosperity & success\n- Ameen.",
-        closing: "With Best Compliments:\nDr. Rehan Jamil\nFaraz Arshad\nBilal Nawaz\nDaniyal Nawaz"
+        closing: "With best compliments from all relatives and friends"
     },
     // Master list of all possible events. Each event carries its own invitation
     // card(s) (transcribed from the physical cards), shown only when that event
@@ -27,7 +27,7 @@ const config = {
             cards: [
                 {
                     type: "invitation",
-                    body: "Mrs. Farah Naz\ncordially invites you to join us for\n\n**Ijtema**\nInsha Allah\non 20th December 2026\nTime: 7:30 PM (after Namaz-e-Asr/Maghrib)\nfollowed by dinner\nat Community Hall, Palm Spring\nPS Group, Kolkata"
+                    body: "Mrs. Farah Naz\ncordially invites you to join us for\n\n**Ijtema**\nInsha Allah\non 20th December 2026\nTime: 7:30 PM (after Namaz-e-Maghrib)\n\n__followed by dinner__\n\nat Community Hall, Palm Spring\nPS Group, Kolkata"
                 }
             ]
         },
@@ -45,7 +45,7 @@ const config = {
                 {
                     type: "programme",
                     label: "Programme",
-                    body: "**Barat**\nInsha Allah\n\nBarat\nfrom Palm Spring\n\nDate: 23rd December 2026\nVenue: Myrah Banquet, Prasad Square\nTime: 7:30 PM\nfollowed by dinner"
+                    body: "**Barat**\nInsha Allah\n\nBarat\nfrom Palm Spring\n\nDate: 23rd December 2026\nVenue: Myrah Banquet, Prasad Square\nTime: 7:30 PM\n\n__followed by dinner__"
                 }
             ]
         },
@@ -62,7 +62,7 @@ const config = {
             cards: [
                 {
                     type: "invitation",
-                    body: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nBegum (Late) Haji Shahnawaz Akhtar\nrequests the pleasure of your company on the\nauspicious occasion of Walima of her son\n\n**Hammad Nawaz**\n(S/O. Mrs. & Haji (Late) Shahnawaz Akhtar)\n\nwith\n\n**Aiman Fatima**\n(D/O Mrs. Shahin Fatima & Late Arif Ahmad)"
+                    body: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nBegum (Late) Haji Shahnawaz Akhtar\nMG 6/32 KDA Colony Jajmau Kanpur\nrequests the pleasure of your company on the\nauspicious occasion of Walima of her son\n\n**Hammad Nawaz**\n(S/O. Mrs. & Haji (Late) Shahnawaz Akhtar)\n\nwith\n\n**Aiman Fatima**\n(D/O Mrs. Shahin Fatima & Late Arif Ahmad)"
                 },
                 {
                     // showCompliments renders config.copy.closing as a bottom-right
@@ -70,7 +70,7 @@ const config = {
                     // block sits on the physical programme card.
                     type: "programme",
                     label: "Programme",
-                    body: "**Walima**\nInsha Allah\n\nDate: 24th December 2026\nVenue: Celebration Banquet\nTime: 8:00 PM\nfollowed by dinner",
+                    body: "**Walima**\nInsha Allah\n\nDate: 24th December 2026\nVenue: Celebration Banquet, Aurora Waterfront Ncsm Guest House, GN Block, Sector V, Bidhannagar, Kolkata, West Bengal 700091\nTime: 8:00 PM\n\n__followed by dinner__",
                     showCompliments: true
                 }
             ]

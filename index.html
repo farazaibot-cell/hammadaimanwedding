@@ -41,7 +41,7 @@
         <section class="hero section-animate">
             <div class="section-scroll">
                 <div class="hero-content">
-                    <p class="wedding-day-text">Wedding Day</p>
+                    <p class="wedding-day-text" id="hero-label">Wedding Day</p>
                     <p class="wedding-date" id="hero-date"></p>
                     <h1 class="couple-names" id="hero-names"></h1>
 
@@ -103,18 +103,6 @@
             </div>
         </section>
 
-        <!-- RSVP Trigger Section -->
-        <section class="rsvp-trigger-section section-animate">
-            <div class="section-scroll">
-                <h2 class="section-title">Confirm Your Attendance</h2>
-                <p class="rsvp-sub">To help us prepare for a joyful celebration, kindly confirm your attendance.</p>
-                <button id="open-rsvp-modal" class="wax-seal rsvp-seal" aria-label="RSVP">
-                    <span>RSVP</span>
-                </button>
-                <p class="click-to-open">Click to open</p>
-            </div>
-        </section>
-
         <!-- Closing Section (removed by JS on the Ijtema-only edition) -->
         <section class="closing section-animate" id="closing-section">
             <div class="section-scroll">
@@ -125,48 +113,6 @@
         </section>
 
     </main>
-
-    <!-- RSVP Modal -->
-    <div id="rsvp-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
-        <div class="modal-content">
-            <button class="close-modal" aria-label="Close modal">&times;</button>
-            <h2 class="section-title">Confirm Your Attendance</h2>
-            
-            <form id="rsvp-form">
-                <div class="form-group">
-                    <label for="guest-name">Your Name</label>
-                    <input type="text" id="guest-name" name="name" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Will you be attending?</label>
-                    <div class="radio-group">
-                        <label><input type="radio" name="attending" value="yes" required> Accepts with pleasure</label>
-                        <label><input type="radio" name="attending" value="no"> Declines with regret</label>
-                    </div>
-                </div>
-                
-                <div class="form-group attending-only">
-                    <label for="guest-count">Number of Guests Attending</label>
-                    <input type="number" id="guest-count" name="guests" min="1" max="10">
-                </div>
-                
-                <div class="form-group attending-only">
-                    <label for="children-info">Children Attending</label>
-                    <input type="text" id="children-info" name="children" placeholder="Please include names and ages">
-                </div>
-                
-                <button type="submit" class="submit-btn" id="submit-rsvp-btn">Submit</button>
-            </form>
-            
-            <div id="rsvp-success" class="hidden">
-                <p>Thank you! Your RSVP has been received.</p>
-            </div>
-            <div id="rsvp-error" class="hidden">
-                <p>Something went wrong. Please try again.</p>
-            </div>
-        </div>
-    </div>
 
     <!-- Background Music -->
     <audio id="bg-music" loop>

@@ -6,9 +6,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("hero-names").textContent = config.couple.names;
 
-    // Turns **bold** markers into highlighted spans (e.g. the couple's names)
+    // Turns **name** markers into the decorative gold-script style (couple's
+    // names etc.), and __text__ markers into plain bold emphasis (no font/
+    // color change) for things like "followed by dinner" that just need
+    // weight, not to read as a name.
     function formatCardText(raw) {
-        return raw.replace(/\*\*(.+?)\*\*/g, '<span class="highlight-name">$1</span>');
+        return raw
+            .replace(/\*\*(.+?)\*\*/g, '<span class="highlight-name">$1</span>')
+            .replace(/__(.+?)__/g, '<span class="text-bold">$1</span>');
     }
 
     // Four link editions, matching the physical card set:
@@ -69,11 +74,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const firstEvent = config.events[allowedEvents[0]];
     window.countdownTargetDate = new Date(firstEvent.targetDate).getTime();
 
-    // "Wedding Day" on the Hero always means the Nikah/Barat date specifically,
-    // consistently on every edition - even Ijtema-only/Walima-only - not
-    // whichever single event that particular link happens to be for. The
-    // countdown further down still targets that edition's own event.
-    document.getElementById("hero-date").textContent = config.events.barat.date;
+    // Hero label/date: Ijtema and Walima single-event editions are named
+    // after their own event (no generic "Wedding Day") - Ijtema has no date
+    // line at all here (it's already stated on the card below), Walima
+    // shows its own date. Barat and the full edition keep "Wedding Day" +
+    // the Nikah/Barat date, since that's the actual wedding day.
+    if (inviteType === 'ijtema') {
+        document.getElementById("hero-label").textContent = "Ijtema";
+        document.getElementById("hero-date").remove();
+    } else if (inviteType === 'walima') {
+        document.getElementById("hero-label").textContent = "Walima";
+        document.getElementById("hero-date").textContent = config.events.walima.date;
+    } else {
+        document.getElementById("hero-date").textContent = config.events.barat.date;
+    }
 
     // Schedule only makes sense when more than one event is on this edition -
     // a single-event link already states its own date/time on its card, so
@@ -230,80 +244,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setInterval(updateCountdown, 1000);
     updateCountdown();
-
-    // =====================================
-    // 5. RSVP Modal & Form Logic
-    // =====================================
-    const modal = document.getElementById("rsvp-modal");
-    const openRsvpBtn = document.getElementById("open-rsvp-modal");
-    const closeRsvpBtn = document.querySelector(".close-modal");
-    const form = document.getElementById("rsvp-form");
-    const radios = document.querySelectorAll('input[name="attending"]');
-    const attendingOnlyFields = document.querySelectorAll(".attending-only");
-    
-    // Open modal
-    openRsvpBtn.addEventListener("click", () => {
-        modal.classList.add("active");
-        modal.setAttribute("aria-hidden", "false");
-        document.getElementById("guest-name").focus();
-        document.body.style.overflow = "hidden"; // prevent background scroll
-    });
-
-    // Close modal
-    function closeModal() {
-        modal.classList.remove("active");
-        modal.setAttribute("aria-hidden", "true");
-        document.body.style.overflow = "";
-        openRsvpBtn.focus();
-    }
-
-    closeRsvpBtn.addEventListener("click", closeModal);
-    
-    // Close on escape key
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && modal.classList.contains("active")) {
-            closeModal();
-        }
-    });
-
-    // Close on click outside
-    modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
-
-    // Toggle fields based on attendance
-    radios.forEach(radio => {
-        radio.addEventListener("change", (e) => {
-            if (e.target.value === "yes") {
-                attendingOnlyFields.forEach(f => f.style.display = "block");
-                document.getElementById("guest-count").setAttribute("required", "true");
-            } else {
-                attendingOnlyFields.forEach(f => f.style.display = "none");
-                document.getElementById("guest-count").removeAttribute("required");
-            }
-        });
-    });
-
-    // Handle Form Submission (simulated for now, backend instructions in README)
-    form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const submitBtn = document.getElementById("submit-rsvp-btn");
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Sending...";
-
-        // Simulate network request
-        setTimeout(() => {
-            form.classList.add("hidden");
-            document.getElementById("rsvp-success").classList.remove("hidden");
-            
-            // To actually connect to Google Sheets, you would do a fetch() to the Apps Script URL here.
-            // Example:
-            // const formData = new FormData(form);
-            // fetch('YOUR_APPS_SCRIPT_URL', { method: 'POST', body: formData })
-            //   .then(...)
-            
-        }, 1500);
-    });
 });

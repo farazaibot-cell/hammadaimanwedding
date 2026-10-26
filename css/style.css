@@ -170,46 +170,6 @@ section {
 }
 
 /* =========================================
-   Wax Seal (RSVP)
-   ========================================= */
-.wax-seal {
-    background-color: var(--clr-primary);
-    background-image: radial-gradient(circle at top left, #8B3042, #5A1E2B);
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    box-shadow: 
-        inset 0 0 10px rgba(0,0,0,0.8), 
-        0 15px 25px rgba(0,0,0,0.5),
-        0 0 30px rgba(212, 163, 115, 0.5); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--clr-secondary);
-    font-family: var(--font-script);
-    font-size: 2.2rem;
-    z-index: 5;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
-}
-
-.rsvp-seal {
-    animation: pulse-seal-rsvp 2s infinite;
-    margin: 0 auto 1.5rem;
-}
-
-@keyframes pulse-seal-rsvp {
-    0%, 100% { transform: scale(1); box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 15px 25px rgba(0,0,0,0.5), 0 0 30px rgba(212, 163, 115, 0.5); }
-    50% { transform: scale(1.05); box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 20px 35px rgba(0,0,0,0.6), 0 0 40px rgba(212, 163, 115, 0.8); }
-}
-
-.rsvp-seal:hover {
-    transform: scale(1.15) !important;
-    animation: none;
-}
-
-/* =========================================
    Gatefold Intro
    Two doors swing open on their outer edges (3D rotate), like a
    cabinet opening toward the viewer - not a flat side-to-side slide.
@@ -482,6 +442,13 @@ section {
     font-family: var(--font-serif);
     padding: 0 0.5rem;
     text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Plain bold emphasis (e.g. "followed by dinner") - distinct from
+   .highlight-name, which is for names and uses a decorative gold script
+   instead of just adding weight. */
+.text-bold {
+    font-weight: 700;
 }
 
 /* Walima's formal invite is the single longest card on the site (Bismillah
@@ -772,38 +739,6 @@ section {
 }
 
 /* =========================================
-   RSVP Section
-   ========================================= */
-.rsvp-trigger-section {
-    background-image: url('../assets/borders/rsvp-border.jpg');
-}
-
-.rsvp-sub {
-    margin-bottom: 0.75rem;
-    color: var(--clr-primary);
-    font-size: 1.05rem;
-}
-
-.rsvp-seal {
-    width: 72px;
-    height: 72px;
-    font-size: 1.5rem;
-    margin: 0 auto 0.4rem;
-}
-
-.click-to-open {
-    font-family: var(--font-script);
-    color: var(--clr-primary);
-    font-size: 1.5rem;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 1; }
-}
-
-/* =========================================
    Closing Section
    ========================================= */
 .closing {
@@ -824,152 +759,3 @@ section {
     text-shadow: 0 0 15px rgba(212, 163, 115, 0.2);
 }
 
-/* =========================================
-   Modal (RSVP)
-   ========================================= */
-.modal {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.6);
-    backdrop-filter: blur(5px);
-    display: flex;
-    justify-content: center;
-    align-items: flex-end; 
-    z-index: 200;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--transition-speed);
-}
-
-.modal.active {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.modal-content {
-    background-color: var(--clr-bg);
-    background: radial-gradient(circle at top, rgba(232, 208, 211, 0.4) 0%, var(--clr-bg) 70%);
-    width: 100%;
-    max-width: 500px;
-    max-height: 90vh;
-    overflow-y: auto;
-    border-radius: 25px 25px 0 0;
-    padding: 2.5rem 2rem;
-    transform: translateY(100%);
-    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    position: relative;
-    box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
-}
-
-.modal.active .modal-content {
-    transform: translateY(0);
-}
-
-.close-modal {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    background: none;
-    border: none;
-    font-size: 2.5rem;
-    color: var(--clr-primary);
-    cursor: pointer;
-    transition: transform var(--transition-speed);
-}
-.close-modal:hover {
-    transform: rotate(90deg);
-}
-
-.form-group {
-    margin-bottom: 1.8rem;
-    text-align: left;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: var(--clr-primary);
-    font-size: 1.1rem;
-}
-
-.form-group input[type="text"],
-.form-group input[type="number"] {
-    width: 100%;
-    padding: 1rem;
-    border: 1px solid rgba(212, 163, 115, 0.5);
-    background-color: rgba(255,255,255,0.7);
-    font-family: var(--font-serif);
-    font-size: 1.1rem;
-    border-radius: 8px;
-    transition: border-color var(--transition-speed), background-color var(--transition-speed), box-shadow var(--transition-speed);
-}
-
-.form-group input:focus {
-    outline: none;
-    border-color: var(--clr-primary);
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(212, 163, 115, 0.2);
-}
-
-.radio-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-    background: rgba(255,255,255,0.5);
-    padding: 1rem;
-    border-radius: 8px;
-    border: 1px solid rgba(212, 163, 115, 0.3);
-}
-
-.radio-group label {
-    font-weight: normal;
-    color: var(--clr-text-main);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    font-size: 1.1rem;
-}
-
-.submit-btn {
-    width: 100%;
-    padding: 1.2rem;
-    background: var(--gold-grad);
-    color: #fff;
-    border: none;
-    font-family: var(--font-serif);
-    font-size: 1.3rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    cursor: pointer;
-    border-radius: 30px;
-    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-    box-shadow: 0 5px 15px rgba(212, 163, 115, 0.4);
-    margin-top: 1rem;
-}
-
-.submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(212, 163, 115, 0.6);
-}
-
-.submit-btn:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    transform: none;
-}
-
-/* Desktop override for modal */
-@media (min-width: 501px) {
-    .modal {
-        align-items: center;
-    }
-    .modal-content {
-        border-radius: 15px;
-        transform: scale(0.95);
-    }
-    .modal.active .modal-content {
-        transform: scale(1);
-    }
-}
