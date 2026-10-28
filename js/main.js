@@ -184,28 +184,69 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // =====================================
-    // 2. Gatefold & Music
+    // 2. Gatefold & Music (Cinematic Audio)
     // =====================================
     const envScreen = document.getElementById("envelope-screen");
-
     const bgMusic = document.getElementById("bg-music");
     const musicToggle = document.getElementById("music-toggle");
     const iconPlay = document.getElementById("icon-play");
     const iconPause = document.getElementById("icon-pause");
 
     let isPlaying = false;
+    // Set synchronously the instant a play attempt starts, separate from
+    // isPlaying (which only flips once the play() promise actually
+    // resolves - a later microtask, not immediate). Without this guard, a
+    // swipe-to-open gesture fires BOTH touchstart (which starts the fade-in
+    // below) and, almost immediately after, touchmove -> openEnvelope()
+    // -> tryPlayMusic() again - landing well before that first promise
+    // resolves. tryPlayMusic() unconditionally reset volume to 0, so the
+    // second call would snap a mid-ramp fade-in back to silent and restart
+    // it from scratch, audible as a stutter/dip rather than one smooth swell.
+    let musicStarting = false;
+    let fadeInterval = null;
+    const TARGET_VOLUME = 0.82; // Headroom to prevent mobile speaker clipping
+
+    function fadeAudio(targetVol, durationMs, onComplete) {
+        clearInterval(fadeInterval);
+        const startVol = bgMusic.volume;
+        const stepTime = 30; // 30ms increments
+        const totalSteps = durationMs / stepTime;
+        const delta = (targetVol - startVol) / totalSteps;
+        let currentStep = 0;
+
+        fadeInterval = setInterval(() => {
+            currentStep++;
+            const newVol = startVol + delta * currentStep;
+            bgMusic.volume = Math.min(1, Math.max(0, newVol));
+
+            if (currentStep >= totalSteps) {
+                clearInterval(fadeInterval);
+                bgMusic.volume = targetVol;
+                if (onComplete) onComplete();
+            }
+        }, stepTime);
+    }
 
     // Shared by openEnvelope() and the touchstart "unlock" below - calling
-    // play() on an already-playing/already-attempted element is harmless,
-    // so both can safely call this without coordinating.
+    // play() on an already-playing/already-starting element is a no-op
+    // thanks to the musicStarting/isPlaying guard, so both can safely call
+    // this without coordinating.
     function tryPlayMusic() {
+        if (musicStarting || isPlaying) return;
+        musicStarting = true;
+        // Start muted for a smooth theatrical fade-in
+        bgMusic.volume = 0;
         bgMusic.play().then(() => {
             isPlaying = true;
+            musicStarting = false;
             iconPlay.style.display = 'none';
             iconPause.style.display = 'block';
             musicToggle.classList.add('is-playing');
+            // Silky 1.5-second volume swell
+            fadeAudio(TARGET_VOLUME, 1500);
         }).catch(() => {
             isPlaying = false;
+            musicStarting = false;
             iconPlay.style.display = 'block';
             iconPause.style.display = 'none';
             musicToggle.classList.remove('is-playing');
@@ -254,18 +295,26 @@ document.addEventListener("DOMContentLoaded", () => {
     // started even when someone opens by swiping rather than tapping.
     envScreen.addEventListener("touchstart", tryPlayMusic, { once: true });
 
+    // Toggle button with smooth fade-in / fade-out
     musicToggle.addEventListener("click", () => {
         if (isPlaying) {
-            bgMusic.pause();
+            // Soft fade out over 350ms before pausing
+            fadeAudio(0, 350, () => {
+                bgMusic.pause();
+            });
             iconPlay.style.display = 'block';
             iconPause.style.display = 'none';
+            musicToggle.classList.remove('is-playing');
+            isPlaying = false;
         } else {
-            bgMusic.play();
-            iconPlay.style.display = 'none';
-            iconPause.style.display = 'block';
+            bgMusic.play().then(() => {
+                fadeAudio(TARGET_VOLUME, 500);
+                iconPlay.style.display = 'none';
+                iconPause.style.display = 'block';
+                musicToggle.classList.add('is-playing');
+                isPlaying = true;
+            });
         }
-        isPlaying = !isPlaying;
-        musicToggle.classList.toggle('is-playing', isPlaying);
     });
 
     // =====================================
