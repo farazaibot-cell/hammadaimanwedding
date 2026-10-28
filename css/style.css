@@ -529,7 +529,16 @@ section {
     /* Soft botanical shadow lifts the flower off the card with real depth,
        without needing an actual 3D transform to sell it. */
     filter: drop-shadow(0 6px 14px rgba(60, 20, 30, 0.22));
-    animation: showerFall var(--duration, 8.5s) cubic-bezier(0.35, 0.2, 0.35, 0.95) var(--delay, 0s) infinite;
+    /* linear, not an eased curve - the keyframes below already have several
+       waypoints where the sway changes direction (38%/68%), and an eased
+       timing-function re-applies its own ease-in/ease-out to EVERY segment
+       between keyframes, not just the overall start/end. That stacked up
+       into a visible decelerate-pause-reaccelerate stutter at each sway
+       turn, which read as jerky/stop-start rather than a continuous fall.
+       Linear removes that per-segment easing so the only shape left is
+       the one actually drawn by the keyframe positions - a smooth,
+       constant-velocity drift. */
+    animation: showerFall var(--duration, 8.5s) linear var(--delay, 0s) infinite;
 }
 
 .hero-petals .p1, .hero-petals .p6,  .hero-petals .p11 {
@@ -561,11 +570,18 @@ section {
         opacity: 0.95;
     }
     38% {
-        transform: translate3d(calc(var(--start-x, 85vw) - var(--drift-x, 150px) * 0.4 - 15px), 38vh, 0)
+        /* Purely proportional to this petal's own --drift-x (no added/
+           subtracted fixed-px wobble) - a fixed offset here was a large
+           fraction of the total sway for petals with a small --drift-x
+           (120-175px range across the 14 petals), distorting their
+           horizontal speed between segments much more than petals with a
+           larger drift and compounding the stop-start look even under
+           linear timing. */
+        transform: translate3d(calc(var(--start-x, 85vw) - var(--drift-x, 150px) * 0.4), 38vh, 0)
                    rotate(calc(var(--rot-start, 0deg) + 40deg)) scale(1.02);
     }
     68% {
-        transform: translate3d(calc(var(--start-x, 85vw) - var(--drift-x, 150px) * 0.72 + 10px), 66vh, 0)
+        transform: translate3d(calc(var(--start-x, 85vw) - var(--drift-x, 150px) * 0.72), 66vh, 0)
                    rotate(calc(var(--rot-start, 0deg) + 85deg)) scale(0.97);
     }
     88% {
