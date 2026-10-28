@@ -85,10 +85,13 @@ main {
 /* =========================================
    Champagne Pearl Shimmer Finish
    Luminous micro-mica reflection, pure warm light (zero dark spots)
+   DEACTIVATED per user feedback - kept in place (not deleted) since
+   they may want to revisit with a different texture/approach later.
    ========================================= */
 
 /* 1. Pearl shimmer across all card sections (Hero, Blessing, Countdown, Venues) */
 main::after {
+    display: none;
     content: '';
     position: fixed;
     top: 0;
@@ -109,6 +112,7 @@ main::after {
 
 /* 2. Matching shimmer across the closed gatefold doors */
 .gatefold-screen::after {
+    display: none;
     content: '';
     position: absolute;
     inset: 0;
