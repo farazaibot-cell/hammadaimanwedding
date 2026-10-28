@@ -963,6 +963,10 @@ section {
 
 .timeline-time {
     width: 45%;
+    /* Clears the rose marker, which is wider than the plain dot it
+       replaced and was crowding into this text. */
+    padding-right: 0.9rem;
+    box-sizing: border-box;
     text-align: right;
     font-weight: 600;
     color: var(--clr-primary);
@@ -970,8 +974,8 @@ section {
 }
 
 .timeline-node {
-    width: 22px;
-    height: 22px;
+    width: 17px;
+    height: 17px;
     background-image: url('../assets/images/decorations/rose-flower-wine.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -984,6 +988,8 @@ section {
 
 .timeline-title {
     width: 45%;
+    padding-left: 0.9rem;
+    box-sizing: border-box;
     text-align: left;
     font-size: 1.05rem;
     color: var(--clr-text-main);
