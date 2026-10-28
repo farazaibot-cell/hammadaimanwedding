@@ -13,7 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function formatCardText(raw) {
         return raw
             .replace(/\*\*(.+?)\*\*/g, '<span class="highlight-name">$1</span>')
-            .replace(/__(.+?)__/g, '<span class="text-bold">$1</span>');
+            .replace(/__(.+?)__/g, '<span class="text-bold">$1</span>')
+            .replace(/~~(.+?)~~/g, '<span class="text-small-italic">$1</span>');
     }
 
     // Four link editions, matching the physical card set, reachable via a
@@ -41,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(".location").remove();
         document.getElementById("closing-section").remove();
         document.getElementById("hero-label").remove();
+        document.getElementById("hero-inshallah").remove();
         document.querySelector(".scroll-indicator").remove();
         document.getElementById("generic-message").hidden = false;
     } else {

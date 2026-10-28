@@ -552,6 +552,18 @@ section {
     font-weight: 600;
 }
 
+/* Matches how "Insha Allah" appears on every invitation/programme card -
+   plain italic serif, understated, directly under the event title. */
+.hero-inshallah {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--clr-primary);
+    opacity: 0.85;
+    letter-spacing: 1px;
+    margin-bottom: 0.75rem;
+}
+
 .couple-names {
     font-family: var(--font-script);
     font-size: 2.5rem;
@@ -650,6 +662,13 @@ section {
    instead of just adding weight. */
 .text-bold {
     font-weight: 700;
+}
+
+/* Italic, one size down - e.g. a parenthetical address line that should
+   read as a secondary detail rather than part of the main sentence. */
+.text-small-italic {
+    font-style: italic;
+    font-size: 0.85em;
 }
 
 /* Walima's formal invite is the single longest card on the site (Bismillah
