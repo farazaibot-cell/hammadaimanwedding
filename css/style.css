@@ -180,6 +180,44 @@ section {
     }
 }
 
+/* Staggered editorial reveal on the invitation/programme cards: title
+   glides in first, then the body paragraphs and compliments block
+   slightly after. These transforms live on CHILD elements, not on the
+   .section-animate section itself (which still only ever animates
+   opacity, per the fix above) - a child's own transform doesn't affect
+   its parent section's scroll-snap geometry, so this doesn't reintroduce
+   the scroll-snap/animation conflict that opacity-only reveal fixed. */
+.section-animate .programme-label,
+.section-animate .invitation-text > p:first-child {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.8s ease 0.15s, transform 0.8s cubic-bezier(0.2, 0.8, 0.25, 1) 0.15s;
+}
+
+.section-animate .invitation-text > p:nth-child(n+2),
+.section-animate .card-compliments {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.8s ease 0.35s, transform 0.8s cubic-bezier(0.2, 0.8, 0.25, 1) 0.35s;
+}
+
+.section-animate.visible .programme-label,
+.section-animate.visible .invitation-text > p,
+.section-animate.visible .card-compliments {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .section-animate .programme-label,
+    .section-animate .invitation-text > p,
+    .section-animate .card-compliments {
+        transition: none;
+        transform: none;
+        opacity: 1;
+    }
+}
+
 /* =========================================
    Gatefold Intro
    Two doors swing open on their outer edges (3D rotate), like a
@@ -273,16 +311,23 @@ section {
     display: none !important;
 }
 
-/* Golden rim-light along the opening side/edge of the LEFT door */
+/* Golden rim-light along the opening side/edge of the LEFT door.
+   translateZ(-20px) (not just z-index) is what actually matters here -
+   .gate has transform-style:preserve-3d, and inside a 3D-transformed
+   context WebKit/Safari orders layers by real Z depth rather than
+   z-index/DOM order, the same quirk the center glow blob hit earlier.
+   Without an explicit negative Z, this rendered ON TOP of the gate
+   texture and the wax seal instead of bleeding from behind them. */
 .gatefold-screen.is-open .gate-left::before {
     content: '';
     position: absolute;
     top: 0; right: 0;
     width: 6px; height: 100%;
+    transform: translateZ(-20px);
     box-shadow: 0 0 20px 4px rgba(255, 220, 130, 0.95), 0 0 45px 12px rgba(212, 163, 115, 0.6);
     opacity: 0;
     pointer-events: none;
-    z-index: 1; /* Sits behind the wax seal (seal is z-index: 10) */
+    z-index: -1;
     animation: gateEdgeFlare 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
@@ -292,10 +337,11 @@ section {
     position: absolute;
     top: 0; left: 0;
     width: 6px; height: 100%;
+    transform: translateZ(-20px);
     box-shadow: 0 0 20px 4px rgba(255, 220, 130, 0.95), 0 0 45px 12px rgba(212, 163, 115, 0.6);
     opacity: 0;
     pointer-events: none;
-    z-index: 1;
+    z-index: -1;
     animation: gateEdgeFlare 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
@@ -380,6 +426,28 @@ section {
     transform: scale(1.05);
 }
 
+.music-toggle.is-playing::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(212, 163, 115, 0.75);
+    animation: musicRipple 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+    pointer-events: none;
+}
+
+@keyframes musicRipple {
+    0%   { transform: scale(0.95); opacity: 0.8; }
+    70%  { transform: scale(1.45); opacity: 0; }
+    100% { transform: scale(1.5);  opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .music-toggle.is-playing::after {
+        display: none;
+    }
+}
+
 .music-toggle svg {
     width: 20px;
     height: 20px;
@@ -439,38 +507,44 @@ section {
     pointer-events: none;
 }
 
-/* Realistic flower petal sprites (replacing the earlier flat CSS-gradient
-   petals) - see per-sprite assignments below. */
+/* Full rose flower head sprites (replacing the earlier single-petal
+   sprites) - see per-sprite assignments below. */
 .hero-petals .petal {
     position: absolute;
-    top: -30px;
+    top: -45px;
     /* Explicit, not auto - a <span>'s inherited text-align:center (from the
        shared `section` rule) otherwise makes the browser resolve its
        "static position" to the horizontal CENTER of the line box instead
        of the left edge, which silently added ~195px (half the viewport) to
        every petal's translateX and sent them all flying off-screen right. */
     left: 0;
-    width: var(--size, 14px);
-    height: var(--size, 14px);
+    width: var(--size, 32px);
+    height: var(--size, 32px);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    border-radius: 0;
+    box-shadow: none;
     opacity: 0;
     pointer-events: none;
-    animation: showerFall var(--duration, 8s) cubic-bezier(0.35, 0, 0.65, 1) var(--delay, 0s) infinite;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.16));
+    animation: showerFall var(--duration, 7.5s) cubic-bezier(0.35, 0, 0.65, 1) var(--delay, 0s) infinite;
 }
 
-.hero-petals .p1,  .hero-petals .p5,  .hero-petals .p9,  .hero-petals .p13 {
-    background-image: url('../assets/images/decorations/rose-petal-burgundy.png');
+.hero-petals .p1, .hero-petals .p6,  .hero-petals .p11 {
+    background-image: url('../assets/images/decorations/rose-flower-burgundy.png');
 }
-.hero-petals .p2,  .hero-petals .p6,  .hero-petals .p10 {
-    background-image: url('../assets/images/decorations/rose-petal-blush.png');
+.hero-petals .p2, .hero-petals .p7,  .hero-petals .p12 {
+    background-image: url('../assets/images/decorations/rose-flower-blush.png');
 }
-.hero-petals .p3,  .hero-petals .p7,  .hero-petals .p11 {
-    background-image: url('../assets/images/decorations/rose-petal-curled.png');
+.hero-petals .p3, .hero-petals .p8,  .hero-petals .p13 {
+    background-image: url('../assets/images/decorations/rose-flower-ombre.png');
 }
-.hero-petals .p4,  .hero-petals .p8,  .hero-petals .p12,  .hero-petals .p14 {
-    background-image: url('../assets/images/decorations/rose-petal-ombre.png');
+.hero-petals .p4, .hero-petals .p9,  .hero-petals .p14 {
+    background-image: url('../assets/images/decorations/rose-flower-wine.png');
+}
+.hero-petals .p5, .hero-petals .p10 {
+    background-image: url('../assets/images/decorations/rose-flower-blush-open.png');
 }
 
 /* Originates top-right (matching the rose cluster already baked into
@@ -502,20 +576,20 @@ section {
     }
 }
 
-.hero-petals .p1  { --start-x: 92vw; --drift-x: 130px; --size: 18px; --duration: 4.6s; --delay: 0s;    --rot-start: 15deg;  --rot-end: 340deg; }
-.hero-petals .p2  { --start-x: 80vw; --drift-x: 170px; --size: 24px; --duration: 5.4s; --delay: 0.6s;  --rot-start: 45deg;  --rot-end: 420deg; }
-.hero-petals .p3  { --start-x: 96vw; --drift-x: 110px; --size: 14px; --duration: 4.1s; --delay: 1.1s;  --rot-start: 0deg;   --rot-end: 290deg; }
-.hero-petals .p4  { --start-x: 70vw; --drift-x: 200px; --size: 22px; --duration: 5.8s; --delay: 1.6s;  --rot-start: 60deg;  --rot-end: 460deg; }
-.hero-petals .p5  { --start-x: 87vw; --drift-x: 150px; --size: 19px; --duration: 5s;   --delay: 2.1s;  --rot-start: 30deg;  --rot-end: 370deg; }
-.hero-petals .p6  { --start-x: 93vw; --drift-x: 190px; --size: 26px; --duration: 5.6s; --delay: 2.6s;  --rot-start: -20deg; --rot-end: 330deg; }
-.hero-petals .p7  { --start-x: 75vw; --drift-x: 160px; --size: 16px; --duration: 4.4s; --delay: 3.1s;  --rot-start: 40deg;  --rot-end: 380deg; }
-.hero-petals .p8  { --start-x: 98vw; --drift-x: 120px; --size: 21px; --duration: 5.2s; --delay: 3.6s;  --rot-start: 10deg;  --rot-end: 350deg; }
-.hero-petals .p9  { --start-x: 83vw; --drift-x: 180px; --size: 18px; --duration: 4.8s; --delay: 0.3s;  --rot-start: 50deg;  --rot-end: 410deg; }
-.hero-petals .p10 { --start-x: 78vw; --drift-x: 150px; --size: 21px; --duration: 5.3s; --delay: 1.9s;  --rot-start: 25deg;  --rot-end: 360deg; }
-.hero-petals .p11 { --start-x: 90vw; --drift-x: 140px; --size: 19px; --duration: 4.7s; --delay: 4.0s;  --rot-start: 20deg;  --rot-end: 400deg; }
-.hero-petals .p12 { --start-x: 73vw; --drift-x: 210px; --size: 16px; --duration: 5.5s; --delay: 2.9s;  --rot-start: -10deg; --rot-end: 320deg; }
-.hero-petals .p13 { --start-x: 95vw; --drift-x: 125px; --size: 22px; --duration: 4.9s; --delay: 0.9s;  --rot-start: 55deg;  --rot-end: 450deg; }
-.hero-petals .p14 { --start-x: 85vw; --drift-x: 165px; --size: 14px; --duration: 4.3s; --delay: 3.4s;  --rot-start: 5deg;   --rot-end: 300deg; }
+.hero-petals .p1  { --start-x: 92vw; --drift-x: 130px; --size: 25px; --duration: 4.6s; --delay: 0s;    --rot-start: 15deg;  --rot-end: 340deg; }
+.hero-petals .p2  { --start-x: 80vw; --drift-x: 170px; --size: 33px; --duration: 5.4s; --delay: 0.6s;  --rot-start: 45deg;  --rot-end: 420deg; }
+.hero-petals .p3  { --start-x: 96vw; --drift-x: 110px; --size: 20px; --duration: 4.1s; --delay: 1.1s;  --rot-start: 0deg;   --rot-end: 290deg; }
+.hero-petals .p4  { --start-x: 70vw; --drift-x: 200px; --size: 31px; --duration: 5.8s; --delay: 1.6s;  --rot-start: 60deg;  --rot-end: 460deg; }
+.hero-petals .p5  { --start-x: 87vw; --drift-x: 150px; --size: 27px; --duration: 5s;   --delay: 2.1s;  --rot-start: 30deg;  --rot-end: 370deg; }
+.hero-petals .p6  { --start-x: 93vw; --drift-x: 190px; --size: 36px; --duration: 5.6s; --delay: 2.6s;  --rot-start: -20deg; --rot-end: 330deg; }
+.hero-petals .p7  { --start-x: 75vw; --drift-x: 160px; --size: 22px; --duration: 4.4s; --delay: 3.1s;  --rot-start: 40deg;  --rot-end: 380deg; }
+.hero-petals .p8  { --start-x: 98vw; --drift-x: 120px; --size: 29px; --duration: 5.2s; --delay: 3.6s;  --rot-start: 10deg;  --rot-end: 350deg; }
+.hero-petals .p9  { --start-x: 83vw; --drift-x: 180px; --size: 25px; --duration: 4.8s; --delay: 0.3s;  --rot-start: 50deg;  --rot-end: 410deg; }
+.hero-petals .p10 { --start-x: 78vw; --drift-x: 150px; --size: 29px; --duration: 5.3s; --delay: 1.9s;  --rot-start: 25deg;  --rot-end: 360deg; }
+.hero-petals .p11 { --start-x: 90vw; --drift-x: 140px; --size: 27px; --duration: 4.7s; --delay: 4.0s;  --rot-start: 20deg;  --rot-end: 400deg; }
+.hero-petals .p12 { --start-x: 73vw; --drift-x: 210px; --size: 22px; --duration: 5.5s; --delay: 2.9s;  --rot-start: -10deg; --rot-end: 320deg; }
+.hero-petals .p13 { --start-x: 95vw; --drift-x: 125px; --size: 31px; --duration: 4.9s; --delay: 0.9s;  --rot-start: 55deg;  --rot-end: 450deg; }
+.hero-petals .p14 { --start-x: 85vw; --drift-x: 165px; --size: 20px; --duration: 4.3s; --delay: 3.4s;  --rot-start: 5deg;   --rot-end: 300deg; }
 
 @media (prefers-reduced-motion: reduce) {
     .hero-decorations {
@@ -532,6 +606,25 @@ section {
     width: 90%;
     text-align: center;
     padding: 3rem 1.5rem;
+    /* Recessed while the gates are closed, glides to full scale as they
+       open - a subtle cinematic push-in rather than sitting static. */
+    transform: scale(0.96);
+    opacity: 0.9;
+    transition: transform 2.2s cubic-bezier(0.2, 0.8, 0.25, 1), opacity 1.5s ease;
+}
+
+.gatefold-screen.is-open ~ #main-content .hero-content,
+.hero.visible .hero-content {
+    transform: scale(1);
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-content {
+        transform: none;
+        opacity: 1;
+        transition: none;
+    }
 }
 
 .wedding-day-text {
@@ -563,6 +656,8 @@ section {
 }
 
 .couple-names {
+    position: relative;
+    display: inline-block;
     font-family: var(--font-script);
     font-size: 2.5rem;
     line-height: 1.1;
@@ -570,6 +665,38 @@ section {
     color: var(--clr-primary);
     white-space: pre-wrap;
     text-shadow: 0 0 15px rgba(255,255,255,1), 0 0 25px rgba(212, 163, 115, 0.9), 0 2px 4px rgba(0,0,0,0.5); /* Highlight effect */
+    overflow: hidden; /* Clips the sheen */
+}
+
+/* Specular hot-foil light sheen - glides once across the names, then
+   repeats every 7s. */
+.couple-names::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -60%;
+    width: 40%; height: 200%;
+    background: linear-gradient(
+        60deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.5) 50%,
+        transparent 100%
+    );
+    transform: rotate(25deg);
+    pointer-events: none;
+    animation: goldSheenGlint 7s ease-in-out 1.8s infinite;
+}
+
+@keyframes goldSheenGlint {
+    0%, 75% { left: -60%; opacity: 0; }
+    80%     { opacity: 1; }
+    90%     { left: 140%; opacity: 0.85; }
+    100%    { left: 140%; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .couple-names::after {
+        display: none;
+    }
 }
 
 .generic-message {
@@ -653,6 +780,22 @@ section {
     font-family: var(--font-serif);
     padding: 0 0.5rem;
     text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Card body text is now built from real <p> elements (one per blank-line
+   break in the source), not a single pre-line text blob - this margin
+   recreates the blank-line gap that split apart. p-gap-lg (double margin)
+   preserves a deliberate double-blank-line gap in the source (currently
+   used before "Rukhsati" on the Barat card) instead of flattening it to
+   the same gap as every other paragraph break. */
+.invitation-text p {
+    margin-top: 0.55em;
+}
+.invitation-text p:first-child {
+    margin-top: 0;
+}
+.invitation-text p.p-gap-lg {
+    margin-top: 1.1em;
 }
 
 /* Plain bold emphasis (e.g. "followed by dinner") - distinct from
@@ -777,11 +920,13 @@ section {
     max-width: 100%;
     gap: 6px;
     font-family: var(--font-serif);
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.85);
     padding: 1.5rem 0.5rem;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    border: 1px solid rgba(212, 163, 115, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(180, 140, 80, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(201, 169, 110, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     box-sizing: border-box;
 }
 
@@ -789,23 +934,32 @@ section {
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* Kept from the earlier overflow fix - fixed width + no flex-shrink
+       is what stops this row from bleeding past the card edges on narrow
+       phones; the brief's snippet didn't carry this over, so preserving
+       it explicitly rather than losing it in the merge. */
     width: 54px;
     flex-shrink: 0;
 }
 
 .time-block span {
-    font-size: 2.1rem;
+    font-size: 1.85rem;
+    font-weight: 700;
     background: var(--gold-grad);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-weight: 600;
+    filter: drop-shadow(0 1px 1px rgba(255,255,255,0.8));
 }
 
 .time-block label {
-    font-size: 0.8rem;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
     text-transform: uppercase;
-    letter-spacing: 2px;
     color: var(--clr-primary);
+    font-weight: 600;
+    opacity: 0.85;
+    /* Kept from before - the brief's snippet omitted this, but dropping
+       it would collapse the label straight against the number above. */
     margin-top: 5px;
 }
 
@@ -936,7 +1090,8 @@ section {
 }
 
 .venue-card p {
-    color: var(--clr-text-light);
+    color: #3d2b1f; /* Deep warm espresso for crisp outdoor readability */
+    font-weight: 500;
     margin-bottom: 0.25rem;
     font-size: 0.73rem;
     line-height: 1.25;
@@ -954,23 +1109,25 @@ section {
 
 .btn-map {
     display: inline-block;
-    padding: 0.2rem 0.75rem;
-    background: transparent;
+    padding: 0.25rem 0.85rem;
+    background: rgba(255, 255, 255, 0.85);
     color: var(--clr-primary);
     text-decoration: none;
     text-transform: uppercase;
-    font-size: 0.55rem;
+    font-size: 0.58rem;
     font-weight: 600;
     letter-spacing: 1.5px;
-    border: 1px solid var(--clr-secondary);
+    border: 1.5px solid #c9a96e; /* Gilded gold border */
     border-radius: 30px;
-    transition: background var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed);
+    box-shadow: 0 2px 6px rgba(201, 169, 110, 0.15);
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
-.btn-map:hover {
+.btn-map:active, .btn-map:hover {
+    transform: scale(0.97);
     background: var(--gold-grad);
     color: #fff;
-    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(201, 169, 110, 0.35);
 }
 
 /* =========================================

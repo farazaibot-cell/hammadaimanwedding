@@ -17,6 +17,30 @@ document.addEventListener("DOMContentLoaded", () => {
             .replace(/~~(.+?)~~/g, '<span class="text-small-italic">$1</span>');
     }
 
+    // Splits card body text into real <p> elements on blank-line breaks (so
+    // the staggered-reveal CSS below has actual paragraphs to target,
+    // instead of one text blob) while preserving the exact blank-line
+    // rhythm authored in config.js: a run of 2+ newlines becomes a normal
+    // paragraph gap, and the Barat card's deliberate double-blank-line gap
+    // before Rukhsati (which used to render as 2 blank pre-line rows)
+    // becomes a taller gap via the .p-gap-lg class instead of being
+    // silently flattened to a single normal gap.
+    function cardBodyToParagraphs(raw) {
+        const parts = raw.split(/(\n{2,})/);
+        let html = '';
+        let bigGap = false;
+        for (let i = 0; i < parts.length; i++) {
+            if (i % 2 === 0) {
+                if (parts[i] === '') continue;
+                html += `<p${bigGap ? ' class="p-gap-lg"' : ''}>${formatCardText(parts[i])}</p>`;
+                bigGap = false;
+            } else {
+                bigGap = parts[i].length - 1 >= 2;
+            }
+        }
+        return html;
+    }
+
     // Four link editions, matching the physical card set, reachable via a
     // clean path (e.g. /ijtema/, set by that folder's own index.html through
     // window.__inviteOverride) or the older ?invite= query param:
@@ -86,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <section class="formal-invitation card-${eventId} card-type-${card.type} section-animate">
                     <div class="section-scroll">
                         ${card.label ? `<p class="programme-label">${card.label}</p>` : ''}
-                        <div class="invitation-text">${formatCardText(card.body)}</div>
+                        <div class="invitation-text">${cardBodyToParagraphs(card.body)}</div>
                         ${card.showCompliments ? `<div class="card-compliments">${formatCardText(config.copy.closing)}</div>` : ''}
                     </div>
                 </section>
@@ -179,10 +203,12 @@ document.addEventListener("DOMContentLoaded", () => {
             isPlaying = true;
             iconPlay.style.display = 'none';
             iconPause.style.display = 'block';
+            musicToggle.classList.add('is-playing');
         }).catch(() => {
             isPlaying = false;
             iconPlay.style.display = 'block';
             iconPause.style.display = 'none';
+            musicToggle.classList.remove('is-playing');
         });
     }
 
@@ -239,6 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
             iconPause.style.display = 'block';
         }
         isPlaying = !isPlaying;
+        musicToggle.classList.toggle('is-playing', isPlaying);
     });
 
     // =====================================
