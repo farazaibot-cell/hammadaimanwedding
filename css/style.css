@@ -114,7 +114,7 @@ section {
        center than the previous rounded-oval frames did - 25% left text
        crossing the arch outline, so this needed to go up again even after
        trimming content to compensate. */
-    top: 28%; left: 11%; right: 11%; bottom: 24%;
+    top: 28%; left: 11%; right: 11%; bottom: 21%;
     overflow-y: auto;
     padding: 0.5rem 0.4rem;
     box-sizing: border-box;
@@ -181,24 +181,34 @@ section {
 }
 
 /* Staggered editorial reveal on the invitation/programme cards: title
-   glides in first, then the body paragraphs and compliments block
-   slightly after. These transforms live on CHILD elements, not on the
+   glides in first, then each body paragraph cascades in one after
+   another (not all-at-once as a single second "beat"), for a slower,
+   more fluid wave rather than a two-step reveal. ease-out-expo-style
+   curve for a gentler deceleration than the site's other, snappier
+   transitions. These transforms live on CHILD elements, not on the
    .section-animate section itself (which still only ever animates
    opacity, per the fix above) - a child's own transform doesn't affect
    its parent section's scroll-snap geometry, so this doesn't reintroduce
    the scroll-snap/animation conflict that opacity-only reveal fixed. */
 .section-animate .programme-label,
-.section-animate .invitation-text > p:first-child {
-    opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 0.8s ease 0.15s, transform 0.8s cubic-bezier(0.2, 0.8, 0.25, 1) 0.15s;
-}
-
-.section-animate .invitation-text > p:nth-child(n+2),
+.section-animate .invitation-text > p,
 .section-animate .card-compliments {
     opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 0.8s ease 0.35s, transform 0.8s cubic-bezier(0.2, 0.8, 0.25, 1) 0.35s;
+    transform: translateY(16px);
+    transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-animate .programme-label,
+.section-animate .invitation-text > p:first-child {
+    transition-delay: 0.1s;
+}
+.section-animate .invitation-text > p:nth-child(2) { transition-delay: 0.3s; }
+.section-animate .invitation-text > p:nth-child(3) { transition-delay: 0.45s; }
+.section-animate .invitation-text > p:nth-child(4) { transition-delay: 0.6s; }
+.section-animate .invitation-text > p:nth-child(5) { transition-delay: 0.75s; }
+.section-animate .invitation-text > p:nth-child(n+6),
+.section-animate .card-compliments {
+    transition-delay: 0.9s;
 }
 
 .section-animate.visible .programme-label,
@@ -302,74 +312,87 @@ section {
 }
 
 /* =========================================
-   Golden Glow on the Sides of the Gates
-   (Replaces the center round blob with edge-lighting on both doors)
+   Golden Glow at the Gate Seam
    ========================================= */
-
-/* Disable the round center blob inside the card */
+/* .gate-glow is a SIBLING of .gate-left/.gate-right (both children of
+   #envelope-screen), not nested inside either door. This is deliberate:
+   an earlier version put the glow on a ::before INSIDE .gate-left (which
+   also hosts the wax seal, and has transform-style:preserve-3d for the
+   door-swing rotation), relying on z-index/translateZ to keep it behind
+   the seal - that depth-sorting inside an actively-rotating 3D context
+   turned out to be unreliable on Safari/WebKit in practice (confirmed
+   broken on a real device after translateZ "fixed" it in Chrome testing,
+   twice). Here, correct layering is structural rather than relying on
+   3D depth-sorting: .gate-left itself (z-index 2) and .gate-right (z-index
+   1) both sit ABOVE this glow (z-index 0) in the FLAT stacking context of
+   their shared parent - and since the wax seal is nested inside
+   .gate-left, it inherits that higher stacking position no matter what
+   z-index it declares internally. A child can never out-rank its own
+   parent's position in the stacking order, so the seal (and the door
+   textures) are guaranteed to paint above this glow regardless of engine
+   quirks - the same structural approach the very first version of this
+   glow safely used. */
 .gate-glow {
-    display: none !important;
-}
-
-/* Golden rim-light along the opening side/edge of the LEFT door.
-   translateZ(-20px) (not just z-index) is what actually matters here -
-   .gate has transform-style:preserve-3d, and inside a 3D-transformed
-   context WebKit/Safari orders layers by real Z depth rather than
-   z-index/DOM order, the same quirk the center glow blob hit earlier.
-   Without an explicit negative Z, this rendered ON TOP of the gate
-   texture and the wax seal instead of bleeding from behind them. */
-.gatefold-screen.is-open .gate-left::before {
-    content: '';
     position: absolute;
-    top: 0; right: 0;
-    width: 6px; height: 100%;
-    transform: translateZ(-20px);
-    box-shadow: 0 0 20px 4px rgba(255, 220, 130, 0.95), 0 0 45px 12px rgba(212, 163, 115, 0.6);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.6);
+    width: 70px;
+    height: 460px;
+    border-radius: 50%;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(255, 245, 210, 0.95) 0%,
+        rgba(255, 215, 120, 0.85) 30%,
+        rgba(212, 163, 115, 0.5) 55%,
+        rgba(212, 163, 115, 0) 75%
+    );
+    filter: blur(22px);
     opacity: 0;
     pointer-events: none;
-    z-index: -1;
-    animation: gateEdgeFlare 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    z-index: 0;
 }
 
-/* Golden rim-light along the opening side/edge of the RIGHT door */
-.gatefold-screen.is-open .gate-right::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 6px; height: 100%;
-    transform: translateZ(-20px);
-    box-shadow: 0 0 20px 4px rgba(255, 220, 130, 0.95), 0 0 45px 12px rgba(212, 163, 115, 0.6);
-    opacity: 0;
-    pointer-events: none;
-    z-index: -1;
-    animation: gateEdgeFlare 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+.gatefold-screen.is-open .gate-glow {
+    animation: gateGlowSpill 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-/* Golden halo radiating outward from behind the wax seal silhouette */
+@keyframes gateGlowSpill {
+    0%, 15% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.6);
+    }
+    30% {
+        opacity: 0.85;
+        transform: translate(-50%, -50%) scale(1.3);
+        filter: blur(18px);
+    }
+    55% {
+        opacity: 0.95;
+        transform: translate(-50%, -50%) scale(1.9);
+        filter: blur(30px);
+    }
+    80% {
+        opacity: 0.3;
+        transform: translate(-50%, -50%) scale(2.5);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2.9);
+    }
+}
+
+/* Golden halo radiating outward from behind the wax seal silhouette -
+   this one IS a filter on the seal's own element, so it's intrinsic to
+   the seal's paint and always sits with it, not a separate layered box
+   that can end up mis-ordered. */
 .gatefold-screen.is-open .gate-seal {
     filter: drop-shadow(0 0 16px rgba(255, 220, 130, 0.95)) drop-shadow(0 0 32px rgba(212, 163, 115, 0.7));
     transition: filter 0.4s ease;
 }
 
-/* Flare peaks as doors swing open and dissolves as they clear the screen */
-@keyframes gateEdgeFlare {
-    0% {
-        opacity: 0;
-    }
-    18% {
-        opacity: 1;
-    }
-    60% {
-        opacity: 0.85;
-    }
-    100% {
-        opacity: 0;
-    }
-}
-
 @media (prefers-reduced-motion: reduce) {
-    .gatefold-screen.is-open .gate-left::before,
-    .gatefold-screen.is-open .gate-right::before {
+    .gate-glow {
         display: none;
     }
     .gatefold-screen.is-open .gate-seal {
@@ -669,16 +692,23 @@ section {
 }
 
 /* Specular hot-foil light sheen - glides once across the names, then
-   repeats every 7s. */
+   repeats every 7s. Deliberately thin (width) and low-opacity - the
+   original 40%-wide/0.85-peak band, clipped by .couple-names' own
+   overflow:hidden (needed so the sheen doesn't spill past the text
+   block), read as a soft-edged but ultimately rectangular smudge
+   sitting behind the names rather than a crisp catch of light, since a
+   wide semi-opaque band hitting a hard clip edge mid-sweep looks like a
+   box no matter how it's tuned - a much thinner, fainter band avoids
+   that regardless of exactly when it's caught. */
 .couple-names::after {
     content: '';
     position: absolute;
-    top: -50%; left: -60%;
-    width: 40%; height: 200%;
+    top: -30%; left: -25%;
+    width: 12%; height: 160%;
     background: linear-gradient(
         60deg,
         transparent 0%,
-        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0.35) 50%,
         transparent 100%
     );
     transform: rotate(25deg);
@@ -687,10 +717,10 @@ section {
 }
 
 @keyframes goldSheenGlint {
-    0%, 75% { left: -60%; opacity: 0; }
+    0%, 75% { left: -25%; opacity: 0; }
     80%     { opacity: 1; }
-    90%     { left: 140%; opacity: 0.85; }
-    100%    { left: 140%; opacity: 0; }
+    90%     { left: 115%; opacity: 0.6; }
+    100%    { left: 115%; opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -755,14 +785,15 @@ section {
    Bismillah line overlapping it on an actual device screenshot. */
 #blessing-section .section-scroll {
     top: 34%;
+    bottom: 30%;
 }
 
 .bismillah {
-    font-size: 2.4rem;
+    font-size: 2.1rem;
     background: var(--gold-grad);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.6rem;
     text-shadow: 0 0 15px rgba(212, 163, 115, 0.2);
 }
 
@@ -773,6 +804,16 @@ section {
     color: var(--clr-primary);
     white-space: pre-line;
     font-style: italic;
+}
+
+/* Blessing has noticeably less vertical room than the cards - the
+   lantern above and rose cluster below leave a tighter clear zone on
+   this specific border image - so it needs its own smaller size/line-
+   height to fit without overflow, rather than widening its own insets
+   and risking overlapping those motifs again. */
+.blessing-text {
+    font-size: 0.96rem;
+    line-height: 1.32;
 }
 
 .invitation-text {
@@ -789,13 +830,13 @@ section {
    used before "Rukhsati" on the Barat card) instead of flattening it to
    the same gap as every other paragraph break. */
 .invitation-text p {
-    margin-top: 0.55em;
+    margin-top: 0.8em;
 }
 .invitation-text p:first-child {
     margin-top: 0;
 }
 .invitation-text p.p-gap-lg {
-    margin-top: 1.1em;
+    margin-top: 1.6em;
 }
 
 /* Plain bold emphasis (e.g. "followed by dinner") - distinct from
