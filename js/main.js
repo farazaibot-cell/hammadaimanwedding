@@ -99,16 +99,21 @@ document.addEventListener("DOMContentLoaded", () => {
         // Hero label/date: Ijtema and Walima single-event editions are named
         // after their own event (no generic "Wedding Day") - Ijtema has no date
         // line at all here (it's already stated on the card below), Walima
-        // shows its own date. Barat and the full edition keep "Wedding Day" +
-        // the Nikah/Barat date, since that's the actual wedding day.
+        // shows its own date. Barat (single-event) keeps "Wedding Day" + the
+        // date. The full edition (all three cards) drops the label and date
+        // entirely - with three different dates already shown further down
+        // on each card, a single date up top read as contradictory/wrong.
         if (inviteType === 'ijtema') {
             document.getElementById("hero-label").textContent = "Ijtema";
             document.getElementById("hero-date").remove();
         } else if (inviteType === 'walima') {
             document.getElementById("hero-label").textContent = "Walima";
             document.getElementById("hero-date").textContent = config.events.walima.date;
-        } else {
+        } else if (inviteType === 'barat') {
             document.getElementById("hero-date").textContent = config.events.barat.date;
+        } else {
+            document.getElementById("hero-label").remove();
+            document.getElementById("hero-date").remove();
         }
 
         // Schedule only makes sense when more than one event is on this edition -

@@ -27,7 +27,7 @@ const config = {
             cards: [
                 {
                     type: "invitation",
-                    body: "Mrs. Farah Naz\ncordially invites you to join us for\n\n**Ijtema**\nInsha Allah\non 20th December 2026\nTime: 7:30 PM (after Namaz-e-Maghrib)\n\n__followed by dinner__\n\nat Community Hall, Palm Spring\nPS Group, Kolkata"
+                    body: "Mrs. Farah Naz\ncordially invites you to join us for\n\n**Ijtema**\nInsha Allah\non 20th December 2026\nafter Namaz-e-Maghrib\n\n__followed by dinner__\n\nat Community Hall, Palm Spring\nPS Group, Kolkata"
                 }
             ]
         },
@@ -45,7 +45,7 @@ const config = {
                 {
                     type: "programme",
                     label: "Programme",
-                    body: "**Barat**\nInsha Allah\n\nBarat\nfrom Palm Spring\n\nDate: 23rd December 2026\nVenue: Myrah Banquet, Prasad Square\nTime: 7:30 PM\n\n__followed by dinner__"
+                    body: "**Barat**\nInsha Allah\n\nReception of Barat\nfrom Palm Spring\n\nDate: 23rd December 2026\nVenue: Myrah Banquet, Prasad Square\nTime: 7:30 PM\nRukhsati: 11:00 PM\n\n__followed by dinner__"
                 }
             ]
         },
@@ -57,12 +57,12 @@ const config = {
             targetDate: "2026-12-24T20:00:00+05:30",
             venueTitle: "Walima",
             venueName: "Celebration Banquet",
-            venueAddress: "6th floor, Aurora Waterfront Ncsm Guest House, GN Block, Sector V, Bidhannagar, Kolkata, West Bengal 700091",
+            venueAddress: "6th floor, Aurora Waterfront Ncsm Guest House, GN Block, Sector V, Bidhannagar, Kolkata",
             mapLink: "https://share.google/MrHb02o1rq696AcRD",
             cards: [
                 {
                     type: "invitation",
-                    body: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nBegum (Late) Haji Shahnawaz Akhtar\nMG 6/32 KDA Colony Jajmau Kanpur\nrequests the pleasure of your company on the\nauspicious occasion of Walima of her son\n\n**Hammad Nawaz**\n(S/O. Mrs. & Haji (Late) Shahnawaz Akhtar)\n\nwith\n\n**Aiman Fatima**\n(D/O Mrs. Shahin Fatima & Late Arif Ahmad)"
+                    body: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nBegum (Late) Haji Shahnawaz Akhtar\nMG 6/32 KDA Colony Jajmau Kanpur\nrequests the pleasure of your company on the\nauspicious occasion of Walima of her son\n\n**Hammad Nawaz**\n(S/O. Mrs. Farah Naz & Haji (Late) Shahnawaz Akhtar)\n\nwith\n\n**Aiman Fatima**\n(D/O Mrs. Shahin Fatima & Late Arif Ahmad)"
                 },
                 {
                     // No showCompliments here - the dedicated Closing section
@@ -70,7 +70,7 @@ const config = {
                     // this card, so repeating it here read as redundant.
                     type: "programme",
                     label: "Programme",
-                    body: "**Walima**\nInsha Allah\n\nDate: 24th December 2026\n\nVenue: Celebration Banquet, Aurora Waterfront Ncsm Guest House, GN Block, Sector V, Bidhannagar, Kolkata, West Bengal 700091\n\nTime: 8:00 PM\n\n__followed by dinner__"
+                    body: "**Walima**\nInsha Allah\n\nDate: 24th December 2026\n\nVenue: Celebration Banquet, Aurora Waterfront Ncsm Guest House, GN Block, Sector V, Bidhannagar, Kolkata\n\nTime: 8:00 PM\n\n__followed by dinner__"
                 }
             ]
         }

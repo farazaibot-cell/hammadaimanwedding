@@ -439,6 +439,13 @@ section {
     background-image: url('../assets/borders/blessing-border.jpg');
 }
 
+/* blessing-border.jpg's hanging lantern/arch motif reaches lower than the
+   site's default 28% top inset accounts for - confirmed the Arabic
+   Bismillah line overlapping it on an actual device screenshot. */
+#blessing-section .section-scroll {
+    top: 34%;
+}
+
 .bismillah {
     font-size: 2.4rem;
     background: var(--gold-grad);
@@ -482,6 +489,14 @@ section {
 
 .card-walima.card-type-invitation .highlight-name {
     font-size: 1.5rem;
+}
+
+/* The right-side rose cluster on walima-border.jpg intrudes further than
+   the site's default 11% inset accounts for, specifically around where
+   this card's longest line (the D/O relation line) sits - confirmed
+   overlapping on an actual device screenshot. */
+.card-walima.card-type-invitation .section-scroll {
+    right: 16%;
 }
 
 /* walima-border.jpg's roses sit further into the corners than the other
