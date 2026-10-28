@@ -262,6 +262,77 @@ section {
     transform: rotateY(108deg);
 }
 
+/* Golden backlight flare, behind both doors (z-index 0 vs their 1/2) -
+   flares up as the doors start to crack open, peaks mid-swing, and
+   dissolves by the time the hero is revealed. */
+.gate-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.6);
+    width: 220px;
+    height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(255, 245, 210, 0.95) 0%,
+        rgba(255, 215, 120, 0.85) 30%,
+        rgba(212, 163, 115, 0.5) 55%,
+        rgba(212, 163, 115, 0) 75%
+    );
+    filter: blur(25px);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.gatefold-screen.is-open .gate-glow {
+    animation: gateGlowSpill 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes gateGlowSpill {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    15% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+        filter: blur(20px);
+    }
+    45% {
+        opacity: 0.9;
+        transform: translate(-50%, -50%) scale(1.6);
+        filter: blur(35px);
+    }
+    80% {
+        opacity: 0.35;
+        transform: translate(-50%, -50%) scale(2.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2.6);
+    }
+}
+
+/* Rim-light along the parting seam of the left door */
+.gatefold-screen.is-open .gate-left::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; width: 4px; height: 100%;
+    box-shadow: 0 0 25px 6px rgba(255, 220, 130, 0.8);
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gate-glow {
+        display: none;
+    }
+    .gatefold-screen.is-open .gate-left::after {
+        display: none;
+    }
+}
+
 .tap-to-open {
     position: absolute;
     bottom: 15%;
@@ -349,6 +420,94 @@ section {
    relying on an inner scroll just to see the couple's names. */
 .hero .section-scroll {
     top: 17%; bottom: 15%;
+}
+
+/* Falling petal shower, scoped to the hero only - living inside <section
+   class="hero"> (not a fixed root overlay) means it scrolls away with the
+   section itself once scroll-snap moves past it, rather than needing to be
+   manually hidden/shown per-section. Sits above the hero's background
+   image but below .hero-content (z-index 2), and is purely decorative. */
+.hero-decorations {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.hero-petals {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.hero-petals .petal {
+    position: absolute;
+    top: -30px;
+    /* Explicit, not auto - a <span>'s inherited text-align:center (from the
+       shared `section` rule) otherwise makes the browser resolve its
+       "static position" to the horizontal CENTER of the line box instead
+       of the left edge, which silently added ~195px (half the viewport) to
+       every petal's translateX and sent them all flying off-screen right. */
+    left: 0;
+    width: var(--size, 12px);
+    height: calc(var(--size, 12px) * 1.3);
+    border-radius: 0% 70% 30% 70%;
+    background: linear-gradient(
+        145deg,
+        rgba(235, 180, 185, 0.9) 0%,
+        rgba(185, 75, 90, 0.85) 60%,
+        rgba(139, 30, 43, 0.75) 100%
+    );
+    box-shadow: 0 2px 6px rgba(139, 30, 43, 0.15);
+    opacity: 0;
+    animation: showerFall var(--duration, 8s) cubic-bezier(0.35, 0, 0.65, 1) var(--delay, 0s) infinite;
+}
+
+/* Originates top-right (matching the rose cluster already baked into
+   hero-border.jpg's corner) and drifts down-left across the hero text.
+   Travel is deliberately confined to 8vh-92vh (not the full 0-100vh) -
+   the first/last ~15% of the section is already dense with the border's
+   own gold latticework and roses, so a petal spends most of a full-height
+   fall camouflaged against that busy art and barely visible crossing the
+   actual clear text zone in the middle. */
+@keyframes showerFall {
+    0% {
+        opacity: 0;
+        transform: translate3d(var(--start-x, 85vw), 8vh, 0) rotate(var(--rot-start, 25deg));
+    }
+    12% {
+        opacity: 0.85;
+    }
+    88% {
+        opacity: 0.85;
+    }
+    100% {
+        opacity: 0;
+        transform: translate3d(calc(var(--start-x, 85vw) - var(--drift-x, 180px)), 92vh, 0)
+                   rotate(var(--rot-end, 380deg));
+    }
+}
+
+.hero-petals .p1  { --start-x: 92vw; --drift-x: 130px; --size: 11px; --duration: 4.6s; --delay: 0s;    --rot-start: 15deg;  --rot-end: 340deg; }
+.hero-petals .p2  { --start-x: 80vw; --drift-x: 170px; --size: 15px; --duration: 5.4s; --delay: 0.6s;  --rot-start: 45deg;  --rot-end: 420deg; }
+.hero-petals .p3  { --start-x: 96vw; --drift-x: 110px; --size: 9px;  --duration: 4.1s; --delay: 1.1s;  --rot-start: 0deg;   --rot-end: 290deg; }
+.hero-petals .p4  { --start-x: 70vw; --drift-x: 200px; --size: 14px; --duration: 5.8s; --delay: 1.6s;  --rot-start: 60deg;  --rot-end: 460deg; }
+.hero-petals .p5  { --start-x: 87vw; --drift-x: 150px; --size: 12px; --duration: 5s;   --delay: 2.1s;  --rot-start: 30deg;  --rot-end: 370deg; }
+.hero-petals .p6  { --start-x: 93vw; --drift-x: 190px; --size: 16px; --duration: 5.6s; --delay: 2.6s;  --rot-start: -20deg; --rot-end: 330deg; }
+.hero-petals .p7  { --start-x: 75vw; --drift-x: 160px; --size: 10px; --duration: 4.4s; --delay: 3.1s;  --rot-start: 40deg;  --rot-end: 380deg; }
+.hero-petals .p8  { --start-x: 98vw; --drift-x: 120px; --size: 13px; --duration: 5.2s; --delay: 3.6s;  --rot-start: 10deg;  --rot-end: 350deg; }
+.hero-petals .p9  { --start-x: 83vw; --drift-x: 180px; --size: 11px; --duration: 4.8s; --delay: 0.3s;  --rot-start: 50deg;  --rot-end: 410deg; }
+.hero-petals .p10 { --start-x: 78vw; --drift-x: 150px; --size: 13px; --duration: 5.3s; --delay: 1.9s;  --rot-start: 25deg;  --rot-end: 360deg; }
+.hero-petals .p11 { --start-x: 90vw; --drift-x: 140px; --size: 12px; --duration: 4.7s; --delay: 4.0s;  --rot-start: 20deg;  --rot-end: 400deg; }
+.hero-petals .p12 { --start-x: 73vw; --drift-x: 210px; --size: 10px; --duration: 5.5s; --delay: 2.9s;  --rot-start: -10deg; --rot-end: 320deg; }
+.hero-petals .p13 { --start-x: 95vw; --drift-x: 125px; --size: 14px; --duration: 4.9s; --delay: 0.9s;  --rot-start: 55deg;  --rot-end: 450deg; }
+.hero-petals .p14 { --start-x: 85vw; --drift-x: 165px; --size: 9px;  --duration: 4.3s; --delay: 3.4s;  --rot-start: 5deg;   --rot-end: 300deg; }
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-decorations {
+        display: none;
+    }
 }
 
 .hero-content {
