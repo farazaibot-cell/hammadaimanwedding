@@ -263,67 +263,71 @@ section {
     transform: rotateY(108deg);
 }
 
-/* Golden backlight flare, pushed behind both doors in actual 3D space
-   (translateZ(-60px), plus z-index -1 as a 2D-context fallback) - flares
-   up once the doors have actually started cracking open, peaks mid-swing,
-   and dissolves by the time the hero is revealed. Previously sat only at
-   z-index 0 with no Z depth, which let it render ON TOP of the doors'
-   own glossy seal face in Safari/WebKit's 3D compositor - transform-style:
-   preserve-3d on the parent (.gatefold-screen) is what makes the Z axis
-   actually apply here instead of being flattened. */
+/* =========================================
+   Golden Glow on the Sides of the Gates
+   (Replaces the center round blob with edge-lighting on both doors)
+   ========================================= */
+
+/* Disable the round center blob inside the card */
 .gate-glow {
+    display: none !important;
+}
+
+/* Golden rim-light along the opening side/edge of the LEFT door */
+.gatefold-screen.is-open .gate-left::before {
+    content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) translateZ(-60px) scale(0.6);
-    width: 240px;
-    height: 420px;
-    border-radius: 50%;
-    background: radial-gradient(
-        ellipse at center,
-        rgba(255, 245, 210, 0.95) 0%,
-        rgba(255, 215, 120, 0.85) 30%,
-        rgba(212, 163, 115, 0.5) 55%,
-        rgba(212, 163, 115, 0) 75%
-    );
-    filter: blur(28px);
+    top: 0; right: 0;
+    width: 6px; height: 100%;
+    box-shadow: 0 0 20px 4px rgba(255, 220, 130, 0.95), 0 0 45px 12px rgba(212, 163, 115, 0.6);
     opacity: 0;
     pointer-events: none;
-    z-index: -1;
+    z-index: 1; /* Sits behind the wax seal (seal is z-index: 10) */
+    animation: gateEdgeFlare 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-.gatefold-screen.is-open .gate-glow {
-    animation: gateGlowSpill 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+/* Golden rim-light along the opening side/edge of the RIGHT door */
+.gatefold-screen.is-open .gate-right::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 6px; height: 100%;
+    box-shadow: 0 0 20px 4px rgba(255, 220, 130, 0.95), 0 0 45px 12px rgba(212, 163, 115, 0.6);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+    animation: gateEdgeFlare 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-@keyframes gateGlowSpill {
-    0%, 15% {
+/* Golden halo radiating outward from behind the wax seal silhouette */
+.gatefold-screen.is-open .gate-seal {
+    filter: drop-shadow(0 0 16px rgba(255, 220, 130, 0.95)) drop-shadow(0 0 32px rgba(212, 163, 115, 0.7));
+    transition: filter 0.4s ease;
+}
+
+/* Flare peaks as doors swing open and dissolves as they clear the screen */
+@keyframes gateEdgeFlare {
+    0% {
         opacity: 0;
-        transform: translate(-50%, -50%) translateZ(-60px) scale(0.6);
     }
-    30% {
+    18% {
+        opacity: 1;
+    }
+    60% {
         opacity: 0.85;
-        transform: translate(-50%, -50%) translateZ(-60px) scale(1.1);
-        filter: blur(22px);
-    }
-    55% {
-        opacity: 0.95;
-        transform: translate(-50%, -50%) translateZ(-60px) scale(1.6);
-        filter: blur(35px);
-    }
-    80% {
-        opacity: 0.3;
-        transform: translate(-50%, -50%) translateZ(-60px) scale(2.2);
     }
     100% {
         opacity: 0;
-        transform: translate(-50%, -50%) translateZ(-60px) scale(2.6);
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .gate-glow {
+    .gatefold-screen.is-open .gate-left::before,
+    .gatefold-screen.is-open .gate-right::before {
         display: none;
+    }
+    .gatefold-screen.is-open .gate-seal {
+        filter: none;
     }
 }
 
