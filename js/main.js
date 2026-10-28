@@ -97,15 +97,14 @@ document.addEventListener("DOMContentLoaded", () => {
         window.countdownTargetDate = new Date(firstEvent.targetDate).getTime();
 
         // Hero label/date: Ijtema and Walima single-event editions are named
-        // after their own event (no generic "Wedding Day") - Ijtema has no date
-        // line at all here (it's already stated on the card below), Walima
-        // shows its own date. Barat (single-event) keeps "Wedding Day" + the
-        // date. The full edition (all three cards) is just "Wedding" with no
-        // date at all - with three different dates already shown further
-        // down on each card, a single date up top read as contradictory.
+        // after their own event (no generic "Wedding Day"), each showing its
+        // own date. Barat (single-event) keeps "Wedding Day" + the date. The
+        // full edition (all three cards) is just "Wedding" with no date at
+        // all - with three different dates already shown further down on
+        // each card, a single date up top read as contradictory.
         if (inviteType === 'ijtema') {
             document.getElementById("hero-label").textContent = "Ijtema";
-            document.getElementById("hero-date").remove();
+            document.getElementById("hero-date").textContent = config.events.ijtema.date;
         } else if (inviteType === 'walima') {
             document.getElementById("hero-label").textContent = "Walima";
             document.getElementById("hero-date").textContent = config.events.walima.date;
