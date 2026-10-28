@@ -239,8 +239,8 @@ section {
     top: 50%;
     left: 100%;
     transform: translateY(-50%);
-    width: calc(100dvh * (76 / 1376));
-    height: calc(100dvh * (184 / 1376));
+    width: calc(100dvh * (98 / 1376));
+    height: calc(100dvh * (196 / 1376));
     background: url('../assets/images/gate-seal-right.png') left center / 100% 100% no-repeat;
     pointer-events: none;
     z-index: 10;
