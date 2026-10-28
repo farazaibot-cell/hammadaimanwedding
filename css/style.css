@@ -483,20 +483,25 @@ section {
    a small, targeted reduction here instead of shrinking every card's text
    to fit this one outlier. */
 .card-walima.card-type-invitation .invitation-text {
-    font-size: 1.02rem;
-    line-height: 1.32;
+    font-size: 1.05rem;
+    line-height: 1.28;
 }
 
 .card-walima.card-type-invitation .highlight-name {
     font-size: 1.5rem;
 }
 
-/* The right-side rose cluster on walima-border.jpg intrudes further than
-   the site's default 11% inset accounts for, specifically around where
-   this card's longest line (the D/O relation line) sits - confirmed
-   overlapping on an actual device screenshot. */
+/* The rose clusters on walima-border.jpg reach in from both bottom corners
+   further than the site's default 11% inset accounts for, specifically
+   around where this card's longest lines (the relation lines) sit -
+   confirmed overlapping on an actual device screenshot. Top is pulled up
+   (reclaiming space from the shared .card-walima top below) since this
+   card's content starts well clear of the arch at the top either way. */
 .card-walima.card-type-invitation .section-scroll {
-    right: 16%;
+    top: 20%;
+    bottom: 17%;
+    left: 13%;
+    right: 13%;
 }
 
 /* walima-border.jpg's roses sit further into the corners than the other

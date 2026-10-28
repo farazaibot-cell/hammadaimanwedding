@@ -100,9 +100,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // after their own event (no generic "Wedding Day") - Ijtema has no date
         // line at all here (it's already stated on the card below), Walima
         // shows its own date. Barat (single-event) keeps "Wedding Day" + the
-        // date. The full edition (all three cards) drops the label and date
-        // entirely - with three different dates already shown further down
-        // on each card, a single date up top read as contradictory/wrong.
+        // date. The full edition (all three cards) is just "Wedding" with no
+        // date at all - with three different dates already shown further
+        // down on each card, a single date up top read as contradictory.
         if (inviteType === 'ijtema') {
             document.getElementById("hero-label").textContent = "Ijtema";
             document.getElementById("hero-date").remove();
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (inviteType === 'barat') {
             document.getElementById("hero-date").textContent = config.events.barat.date;
         } else {
-            document.getElementById("hero-label").remove();
+            document.getElementById("hero-label").textContent = "Wedding";
             document.getElementById("hero-date").remove();
         }
 

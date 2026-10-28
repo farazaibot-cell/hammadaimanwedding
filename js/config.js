@@ -45,7 +45,7 @@ const config = {
                 {
                     type: "programme",
                     label: "Programme",
-                    body: "**Barat**\nInsha Allah\n\nReception of Barat\nfrom Palm Spring\n\nDate: 23rd December 2026\nVenue: Myrah Banquet, Prasad Square\nTime: 7:30 PM\nRukhsati: 11:00 PM\n\n__followed by dinner__"
+                    body: "**Barat**\nInsha Allah\n\nReception of Barat\nfrom Palm Spring\n\nDate: 23rd December 2026\nVenue: Myrah Banquet, Prasad Square\nTime: 7:30 PM\n\n__followed by dinner__\n\n\nRukhsati: 11:00 PM"
                 }
             ]
         },
@@ -70,7 +70,7 @@ const config = {
                     // this card, so repeating it here read as redundant.
                     type: "programme",
                     label: "Programme",
-                    body: "**Walima**\nInsha Allah\n\nDate: 24th December 2026\n\nVenue: Celebration Banquet, Aurora Waterfront Ncsm Guest House, GN Block, Sector V, Bidhannagar, Kolkata\n\nTime: 8:00 PM\n\n__followed by dinner__"
+                    body: "**Walima**\nInsha Allah\n\nDate: 24th December 2026\n\nVenue: Celebration Banquet, Aurora Waterfront\n\nTime: 8:00 PM\n\n__followed by dinner__"
                 }
             ]
         }
