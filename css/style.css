@@ -82,6 +82,52 @@ main {
     overscroll-behavior-y: contain;
 }
 
+/* =========================================
+   Champagne Pearl Shimmer Finish
+   Luminous micro-mica reflection, pure warm light (zero dark spots)
+   ========================================= */
+
+/* 1. Pearl shimmer across all card sections (Hero, Blessing, Countdown, Venues) */
+main::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+    height: 100dvh;
+    pointer-events: none;
+    z-index: 5; /* Coats the cards beneath the floating music button (z-index 100) */
+    background-image: url('../assets/images/paper-pearl-shimmer.png');
+    background-repeat: repeat;
+    background-size: 140px 140px;
+    mix-blend-mode: screen; /* Illuminates with warm light; never darkens or dirties the paper */
+    opacity: 0.65;
+}
+
+/* 2. Matching shimmer across the closed gatefold doors */
+.gatefold-screen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    background-image: url('../assets/images/paper-pearl-shimmer.png');
+    background-repeat: repeat;
+    background-size: 140px 140px;
+    mix-blend-mode: screen;
+    opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    main::after,
+    .gatefold-screen::after {
+        opacity: 0.4;
+    }
+}
+
 section {
     scroll-snap-align: start;
     /* Without this, a fast flick on iOS Safari can carry momentum PAST the
