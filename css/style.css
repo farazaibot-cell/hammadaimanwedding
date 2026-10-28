@@ -311,93 +311,11 @@ section {
     transform: rotateY(108deg);
 }
 
-/* =========================================
-   Golden Glow at the Gate Seam
-   ========================================= */
-/* .gate-glow is a SIBLING of .gate-left/.gate-right (both children of
-   #envelope-screen), not nested inside either door. This is deliberate:
-   an earlier version put the glow on a ::before INSIDE .gate-left (which
-   also hosts the wax seal, and has transform-style:preserve-3d for the
-   door-swing rotation), relying on z-index/translateZ to keep it behind
-   the seal - that depth-sorting inside an actively-rotating 3D context
-   turned out to be unreliable on Safari/WebKit in practice (confirmed
-   broken on a real device after translateZ "fixed" it in Chrome testing,
-   twice). Here, correct layering is structural rather than relying on
-   3D depth-sorting: .gate-left itself (z-index 2) and .gate-right (z-index
-   1) both sit ABOVE this glow (z-index 0) in the FLAT stacking context of
-   their shared parent - and since the wax seal is nested inside
-   .gate-left, it inherits that higher stacking position no matter what
-   z-index it declares internally. A child can never out-rank its own
-   parent's position in the stacking order, so the seal (and the door
-   textures) are guaranteed to paint above this glow regardless of engine
-   quirks - the same structural approach the very first version of this
-   glow safely used. */
+/* Golden glow experiment (center blob, then edge-lighting) removed -
+   never rendered reliably correctly on real Safari across multiple
+   attempts. .gate-glow stays in the HTML markup but is unstyled/inert. */
 .gate-glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.6);
-    width: 70px;
-    height: 460px;
-    border-radius: 50%;
-    background: radial-gradient(
-        ellipse at center,
-        rgba(255, 245, 210, 0.95) 0%,
-        rgba(255, 215, 120, 0.85) 30%,
-        rgba(212, 163, 115, 0.5) 55%,
-        rgba(212, 163, 115, 0) 75%
-    );
-    filter: blur(22px);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.gatefold-screen.is-open .gate-glow {
-    animation: gateGlowSpill 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-}
-
-@keyframes gateGlowSpill {
-    0%, 15% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.6);
-    }
-    30% {
-        opacity: 0.85;
-        transform: translate(-50%, -50%) scale(1.3);
-        filter: blur(18px);
-    }
-    55% {
-        opacity: 0.95;
-        transform: translate(-50%, -50%) scale(1.9);
-        filter: blur(30px);
-    }
-    80% {
-        opacity: 0.3;
-        transform: translate(-50%, -50%) scale(2.5);
-    }
-    100% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(2.9);
-    }
-}
-
-/* Golden halo radiating outward from behind the wax seal silhouette -
-   this one IS a filter on the seal's own element, so it's intrinsic to
-   the seal's paint and always sits with it, not a separate layered box
-   that can end up mis-ordered. */
-.gatefold-screen.is-open .gate-seal {
-    filter: drop-shadow(0 0 16px rgba(255, 220, 130, 0.95)) drop-shadow(0 0 32px rgba(212, 163, 115, 0.7));
-    transition: filter 0.4s ease;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .gate-glow {
-        display: none;
-    }
-    .gatefold-screen.is-open .gate-seal {
-        filter: none;
-    }
+    display: none;
 }
 
 .tap-to-open {
@@ -679,8 +597,6 @@ section {
 }
 
 .couple-names {
-    position: relative;
-    display: inline-block;
     font-family: var(--font-script);
     font-size: 2.5rem;
     line-height: 1.1;
@@ -688,45 +604,6 @@ section {
     color: var(--clr-primary);
     white-space: pre-wrap;
     text-shadow: 0 0 15px rgba(255,255,255,1), 0 0 25px rgba(212, 163, 115, 0.9), 0 2px 4px rgba(0,0,0,0.5); /* Highlight effect */
-    overflow: hidden; /* Clips the sheen */
-}
-
-/* Specular hot-foil light sheen - glides once across the names, then
-   repeats every 7s. Deliberately thin (width) and low-opacity - the
-   original 40%-wide/0.85-peak band, clipped by .couple-names' own
-   overflow:hidden (needed so the sheen doesn't spill past the text
-   block), read as a soft-edged but ultimately rectangular smudge
-   sitting behind the names rather than a crisp catch of light, since a
-   wide semi-opaque band hitting a hard clip edge mid-sweep looks like a
-   box no matter how it's tuned - a much thinner, fainter band avoids
-   that regardless of exactly when it's caught. */
-.couple-names::after {
-    content: '';
-    position: absolute;
-    top: -30%; left: -25%;
-    width: 12%; height: 160%;
-    background: linear-gradient(
-        60deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.35) 50%,
-        transparent 100%
-    );
-    transform: rotate(25deg);
-    pointer-events: none;
-    animation: goldSheenGlint 7s ease-in-out 1.8s infinite;
-}
-
-@keyframes goldSheenGlint {
-    0%, 75% { left: -25%; opacity: 0; }
-    80%     { opacity: 1; }
-    90%     { left: 115%; opacity: 0.6; }
-    100%    { left: 115%; opacity: 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .couple-names::after {
-        display: none;
-    }
 }
 
 .generic-message {
@@ -888,6 +765,14 @@ section {
 .card-walima .section-scroll {
     top: 23%;
     bottom: 19%;
+}
+
+/* Shifted toward the top of its box rather than dead-centered - this
+   card doesn't fill the available height, so centering left a notably
+   larger empty gap below the content than above it. */
+.card-walima.card-type-programme .section-scroll {
+    justify-content: safe flex-start;
+    padding-top: 1.25rem;
 }
 
 .highlight-name {

@@ -27,7 +27,7 @@ const config = {
             cards: [
                 {
                     type: "invitation",
-                    body: "Mrs. Farah Naz\ncordially invites you to join us for\n\n**Ijtema**\nInsha Allah\non 20th December 2026\nafter Namaz-e-Maghrib\n\n__followed by dinner__\n\nat Community Hall, Palm Spring\nPS Group, Kolkata"
+                    body: "Mrs. Farah Naz\ncordially invites you to join us for\n\n**Ijtema**\nInsha Allah\non 20th December 2026\nafter Namaz-e-Maghrib\n\n\n__followed by dinner__\n\n\nat Community Hall, Palm Spring\nPS Group, Kolkata"
                 }
             ]
         },
@@ -70,7 +70,7 @@ const config = {
                     // this card, so repeating it here read as redundant.
                     type: "programme",
                     label: "Programme",
-                    body: "**Walima**\nInsha Allah\n\nDate: 24th December 2026\n\nVenue: Celebration Banquet, Aurora Waterfront\n\nTime: 8:00 PM\n\n__followed by dinner__"
+                    body: "**Walima**\nInsha Allah\n\nDate: 24th December 2026\n\nVenue: Celebration Banquet, Aurora Waterfront\n\nTime: 8:00 PM\n\n\n__followed by dinner__"
                 }
             ]
         }
