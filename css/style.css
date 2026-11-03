@@ -673,7 +673,21 @@ section {
     z-index: 2;
     width: 90%;
     text-align: center;
-    padding: 3rem 1.5rem;
+    padding: 1.5rem 1.5rem;
+    /* .hero-content is .section-scroll's only flex child, so plain
+       margin-bottom on its lines only grows this block by a few rem - it
+       never reaches the large empty space ABOVE/BELOW the block, which is
+       what ".section-scroll"'s own centering leaves unused. flex-grow lets
+       this block fill that whole area, and justify-content:space-evenly
+       spreads the lines across it; the small margins below stay only as a
+       floor for when content overflows a short viewport and the flex gaps
+       collapse to zero. */
+    flex: 1 1 auto;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
     /* Recessed while the gates are closed, glides to full scale as they
        open - a subtle cinematic push-in rather than sitting static. */
     transform: scale(0.96);
@@ -699,7 +713,7 @@ section {
     font-family: var(--font-script);
     font-size: 2rem;
     color: var(--clr-primary);
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.25rem;
     text-shadow: 0 0 10px rgba(255,255,255,0.8);
 }
 
@@ -707,7 +721,7 @@ section {
     font-size: 1.1rem;
     letter-spacing: 3px;
     color: var(--clr-primary);
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.5rem;
     font-weight: 600;
 }
 
@@ -720,7 +734,7 @@ section {
     color: var(--clr-primary);
     opacity: 0.85;
     letter-spacing: 1px;
-    margin-bottom: 1.1rem;
+    margin-bottom: 0.5rem;
 }
 
 .couple-names {
@@ -730,7 +744,7 @@ section {
     font-family: 'Dayland', cursive;
     font-size: 2.5rem;
     line-height: 1.1;
-    margin-bottom: 1rem;
+    margin-bottom: 0.25rem;
     color: var(--clr-primary);
     white-space: pre-wrap;
     text-shadow: 0 0 15px rgba(255,255,255,1), 0 0 25px rgba(212, 163, 115, 0.9), 0 2px 4px rgba(0,0,0,0.5); /* Highlight effect */
@@ -747,7 +761,7 @@ section {
 
 .scroll-indicator {
     position: relative;
-    margin-top: 0.9rem;
+    margin-top: 0.5rem;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -873,17 +887,22 @@ section {
    that the card read as cluttered. */
 .card-walima.card-type-invitation .invitation-text {
     font-size: 0.95rem;
-    line-height: 1.26;
+    line-height: 1.2;
 }
 
 /* This card's own paragraph gaps, looser than the site default
    (.invitation-text p: 0.8em/1.6em) to actually use the room reclaimed
-   by the tighter insets below instead of just leaving it empty. */
+   by the tighter insets below instead of just leaving it empty. Pulled
+   back in slightly from a looser pass once the .highlight-name spans
+   below got their own generous line-height/padding buffer added - that
+   buffer now supplies a lot of the visual separation these gaps used to
+   carry alone, so keeping both at their loosest values together
+   overflowed short viewports. */
 .card-walima.card-type-invitation .invitation-text p {
-    margin-top: 0.85em;
+    margin-top: 0.7em;
 }
 .card-walima.card-type-invitation .invitation-text p.p-gap-lg {
-    margin-top: 1.3em;
+    margin-top: 0.8em;
 }
 
 .card-walima.card-type-invitation .highlight-name {
@@ -898,10 +917,14 @@ section {
        own CSS layout box isn't near any container edge. Generous
        line-height plus top/bottom padding on the span itself (not just
        the surrounding paragraph) gives the swash real breathing room
-       regardless of what the font reports about its own size. */
-    line-height: 1.25;
+       regardless of what the font reports about its own size. Dialed up
+       again after the first pass still clipped on a real device - mobile
+       Safari/Chrome render this font's swash ink further outside its
+       declared metrics than desktop Chrome did during verification, so
+       the buffer needs to be generous rather than just-barely-enough. */
+    line-height: 1.6;
     display: inline-block;
-    padding: 0.06em 0;
+    padding: 0.18em 0;
 }
 
 /* The address line read as too prominent relative to the rest of the
