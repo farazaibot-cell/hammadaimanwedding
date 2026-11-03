@@ -31,19 +31,18 @@
      Aman" display (.couple-names) and the Walima invitation card's two
      name lines (.card-walima.card-type-invitation .highlight-name).
      Great Vibes (the site's default --font-script) draws some capitals
-     (A, N) with much less visual weight than others, reading as
-     near-lowercase at a glance. Went through two earlier attempts here:
-     Yellowtail solved legibility but read as too bold/casual; Alex
-     Brush was elegant but F (Fatima) and N (Nawaz) were still too weak
-     at the actual deployed size (1.6rem), confirmed on a real device.
-     Niconne was chosen after rendering 12 more candidates and checking
-     every flagged letter (H/N/A/F) at a 4x zoom crop of the ACTUAL
-     deployed font-size, not just an oversized test render - every
-     capital has a clear, unmistakably larger loop/flourish than the
-     lowercase that follows it. */
-  font-family: 'Niconne';
+     with much less visual weight than others, reading as near-lowercase
+     at a glance - three earlier attempts here (Yellowtail, Alex Brush,
+     Niconne) each failed on legibility or aesthetics at the actual
+     deployed size. Norican was chosen to match the weight/character of
+     the wax-seal "H&A" monogram graphic already used on the gatefold
+     (red-seal-assets/option1-gold-monogram/seal-full.png) - bold,
+     confident loops rather than a thin flowing script - and verified at
+     actual deployed font-size (not an oversized test render) that every
+     flagged capital (H/N/A/F) stays clearly legible as a capital. */
+  font-family: 'Norican';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/niconne/v16/w8gaH2QvRug1_rTfrQs.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/norican/v16/MwQ2bhXp1eSBqjkPGJI.ttf) format('truetype');
 }

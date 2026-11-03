@@ -724,10 +724,10 @@ section {
 }
 
 .couple-names {
-    /* Niconne, not the site-wide Great Vibes --font-script - see
+    /* Norican, not the site-wide Great Vibes --font-script - see
        fonts.css for why (the A in "Aman" read as near-lowercase in
        Great Vibes). */
-    font-family: 'Niconne', cursive;
+    font-family: 'Norican', cursive;
     font-size: 2.5rem;
     line-height: 1.1;
     margin-bottom: 0.5rem;
@@ -887,8 +887,8 @@ section {
 }
 
 .card-walima.card-type-invitation .highlight-name {
-    /* Niconne, not the site-wide Great Vibes - see fonts.css for why. */
-    font-family: 'Niconne', cursive;
+    /* Norican, not the site-wide Great Vibes - see fonts.css for why. */
+    font-family: 'Norican', cursive;
     font-size: 1.6rem;
 }
 
