@@ -724,7 +724,10 @@ section {
 }
 
 .couple-names {
-    font-family: var(--font-script);
+    /* Alex Brush, not the site-wide Great Vibes --font-script - see
+       fonts.css for why (the A in "Aman" read as near-lowercase in
+       Great Vibes). */
+    font-family: 'Alex Brush', cursive;
     font-size: 2.5rem;
     line-height: 1.1;
     margin-bottom: 0.5rem;
@@ -880,15 +883,13 @@ section {
     margin-top: 0.85em;
 }
 .card-walima.card-type-invitation .invitation-text p.p-gap-lg {
-    margin-top: 1.7em;
+    margin-top: 1.3em;
 }
 
 .card-walima.card-type-invitation .highlight-name {
-    /* Yellowtail, not the site-wide Great Vibes - see fonts.css for why.
-       Bolder/more upright than Great Vibes, so sized down slightly to
-       read at a comparable visual weight to the rest of the card. */
-    font-family: 'Yellowtail', cursive;
-    font-size: 1.3rem;
+    /* Alex Brush, not the site-wide Great Vibes - see fonts.css for why. */
+    font-family: 'Alex Brush', cursive;
+    font-size: 1.6rem;
 }
 
 /* The address line read as too prominent relative to the rest of the

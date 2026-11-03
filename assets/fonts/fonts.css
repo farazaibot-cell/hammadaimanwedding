@@ -27,15 +27,19 @@
   src: url(https://fonts.gstatic.com/s/greatvibes/v21/RWmMoKWR9v4ksMfaWd_JN-XC.ttf) format('truetype');
 }
 @font-face {
-  /* Used only for the couple's full names on the Walima invitation card
-     (see .card-walima.card-type-invitation .highlight-name in style.css)
-     - Great Vibes draws some capitals (A, N) with much less visual weight
-     than others, reading as near-lowercase at a glance. Yellowtail's
-     capitals are unambiguously larger/bolder than its lowercase across
-     the board, confirmed by direct side-by-side render comparison. */
-  font-family: 'Yellowtail';
+  /* Used for the couple's names specifically - the Hero's big "Hammad &
+     Aman" display (.couple-names) and the Walima invitation card's two
+     name lines (.card-walima.card-type-invitation .highlight-name).
+     Great Vibes (the site's default --font-script) draws some capitals
+     (A, N) with much less visual weight than others, reading as
+     near-lowercase at a glance. Alex Brush's capitals are unambiguously
+     larger across the whole alphabet, confirmed by direct side-by-side
+     render comparison against 6 other candidates - picked over an
+     earlier attempt (Yellowtail) that solved the legibility problem but
+     read as too bold/casual rather than elegant. */
+  font-family: 'Alex Brush';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/yellowtail/v25/OZpGg_pnoDtINPfRIlLotlw.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/alexbrush/v23/SZc83FzrJKuqFbwMKk6EtUI.ttf) format('truetype');
 }
