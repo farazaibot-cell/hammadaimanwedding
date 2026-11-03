@@ -866,14 +866,32 @@ section {
 /* Walima's formal invite is the single longest card on the site (Bismillah
    opener + full formal address + two names each with a relation line) -
    a small, targeted reduction here instead of shrinking every card's text
-   to fit this one outlier. */
+   to fit this one outlier. Line-height loosened (1.22->1.4) per feedback
+   that the card read as cluttered. */
 .card-walima.card-type-invitation .invitation-text {
     font-size: 0.95rem;
-    line-height: 1.22;
+    line-height: 1.26;
+}
+
+/* This card's own paragraph gaps, looser than the site default
+   (.invitation-text p: 0.8em/1.6em) to actually use the room reclaimed
+   by the tighter insets below instead of just leaving it empty. */
+.card-walima.card-type-invitation .invitation-text p {
+    margin-top: 0.85em;
+}
+.card-walima.card-type-invitation .invitation-text p.p-gap-lg {
+    margin-top: 1.7em;
 }
 
 .card-walima.card-type-invitation .highlight-name {
     font-size: 1.45rem;
+}
+
+/* The address line read as too prominent relative to the rest of the
+   card - a steeper reduction here than the site-wide .text-small-italic
+   default (0.85em), specifically for this card. */
+.card-walima.card-type-invitation .text-small-italic {
+    font-size: 0.7em;
 }
 
 /* Measured directly off walima-border.jpg: a vine of white flowers climbs
@@ -882,9 +900,14 @@ section {
    relation lines were landing - a flat 13% left inset only cleared the
    narrower part of that climb. Bottom is pulled in well above that 78%
    mark so text never reaches the vine's widest point or the dense rose
-   cluster below it; left is widened to clear the vine above that point. */
+   cluster below it; left is widened to clear the vine above that point.
+   Top is pulled up slightly (20%->17%) to move the Bismillah opener
+   higher and reclaim some of the unused margin above it - the arch's
+   own linework clears by ~18% down, so this stays just past it; bottom/
+   left/right are left untouched since those are the vine-clearance
+   margins above and shouldn't be tightened. */
 .card-walima.card-type-invitation .section-scroll {
-    top: 20%;
+    top: 17%;
     bottom: 24%;
     left: 18%;
     right: 15%;
@@ -917,6 +940,13 @@ section {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-shadow: 0px 0px 20px rgba(212, 163, 115, 0.4);
+}
+
+/* Raised initial capital for letters Great Vibes draws weak (A, N) -
+   nested inside .highlight-name, so it inherits the gold-gradient
+   background-clip fill without needing its own color. */
+.cap-boost {
+    font-size: 1.5em;
 }
 
 /* Eyebrow label on "Programme" style cards (Barat, Walima programme) */
@@ -1251,5 +1281,22 @@ section {
     white-space: pre-line;
     line-height: 1.4;
     text-shadow: 0 0 15px rgba(212, 163, 115, 0.2);
+}
+
+/* Digits in the flowing script font are hard to read as a phone number,
+   and a plain <a> would otherwise pick up the browser's default blue
+   link color/underline instead of inheriting the gold-gradient fill
+   above it - both addressed explicitly here. */
+.closing-phone {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-style: italic;
+    letter-spacing: 1px;
+    text-decoration: none;
+    background: var(--gold-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 

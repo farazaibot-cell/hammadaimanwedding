@@ -1,14 +1,17 @@
 const config = {
     couple: {
-        names: "Hammad\n&\nAiman",
+        names: "Hammad\n&\nAman",
         fullName1: "Hammad Nawaz",
-        fullName2: "Aiman Fatima"
+        fullName2: "Aman Fatima"
     },
     copy: {
         // Shown only on the "barat" and "full" editions (see js/main.js), matching
         // the physical card set where this blessing accompanies the Barat card.
         blessing: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nO Allah, guide this marriage to the best of understandings, happiness, prosperity & success\n- Ameen.",
-        closing: "With best compliments from all relatives and friends"
+        // Rendered via innerHTML (see main.js), so the phone number can be a
+        // real tap-to-call link - raw <a> markup here, not a formatCardText
+        // marker, since this is a one-off rather than a reusable style.
+        closing: "With best compliments from all relatives and friends\n<a href=\"tel:+917860786132\" class=\"closing-phone\">7860786132</a>"
     },
     // Master list of all possible events. Each event carries its own invitation
     // card(s) (transcribed from the physical cards), shown only when that event
@@ -62,7 +65,7 @@ const config = {
             cards: [
                 {
                     type: "invitation",
-                    body: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nBegum Haji (Late) Shahnawaz Akhtar\n~~(MG 6/32 KDA Colony Jajmau Kanpur)~~\nrequests the pleasure of your company on the\nauspicious occasion of Walima of her son\n\n**Hammad Nawaz**\n(S/O. Mrs. Farah Naz & Haji (Late) Shahnawaz Akhtar)\n\nwith\n\n**Aiman Fatima**\n(D/O Mrs. Shahin Fatima & Late Arif Ahmad)"
+                    body: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nBegum Haji (Late) Shahnawaz Akhtar\n~~(MG 6/32 KDA Colony Jajmau Kanpur)~~\nrequests the pleasure of your company on the\nauspicious occasion of Walima of her son\n\n**Hammad ^N^awaz**\n(S/O. Mrs. Farah Naz & Haji (Late) Shahnawaz Akhtar)\n\nwith\n\n**^A^man Fatima**\n(D/O Mrs. Shaheen Fatma & Late Md Arif)"
                 },
                 {
                     // No showCompliments here - the dedicated Closing section

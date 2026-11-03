@@ -14,7 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return raw
             .replace(/\*\*(.+?)\*\*/g, '<span class="highlight-name">$1</span>')
             .replace(/__(.+?)__/g, '<span class="text-bold">$1</span>')
-            .replace(/~~(.+?)~~/g, '<span class="text-small-italic">$1</span>');
+            .replace(/~~(.+?)~~/g, '<span class="text-small-italic">$1</span>')
+            // Oversized leading capital - Great Vibes draws some capitals
+            // (A, N) with much less visual weight than others (H, F), so
+            // they can read as lowercase at a glance. Wrapping just that
+            // one letter bigger is a deliberate "raised initial capital"
+            // rather than a uniform size bump on the whole name.
+            .replace(/\^(.+?)\^/g, '<span class="cap-boost">$1</span>');
     }
 
     // Splits card body text into real <p> elements on blank-line breaks (so
@@ -41,21 +47,23 @@ document.addEventListener("DOMContentLoaded", () => {
         return html;
     }
 
-    // Four link editions, matching the physical card set, reachable via a
-    // clean path (e.g. /ijtema/, set by that folder's own index.html through
-    // window.__inviteOverride) or the older ?invite= query param:
+    // Four link editions, matching the physical card set, reachable ONLY via
+    // each edition's own unguessable secret-slug folder (e.g.
+    // /ijtema_qgkcls0n/, set by that folder's own index.html through
+    // window.__inviteOverride):
     //   ijtema -> Ijtema invitation card only
     //   barat  -> blessing + Barat programme card
     //   walima -> Walima invitation + programme cards
     //   full   -> everything, in chronological order
-    // No recognized type at all (bare domain, or a stripped/garbled query
-    // string) intentionally does NOT fall back to "full" - that would let
-    // anyone holding a single-event link see every event's details just by
-    // editing the URL. Instead it shows a neutral landing with no event
-    // content, and only an explicit "full" link (shared deliberately with
-    // close family) unlocks the combined view.
-    const urlParams = new URLSearchParams(window.location.search);
-    const rawInvite = window.__inviteOverride || urlParams.get('invite');
+    // No ?invite= query-param fallback on purpose - that used to let anyone
+    // reach any edition from the bare domain just by guessing a short,
+    // common word (e.g. /?invite=full), which defeated the whole point of
+    // moving the real links to unguessable paths. The bare domain and any
+    // query string now always show the safe neutral landing below, same as
+    // the old short folder names (/ijtema/, /barat/, etc.), which are kept
+    // around as dead-end landing pages for anyone with an old bookmark
+    // rather than 404ing.
+    const rawInvite = window.__inviteOverride;
     const validTypes = ['ijtema', 'barat', 'walima', 'full'];
     const isGenericLanding = !validTypes.includes(rawInvite);
 
@@ -99,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (inviteType === 'ijtema') {
             document.getElementById("closing-section").remove();
         } else {
-            document.getElementById("closing-content").textContent = config.copy.closing;
+            document.getElementById("closing-content").innerHTML = formatCardText(config.copy.closing);
         }
 
         // Build one invitation/programme card per entry in each included event's
