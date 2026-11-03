@@ -32,14 +32,18 @@
      name lines (.card-walima.card-type-invitation .highlight-name).
      Great Vibes (the site's default --font-script) draws some capitals
      (A, N) with much less visual weight than others, reading as
-     near-lowercase at a glance. Alex Brush's capitals are unambiguously
-     larger across the whole alphabet, confirmed by direct side-by-side
-     render comparison against 6 other candidates - picked over an
-     earlier attempt (Yellowtail) that solved the legibility problem but
-     read as too bold/casual rather than elegant. */
-  font-family: 'Alex Brush';
+     near-lowercase at a glance. Went through two earlier attempts here:
+     Yellowtail solved legibility but read as too bold/casual; Alex
+     Brush was elegant but F (Fatima) and N (Nawaz) were still too weak
+     at the actual deployed size (1.6rem), confirmed on a real device.
+     Niconne was chosen after rendering 12 more candidates and checking
+     every flagged letter (H/N/A/F) at a 4x zoom crop of the ACTUAL
+     deployed font-size, not just an oversized test render - every
+     capital has a clear, unmistakably larger loop/flourish than the
+     lowercase that follows it. */
+  font-family: 'Niconne';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/alexbrush/v23/SZc83FzrJKuqFbwMKk6EtUI.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/niconne/v16/w8gaH2QvRug1_rTfrQs.ttf) format('truetype');
 }
