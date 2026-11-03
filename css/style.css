@@ -713,7 +713,10 @@ section {
     font-family: var(--font-script);
     font-size: 2rem;
     color: var(--clr-primary);
-    margin-bottom: 0.25rem;
+    /* .hero-content's own space-evenly gap already adds room below this -
+       negative margin pulls it back in specifically for this one pair,
+       without touching the gap below any of the other lines. */
+    margin-bottom: -0.5rem;
     text-shadow: 0 0 10px rgba(255,255,255,0.8);
 }
 
@@ -743,11 +746,25 @@ section {
        Great Vibes). */
     font-family: 'Dayland', cursive;
     font-size: 2.5rem;
-    line-height: 1.1;
+    /* 1.1 packed "Hammad" / "&" / "Aman" (each its own \n-separated line
+       via white-space:pre-wrap) too tightly - this is the one place on
+       the site the font renders at 3 stacked lines, so it needed its own
+       looser value rather than the shared line-height used elsewhere. */
+    line-height: 1.55;
     margin-bottom: 0.25rem;
     color: var(--clr-primary);
     white-space: pre-wrap;
-    text-shadow: 0 0 15px rgba(255,255,255,1), 0 0 25px rgba(212, 163, 115, 0.9), 0 2px 4px rgba(0,0,0,0.5); /* Highlight effect */
+    /* Dayland's outline has a deliberate hand-sketched/distressed texture
+       baked into the glyphs (confirmed by rendering the raw .ttf with no
+       CSS effects at all - the roughness is in the font file itself, not
+       a shadow or rendering artifact). Barely visible at the Walima
+       card's 1.6rem, but obvious at this element's larger 2.5rem. A
+       near-invisible blur smooths that outline noise into a softer,
+       ink-like edge instead of visible jagged serration; the glow radii
+       were also cut down since a wide blur was haloing every serration
+       and making the roughness read as fuzzier, not softer. */
+    filter: blur(0.4px);
+    text-shadow: 0 0 4px rgba(255,255,255,1), 0 0 8px rgba(212, 163, 115, 0.9), 0 2px 4px rgba(0,0,0,0.5); /* Highlight effect */
 }
 
 .generic-message {
@@ -760,10 +777,13 @@ section {
 }
 
 .scroll-indicator {
-    position: relative;
+    /* No more position:relative;left:50%;transform:translateX(-50%) - that
+       was a centering hack for when .hero-content was a plain block (text-
+       align:center doesn't center a flex child like this one). Now that
+       .hero-content is itself flex with align-items:center, this is
+       already centered by the parent - the old hack was shifting it an
+       extra 50% of its own width to the right on top of that. */
     margin-top: 0.5rem;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -789,9 +809,13 @@ section {
 }
 
 @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
-    40% { transform: translate(-50%, -10px); }
-    60% { transform: translate(-50%, -5px); }
+    /* The -50% x-translate here was paired with .scroll-indicator's old
+       position:relative;left:50% centering hack - removing that hack
+       without updating this left the animation itself shifting the
+       element left by half its own width on every frame. */
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
 }
 
 /* =========================================
