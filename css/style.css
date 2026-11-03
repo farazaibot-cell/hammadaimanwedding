@@ -699,7 +699,7 @@ section {
     font-family: var(--font-script);
     font-size: 2rem;
     color: var(--clr-primary);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.6rem;
     text-shadow: 0 0 10px rgba(255,255,255,0.8);
 }
 
@@ -707,7 +707,7 @@ section {
     font-size: 1.1rem;
     letter-spacing: 3px;
     color: var(--clr-primary);
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
     font-weight: 600;
 }
 
@@ -720,7 +720,7 @@ section {
     color: var(--clr-primary);
     opacity: 0.85;
     letter-spacing: 1px;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1.1rem;
 }
 
 .couple-names {
@@ -730,7 +730,7 @@ section {
     font-family: 'Dayland', cursive;
     font-size: 2.5rem;
     line-height: 1.1;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
     color: var(--clr-primary);
     white-space: pre-wrap;
     text-shadow: 0 0 15px rgba(255,255,255,1), 0 0 25px rgba(212, 163, 115, 0.9), 0 2px 4px rgba(0,0,0,0.5); /* Highlight effect */
@@ -747,7 +747,7 @@ section {
 
 .scroll-indicator {
     position: relative;
-    margin-top: 1rem;
+    margin-top: 0.9rem;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -890,6 +890,18 @@ section {
     /* Dayland, not the site-wide Great Vibes - see fonts.css for why. */
     font-family: 'Dayland', cursive;
     font-size: 1.6rem;
+    /* Dayland's dramatic swashes (the big loop on the N, the ascender on
+       the F) extend further above/below the font's own declared ascent/
+       descent metrics than usual - line-height calculated from those
+       metrics under-allocates room for the actual glyph ink, so it can
+       visually overlap the line above/below even though the element's
+       own CSS layout box isn't near any container edge. Generous
+       line-height plus top/bottom padding on the span itself (not just
+       the surrounding paragraph) gives the swash real breathing room
+       regardless of what the font reports about its own size. */
+    line-height: 1.25;
+    display: inline-block;
+    padding: 0.06em 0;
 }
 
 /* The address line read as too prominent relative to the rest of the
