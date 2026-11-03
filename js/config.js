@@ -65,7 +65,7 @@ const config = {
             cards: [
                 {
                     type: "invitation",
-                    body: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nBegum Haji (Late) Shahnawaz Akhtar\n~~(MG 6/32 KDA Colony Jajmau Kanpur)~~\nrequests the pleasure of your company on the\nauspicious occasion of Walima of her son\n\n**Hammad ^N^awaz**\n(S/O. Mrs. Farah Naz & Haji (Late) Shahnawaz Akhtar)\n\nwith\n\n**^A^man Fatima**\n(D/O Mrs. Shaheen Fatma & Late Md Arif)"
+                    body: "In the name of Allah\nThe Most Beneficent, The Most Merciful.\n\nBegum Haji (Late) Shahnawaz Akhtar\n~~(MG 6/32 KDA Colony Jajmau Kanpur)~~\nrequests the pleasure of your company on the\nauspicious occasion of Walima of her son\n\n**Hammad Nawaz**\n(S/O. Mrs. Farah Naz & Haji (Late) Shahnawaz Akhtar)\n\nwith\n\n**Aman Fatima**\n(D/O Mrs. Shaheen Fatma & Late Md Arif)"
                 },
                 {
                     // No showCompliments here - the dedicated Closing section

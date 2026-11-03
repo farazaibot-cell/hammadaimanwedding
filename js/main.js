@@ -14,13 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return raw
             .replace(/\*\*(.+?)\*\*/g, '<span class="highlight-name">$1</span>')
             .replace(/__(.+?)__/g, '<span class="text-bold">$1</span>')
-            .replace(/~~(.+?)~~/g, '<span class="text-small-italic">$1</span>')
-            // Oversized leading capital - Great Vibes draws some capitals
-            // (A, N) with much less visual weight than others (H, F), so
-            // they can read as lowercase at a glance. Wrapping just that
-            // one letter bigger is a deliberate "raised initial capital"
-            // rather than a uniform size bump on the whole name.
-            .replace(/\^(.+?)\^/g, '<span class="cap-boost">$1</span>');
+            .replace(/~~(.+?)~~/g, '<span class="text-small-italic">$1</span>');
     }
 
     // Splits card body text into real <p> elements on blank-line breaks (so

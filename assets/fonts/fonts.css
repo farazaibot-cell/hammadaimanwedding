@@ -26,3 +26,16 @@
   font-display: swap;
   src: url(https://fonts.gstatic.com/s/greatvibes/v21/RWmMoKWR9v4ksMfaWd_JN-XC.ttf) format('truetype');
 }
+@font-face {
+  /* Used only for the couple's full names on the Walima invitation card
+     (see .card-walima.card-type-invitation .highlight-name in style.css)
+     - Great Vibes draws some capitals (A, N) with much less visual weight
+     than others, reading as near-lowercase at a glance. Yellowtail's
+     capitals are unambiguously larger/bolder than its lowercase across
+     the board, confirmed by direct side-by-side render comparison. */
+  font-family: 'Yellowtail';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/yellowtail/v25/OZpGg_pnoDtINPfRIlLotlw.ttf) format('truetype');
+}
