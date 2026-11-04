@@ -757,13 +757,13 @@ section {
     /* Dayland's outline has a deliberate hand-sketched/distressed texture
        baked into the glyphs (confirmed by rendering the raw .ttf with no
        CSS effects at all - the roughness is in the font file itself, not
-       a shadow or rendering artifact). Barely visible at the Walima
-       card's 1.6rem, but obvious at this element's larger 2.5rem. A
-       near-invisible blur smooths that outline noise into a softer,
-       ink-like edge instead of visible jagged serration; the glow radii
-       were also cut down since a wide blur was haloing every serration
-       and making the roughness read as fuzzier, not softer. */
-    filter: blur(0.4px);
+       a shadow or rendering artifact). A blur() here was tried to smooth
+       that texture but made the whole name read as soft/hazy instead of
+       crisp - traded a minor texture complaint for a bigger "looks cheap"
+       one, so it's gone. Keeping the edges sharp and just toning the glow
+       down (it was haloing every serration, which read as fuzz) is the
+       better trade - some of Dayland's texture stays visible at this
+       size, but the name itself stays crisp. */
     text-shadow: 0 0 4px rgba(255,255,255,1), 0 0 8px rgba(212, 163, 115, 0.9), 0 2px 4px rgba(0,0,0,0.5); /* Highlight effect */
 }
 
