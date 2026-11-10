@@ -41,14 +41,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return html;
     }
 
-    // Four link editions, matching the physical card set, reachable ONLY via
+    // Link editions, matching the physical card set, reachable ONLY via
     // each edition's own unguessable secret-slug folder (e.g.
     // /ijtema_qgkcls0n/, set by that folder's own index.html through
     // window.__inviteOverride):
-    //   ijtema -> Ijtema invitation card only
-    //   barat  -> blessing + Barat programme card
-    //   walima -> Walima invitation + programme cards
-    //   full   -> everything, in chronological order
+    //   ijtema       -> Ijtema invitation card only
+    //   barat        -> blessing + Barat programme card
+    //   walima       -> Walima invitation + programme cards
+    //   barat_walima -> blessing + Barat programme card + Walima cards
+    //   full         -> everything, in chronological order
     // No ?invite= query-param fallback on purpose - that used to let anyone
     // reach any edition from the bare domain just by guessing a short,
     // common word (e.g. /?invite=full), which defeated the whole point of
@@ -58,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // around as dead-end landing pages for anyone with an old bookmark
     // rather than 404ing.
     const rawInvite = window.__inviteOverride;
-    const validTypes = ['ijtema', 'barat', 'walima', 'full'];
+    const validTypes = ['ijtema', 'barat', 'walima', 'barat_walima', 'full'];
     const isGenericLanding = !validTypes.includes(rawInvite);
 
     if (isGenericLanding) {
@@ -85,6 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (inviteType === 'ijtema') {
             allowedEvents = ['ijtema'];
             showBlessing = false;
+        } else if (inviteType === 'barat_walima') {
+            allowedEvents = ['barat', 'walima'];
+            showBlessing = true;
         }
 
         // Sort to maintain chronological order
@@ -126,10 +130,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Hero label/date: Ijtema and Walima single-event editions are named
         // after their own event (no generic "Wedding Day"), each showing its
-        // own date. Barat (single-event) keeps "Wedding Day" + the date. The
-        // full edition (all three cards) is just "Wedding" with no date at
-        // all - with three different dates already shown further down on
-        // each card, a single date up top read as contradictory.
+        // own date. Barat (single-event) keeps "Wedding Day" + the date. Any
+        // multi-event edition (barat_walima, full) is just "Wedding" with no
+        // date at all - with multiple different dates already shown further
+        // down on each card, a single date up top read as contradictory.
         if (inviteType === 'ijtema') {
             document.getElementById("hero-label").textContent = "Ijtema";
             document.getElementById("hero-date").textContent = config.events.ijtema.date;
