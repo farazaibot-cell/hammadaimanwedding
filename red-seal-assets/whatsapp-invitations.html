@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hammad & Aman - WhatsApp Invitations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 12mm 16mm 12mm 16mm;
+        }
+
+        :root {
+            --clr-burgundy: #6b1720;
+            --clr-burgundy-dark: #440e14;
+            --clr-gold: #a07830;
+            --clr-gold-light: #fbf7ee;
+            --clr-gold-border: #d4be98;
+            --clr-border: #e2d9cd;
+            --clr-card-bg: #fffdfb;
+            --clr-text: #1f1b1a;
+            --clr-text-muted: #5e544f;
+            --font-serif: 'Cinzel', Georgia, serif;
+            --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-urdu: 'Geeza Pro', 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Segoe UI', Tahoma, Arial, sans-serif;
+            --font-mono: 'JetBrains Mono', Menlo, Consolas, monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: #f7f4ee;
+            color: var(--clr-text);
+            line-height: 1.5;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* Each Section is Exactly One Printable A4 Page */
+        .page-sheet {
+            page-break-after: always;
+            break-after: page;
+            background: #ffffff;
+            border: 2px solid var(--clr-gold-border);
+            border-radius: 8px;
+            padding: 14px 18px 12px 18px;
+            margin: 0 auto 25px auto;
+            max-width: 820px;
+            min-height: 255mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+
+        .page-sheet:last-of-type {
+            page-break-after: avoid;
+            break-after: avoid;
+            margin-bottom: 0;
+        }
+
+        /* Outer Double Frame Accent */
+        .page-sheet::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px solid rgba(160, 120, 48, 0.3);
+            border-radius: 5px;
+            pointer-events: none;
+        }
+
+        /* Top Header Banner */
+        .page-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1.5px solid var(--clr-gold-border);
+            padding-bottom: 8px;
+            margin-bottom: 6px;
+        }
+
+        .page-top-bar.rtl {
+            direction: rtl;
+        }
+
+        .page-top-bar .title-tag {
+            font-family: var(--font-serif);
+            font-size: 0.82rem;
+            color: var(--clr-burgundy);
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+        .page-top-bar .lang-pill {
+            background: var(--clr-gold-light);
+            color: var(--clr-burgundy-dark);
+            border: 1px solid var(--clr-gold-border);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        /* Event Header Title */
+        .event-title-wrap {
+            margin-bottom: 10px;
+        }
+
+        .event-title-wrap.rtl {
+            direction: rtl;
+            text-align: right;
+        }
+
+        .event-title-wrap h1 {
+            font-family: var(--font-serif);
+            font-size: 1.35rem;
+            color: var(--clr-burgundy-dark);
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+            margin-bottom: 3px;
+        }
+
+        .event-title-wrap.rtl h1 {
+            font-family: var(--font-urdu);
+            font-size: 1.45rem;
+            color: var(--clr-burgundy-dark);
+            letter-spacing: 0;
+            line-height: 1.3;
+        }
+
+        .event-title-wrap p.subtitle {
+            font-size: 0.82rem;
+            color: var(--clr-text-muted);
+        }
+
+        .event-title-wrap.rtl p.subtitle {
+            font-family: var(--font-urdu);
+            font-size: 0.88rem;
+        }
+
+        /* Copy Instruction Strip */
+        .copy-strip {
+            background: #faf7f0;
+            border: 1px dashed var(--clr-gold-border);
+            border-radius: 5px;
+            padding: 6px 12px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.76rem;
+            color: var(--clr-text-muted);
+        }
+
+        .copy-strip.rtl {
+            direction: rtl;
+        }
+
+        .copy-strip strong {
+            color: var(--clr-burgundy);
+        }
+
+        /* Message Card - Full Width */
+        .msg-card {
+            background: var(--clr-card-bg);
+            border: 1.5px solid var(--clr-border);
+            border-radius: 8px;
+            padding: 16px 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            
+        }
+
+        .copy-text {
+            font-size: 0.85rem;
+            line-height: 1.62;
+            color: #1a1716;
+            white-space: pre-wrap;
+            user-select: all;
+            -webkit-user-select: all;
+            flex-grow: 1;
+        }
+
+        .copy-text.english {
+            font-family: var(--font-sans);
+        }
+
+        .copy-text.urdu {
+            font-family: var(--font-urdu);
+            direction: rtl;
+            text-align: right;
+            font-size: 0.82rem;
+            line-height: 1.58;
+        }
+
+        /* Compact sizing for Full Wedding Invitation (most text) */
+        .page-sheet.compact-text .copy-text.english {
+            font-size: 0.78rem;
+            line-height: 1.50;
+        }
+        .page-sheet.compact-text .copy-text.urdu {
+            font-size: 0.76rem;
+            line-height: 1.52;
+        }
+
+        /* Live URL display */
+        .url-link {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--clr-burgundy);
+            text-decoration: underline;
+        }
+
+        /* Page Bottom Footer */
+        .page-footer {
+            border-top: 1px solid var(--clr-border);
+            padding-top: 6px;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.70rem;
+            color: var(--clr-text-muted);
+        }
+
+        .page-footer .left {
+            font-family: var(--font-serif);
+            letter-spacing: 0.5px;
+            color: var(--clr-burgundy);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ======================================================== -->
+<!-- 1. FULL INVITATION - ENGLISH -->
+<!-- ======================================================== -->
+<div class="page-sheet compact-text">
+    <div>
+        <div class="page-top-bar">
+            <span class="title-tag">Hammad &amp; Aman &bull; Wedding Invitations</span>
+            <span class="lang-pill">English Version</span>
+        </div>
+
+        <div class="event-title-wrap">
+            <h1>1. Full Wedding Invitation (All Events)</h1>
+            <p class="subtitle">For close family &amp; special guests invited to all three celebrations</p>
+        </div>
+
+        <div class="copy-strip">
+            <span><strong>Tip:</strong> Tap or click anywhere in the box below to select all text, then copy to WhatsApp.</span>
+            <span>https://hammadaiman.in/full_kur8dtei/</span>
+        </div>
+    </div>
+
+    <div class="msg-card">
+        <div class="copy-text english">Bismillah ir-Rahman ir-Rahim
+
+Dearest Family & Friends,
+
+With the grace of Almighty Allah and the blessings of our elders, we take immense joy in inviting you to celebrate the wedding celebrations of our beloved
+
+*Hammad & Aman*
+
+Please grace the auspicious occasions with your presence and prayers:
+
+*Ijtema & Dinner*
+Sunday, 20th December 2026 | 7:30 PM (after Maghrib)
+Community Hall, Palm Spring Apartments, New Tangra Road, Kolkata
+
+*Barat & Dinner*
+Wednesday, 23rd December 2026 | 7:30 PM (Rukhsati 11:00 PM)
+Myrah Banquet, Prasad Square, AJC Bose Road, Kolkata
+
+*Walima & Dinner*
+Thursday, 24th December 2026 | 8:00 PM
+Celebration Banquet, Aurora Waterfront, Sector V, Kolkata
+
+*A Note from Our Family:*
+As a mindful step towards environmental sustainability, we have chosen not to print paper cards this year. Instead, we have poured our love into crafting this interactive digital invitation for you. Please accept this with our warmest regards as our personal and heartfelt invitation:
+
+https://hammadaiman.in/full_kur8dtei/
+
+Your presence and du'as will mean the world to us and complete our happiness.
+
+Warm regards,
+*The Nawaz & Akhtar Family*</div>
+    </div>
+
+    <div class="page-footer">
+        <span class="left">Hammad &amp; Aman Wedding Celebrations &bull; Kolkata 2026</span>
+        <span>Page 1 of 8 &bull; Full Invitation (English)</span>
+    </div>
+</div>
+
+<!-- ======================================================== -->
+<!-- 2. FULL INVITATION - URDU -->
+<!-- ======================================================== -->
+<div class="page-sheet compact-text">
+    <div>
+        <div class="page-top-bar rtl">
+            <span class="title-tag" style="font-family: var(--font-urdu);">حماد اور امان &bull; شادی دعوت نامہ</span>
+            <span class="lang-pill">اردو ورژن</span>
+        </div>
+
+        <div class="event-title-wrap rtl">
+            <h1>1. مکمل شادی دعوت نامہ (تمام تقریبات)</h1>
+            <p class="subtitle">قریبی اہلِ خانہ اور معزز مہمانوں کے لیے جو تمام تقریبات میں مدعو ہیں</p>
+        </div>
+
+        <div class="copy-strip rtl">
+            <span><strong>رہنمائی:</strong> واٹس ایپ پر کاپی کرنے کے لیے نیچے دیے گئے باکس کے متن کو منتخب کریں۔</span>
+            <span dir="ltr">https://hammadaiman.in/full_kur8dtei/</span>
+        </div>
+    </div>
+
+    <div class="msg-card">
+        <div class="copy-text urdu">بِسْمِ اللَّهِ الرَّحْمٰنِ الرَّحِيمِ
+
+محترم و مکرم،
+السلام علیکم ورحمۃ اللہ وبرکاتہ
+
+اللہ تعالیٰ کے فضل و کرم اور بزرگوں کی دعاؤں کے سائے میں، ہمیں اپنے پیارے
+
+*حماد اور امان*
+
+کی شادی خانہ آبادی کی پرمسرت تقریبات میں آپ کو شرکت کی دلی دعوت دیتے ہوئے بے حد خوشی ہو رہی ہے۔
+
+*پروگرام:*
+
+• *محفل اجتماع و طعام:*
+اتوار، 20 دسمبر 2026 | بعد نمازِ مغرب (شام 7:30 بجے)
+کمیونٹی ہال، پام اسپرنگ اپارٹمنٹس، نیو تنگرہ روڈ، کولکاتا
+
+• *تقریب برات و طعام:*
+بدھ، 23 دسمبر 2026 | شام 7:30 بجے (رخصتی: رات 11:00 بجے)
+مائرہ بینکویٹ، پرساد اسکوائر، اے جے سی بوس روڈ، کولکاتا
+
+• *تقریب ولیمہ و طعام:*
+جمعرات، 24 دسمبر 2026 | رات 8:00 بجے
+سیلیبریشن بینکویٹ، ارورہ واٹر فرنٹ، سالٹ لیک سیکٹر 5، کولکاتا
+
+*ایک پُرخلوص گزارش:*
+ماحولیاتی تحفظ اور ایک باشعور و پائیدار روایت کے پیشِ نظر، ہم نے اس بار کاغذی کارڈز کی طباعت کے بجائے خلوصِ دل سے یہ انٹرایکٹو ڈیجیٹل دعوت نامہ تیار کیا ہے۔ گزارش ہے کہ ہماری اس دلی کوشش کو قبول فرمائیں اور اسے ہماری ذاتی اور پُرخلوص دعوت تصور فرمائیں۔
+
+دعوت نامہ لنک:
+https://hammadaiman.in/full_kur8dtei/
+
+آپ کی تشریف آوری اور دعائیں ہمارے لیے باعثِ برکت و مسرت ہوں گی۔
+
+طالبِ دعا،
+*نواز اور اختر فیملی*</div>
+    </div>
+
+    <div class="page-footer">
+        <span class="left">Hammad &amp; Aman Wedding Celebrations &bull; Kolkata 2026</span>
+        <span>Page 2 of 8 &bull; Full Invitation (Urdu)</span>
+    </div>
+</div>
+
+<!-- ======================================================== -->
+<!-- 3. BARAT INVITATION - ENGLISH -->
+<!-- ======================================================== -->
+<div class="page-sheet">
+    <div>
+        <div class="page-top-bar">
+            <span class="title-tag">Hammad &amp; Aman &bull; Wedding Invitations</span>
+            <span class="lang-pill">English Version</span>
+        </div>
+
+        <div class="event-title-wrap">
+            <h1>2. Barat Invitation</h1>
+            <p class="subtitle">Wedding Day &bull; Wednesday, 23rd December 2026</p>
+        </div>
+
+        <div class="copy-strip">
+            <span><strong>Tip:</strong> Tap or click anywhere in the box below to select all text, then copy to WhatsApp.</span>
+            <span>https://hammadaiman.in/barat_77zecgfj/</span>
+        </div>
+    </div>
+
+    <div class="msg-card">
+        <div class="copy-text english">Bismillah ir-Rahman ir-Rahim
+
+Assalamu Alaikum wa Rahmatullah,
+
+With the blessings of Almighty Allah, we cordially invite you and your family to grace the auspicious occasion of the Barat of our beloved
+
+*Hammad & Aman*
+
+*Event Details:*
+Date: Wednesday, 23rd December 2026
+Time: 7:30 PM (Reception of Barat) followed by dinner
+Rukhsati: 11:00 PM
+Venue: Myrah Banquet, Prasad Square, 164 AJC Bose Road, Entally, Kolkata
+
+*A Note from Our Family:*
+In our effort to embrace a mindful and eco-friendly celebration, we have chosen not to print paper cards this year and have designed this bespoke digital invitation with deep love. Please honor us by accepting this as our personal and heartfelt invitation:
+
+https://hammadaiman.in/barat_77zecgfj/
+
+We eagerly look forward to welcoming you and celebrating this blessed milestone together.
+
+Warm regards,
+*Farah Naz & Family*</div>
+    </div>
+
+    <div class="page-footer">
+        <span class="left">Hammad &amp; Aman Wedding Celebrations &bull; Kolkata 2026</span>
+        <span>Page 3 of 8 &bull; Barat (English)</span>
+    </div>
+</div>
+
+<!-- ======================================================== -->
+<!-- 4. BARAT INVITATION - URDU -->
+<!-- ======================================================== -->
+<div class="page-sheet">
+    <div>
+        <div class="page-top-bar rtl">
+            <span class="title-tag" style="font-family: var(--font-urdu);">حماد اور امان &bull; شادی دعوت نامہ</span>
+            <span class="lang-pill">اردو ورژن</span>
+        </div>
+
+        <div class="event-title-wrap rtl">
+            <h1>2. دعوت نامہ تقریبِ برات</h1>
+            <p class="subtitle">بدھ، 23 دسمبر 2026 &bull; مائرہ بینکویٹ، کولکاتا</p>
+        </div>
+
+        <div class="copy-strip rtl">
+            <span><strong>رہنمائی:</strong> واٹس ایپ پر کاپی کرنے کے لیے نیچے دیے گئے باکس کے متن کو منتخب کریں۔</span>
+            <span dir="ltr">https://hammadaiman.in/barat_77zecgfj/</span>
+        </div>
+    </div>
+
+    <div class="msg-card">
+        <div class="copy-text urdu">بِسْمِ اللَّهِ الرَّحْمٰنِ الرَّحِيمِ
+
+محترم و مکرم،
+السلام علیکم ورحمۃ اللہ وبرکاتہ
+
+اللہ تعالیٰ کے فضل و توفیق سے ہم آپ کو اور آپ کے اہلِ خانہ کو ہمارے پیارے
+
+*حماد اور امان*
+
+کی تقریبِ برات میں شرکت کی پُرخلوص دعوت دیتے ہیں۔
+
+*پروگرام:*
+تاریخ: بدھ، 23 دسمبر 2026
+وقت: شام 7:30 بجے (استقبالیہ برات و طعام)
+رخصتی: رات 11:00 بجے
+مقام: مائرہ بینکویٹ، پرساد اسکوائر، 164 اے جے سی بوس روڈ، کولکاتا
+
+*ایک پُرخلوص گزارش:*
+ماحول کے تحفظ کی ایک چھوٹی سی کاوش کے تحت ہم نے کاغذی کارڈز کی طباعت سے گریز کرتے ہوئے یہ خصوصی ڈیجیٹل دعوت نامہ محبت سے تیار کیا ہے۔ برائے کرم اسے ہماری ذاتی اور دلی دعوت کے طور پر قبول فرمائیں۔
+
+دعوت نامہ لنک:
+https://hammadaiman.in/barat_77zecgfj/
+
+آپ کی پُروقار تشریف آوری اور نیک تمنائیں نوبیاہتا جوڑے کے لیے باعثِ سعادت ہوں گی۔
+
+طالبِ دعا،
+*فرح ناز اور فیملی*</div>
+    </div>
+
+    <div class="page-footer">
+        <span class="left">Hammad &amp; Aman Wedding Celebrations &bull; Kolkata 2026</span>
+        <span>Page 4 of 8 &bull; Barat (Urdu)</span>
+    </div>
+</div>
+
+<!-- ======================================================== -->
+<!-- 5. WALIMA INVITATION - ENGLISH -->
+<!-- ======================================================== -->
+<div class="page-sheet">
+    <div>
+        <div class="page-top-bar">
+            <span class="title-tag">Hammad &amp; Aman &bull; Wedding Invitations</span>
+            <span class="lang-pill">English Version</span>
+        </div>
+
+        <div class="event-title-wrap">
+            <h1>3. Walima Invitation</h1>
+            <p class="subtitle">Reception &bull; Thursday, 24th December 2026</p>
+        </div>
+
+        <div class="copy-strip">
+            <span><strong>Tip:</strong> Tap or click anywhere in the box below to select all text, then copy to WhatsApp.</span>
+            <span>https://hammadaiman.in/walima_dp6rry3f/</span>
+        </div>
+    </div>
+
+    <div class="msg-card">
+        <div class="copy-text english">Bismillah ir-Rahman ir-Rahim
+
+Assalamu Alaikum wa Rahmatullah,
+
+By the grace of Allah Subhanahu wa Ta'ala, we request the pleasure of your company on the auspicious occasion of the Walima of our son
+
+*Hammad Nawaz*
+(S/O Mrs. Farah Naz & Late Haji Shahnawaz Akhtar)
+with
+*Dr. Aman Fatima*
+(D/O Mrs. Shaheen Fatma & Late Md Arif)
+
+*Event Details:*
+Date: Thursday, 24th December 2026
+Time: 8:00 PM onwards, followed by dinner
+Venue: Celebration Banquet, 6th Floor, Aurora Waterfront, GN Block, Sector V, Bidhannagar, Kolkata
+
+*A Note from Our Family:*
+As a conscious, eco-friendly step, we have opted not to print paper cards and instead created this interactive digital invitation with immense care and regard for you. Please accept this message as our personal invitation to celebrate with us:
+
+https://hammadaiman.in/walima_dp6rry3f/
+
+Please join us to bestow your du'as and blessings upon the newlyweds.
+
+Warm regards,
+*Begum Haji (Late) Shahnawaz Akhtar & Family*</div>
+    </div>
+
+    <div class="page-footer">
+        <span class="left">Hammad &amp; Aman Wedding Celebrations &bull; Kolkata 2026</span>
+        <span>Page 5 of 8 &bull; Walima (English)</span>
+    </div>
+</div>
+
+<!-- ======================================================== -->
+<!-- 6. WALIMA INVITATION - URDU -->
+<!-- ======================================================== -->
+<div class="page-sheet">
+    <div>
+        <div class="page-top-bar rtl">
+            <span class="title-tag" style="font-family: var(--font-urdu);">حماد اور امان &bull; شادی دعوت نامہ</span>
+            <span class="lang-pill">اردو ورژن</span>
+        </div>
+
+        <div class="event-title-wrap rtl">
+            <h1>3. دعوت نامہ تقریبِ ولیمہ</h1>
+            <p class="subtitle">جمعرات، 24 دسمبر 2026 &bull; سیلیبریشن بینکویٹ، سالٹ لیک، کولکاتا</p>
+        </div>
+
+        <div class="copy-strip rtl">
+            <span><strong>رہنمائی:</strong> واٹس ایپ پر کاپی کرنے کے لیے نیچے دیے گئے باکس کے متن کو منتخب کریں۔</span>
+            <span dir="ltr">https://hammadaiman.in/walima_dp6rry3f/</span>
+        </div>
+    </div>
+
+    <div class="msg-card">
+        <div class="copy-text urdu">بِسْمِ اللَّهِ الرَّحْمٰنِ الرَّحِيمِ
+
+محترم و مکرم،
+السلام علیکم ورحمۃ اللہ وبرکاتہ
+
+بفضلِ باری تعالیٰ، ہم اپنے فرزند
+
+*حماد نواز*
+(فرزند مسز فرح ناز و حاجی مرحوم شاہ نواز اختر)
+ہمراہ
+*امان فاطمہ*
+(دختر مسز شاہین فاطمہ و مرحوم محمد عارف)
+
+کی تقریبِ ولیمہ کی بابرکت محفل میں آپ کو شرکت کی پُرتپاک دعوت پیش کرتے ہیں۔
+
+*پروگرام:*
+تاریخ: جمعرات، 24 دسمبر 2026
+وقت: رات 8:00 بجے (ہمراہ طعام)
+مقام: سیلیبریشن بینکویٹ، چھٹی منزل، ارورہ واٹر فرنٹ، سالٹ لیک سیکٹر 5، کولکاتا
+
+*ایک پُرخلوص گزارش:*
+ماحولیاتی بقا اور ایک پائیدار روایت کے احترام میں، ہم نے کاغذی کارڈز کی طباعت کے بجائے خلوصِ دل سے یہ ڈیجیٹل دعوت نامہ تیار کیا ہے۔ آپ سے مؤدبانہ گزارش ہے کہ ہماری اس نیت اور محبت کو قبول فرماتے ہوئے اسے ہماری ذاتی اور خاص دعوت تصور فرمائیں۔
+
+دعوت نامہ لنک:
+https://hammadaiman.in/walima_dp6rry3f/
+
+آپ کی تشریف آوری اور دعائیں ہمارے لیے باعثِ افتخار ہوں گی۔
+
+طالبِ دعا،
+*بیگم حاجی مرحوم شاہ نواز اختر و جملہ اہلِ خاندان*</div>
+    </div>
+
+    <div class="page-footer">
+        <span class="left">Hammad &amp; Aman Wedding Celebrations &bull; Kolkata 2026</span>
+        <span>Page 6 of 8 &bull; Walima (Urdu)</span>
+    </div>
+</div>
+
+<!-- ======================================================== -->
+<!-- 7. IJTEMA INVITATION - ENGLISH -->
+<!-- ======================================================== -->
+<div class="page-sheet">
+    <div>
+        <div class="page-top-bar">
+            <span class="title-tag">Hammad &amp; Aman &bull; Wedding Invitations</span>
+            <span class="lang-pill">English Version</span>
+        </div>
+
+        <div class="event-title-wrap">
+            <h1>4. Ijtema Invitation</h1>
+            <p class="subtitle">Pre-Wedding Gathering &bull; Sunday, 20th December 2026</p>
+        </div>
+
+        <div class="copy-strip">
+            <span><strong>Tip:</strong> Tap or click anywhere in the box below to select all text, then copy to WhatsApp.</span>
+            <span>https://hammadaiman.in/ijtema_qgkcls0n/</span>
+        </div>
+    </div>
+
+    <div class="msg-card">
+        <div class="copy-text english">Bismillah ir-Rahman ir-Rahim
+
+Assalamu Alaikum wa Rahmatullah,
+
+We warmly invite you to join us for an evening of prayer and remembrance at our pre-wedding Ijtema, seeking Allah’s blessings for the upcoming union of
+
+*Hammad & Aman*
+
+*Event Details:*
+Date: Sunday, 20th December 2026
+Time: 7:30 PM (after Namaz-e-Maghrib), followed by dinner
+Venue: Community Hall, Palm Spring Apartments, Flat 9B, New Tangra Road, Kolkata
+
+*A Note from Our Family:*
+To support an environmentally mindful celebration, we are sharing this special occasion digitally. Please accept this as our personal and heartfelt invitation to join us in du'a:
+
+https://hammadaiman.in/ijtema_qgkcls0n/
+
+Your presence in this gathering of blessings will be deeply cherished.
+
+Warm regards,
+*Mrs. Farah Naz & Family*</div>
+    </div>
+
+    <div class="page-footer">
+        <span class="left">Hammad &amp; Aman Wedding Celebrations &bull; Kolkata 2026</span>
+        <span>Page 7 of 8 &bull; Ijtema (English)</span>
+    </div>
+</div>
+
+<!-- ======================================================== -->
+<!-- 8. IJTEMA INVITATION - URDU -->
+<!-- ======================================================== -->
+<div class="page-sheet">
+    <div>
+        <div class="page-top-bar rtl">
+            <span class="title-tag" style="font-family: var(--font-urdu);">حماد اور امان &bull; شادی دعوت نامہ</span>
+            <span class="lang-pill">اردو ورژن</span>
+        </div>
+
+        <div class="event-title-wrap rtl">
+            <h1>4. دعوت نامہ محفلِ اجتماع</h1>
+            <p class="subtitle">اتوار، 20 دسمبر 2026 &bull; پام اسپرنگ اپارٹمنٹس، کولکاتا</p>
+        </div>
+
+        <div class="copy-strip rtl">
+            <span><strong>رہنمائی:</strong> واٹس ایپ پر کاپی کرنے کے لیے نیچے دیے گئے باکس کے متن کو منتخب کریں۔</span>
+            <span dir="ltr">https://hammadaiman.in/ijtema_qgkcls0n/</span>
+        </div>
+    </div>
+
+    <div class="msg-card">
+        <div class="copy-text urdu">بِسْمِ اللَّهِ الرَّحْمٰنِ الرَّحِيمِ
+
+محترم و مکرم،
+السلام علیکم ورحمۃ اللہ وبرکاتہ
+
+اللہ رب العزت کی بارگاہ میں شکر گزاری اور برکت کے لیے، ہم آپ کو
+
+*حماد اور امان*
+
+کی شادی کے سلسلے میں منعقد ہونے والی محفلِ اجتماع میں شرکت کی دلی دعوت پیش کرتے ہیں۔
+
+*پروگرام:*
+تاریخ: اتوار، 20 دسمبر 2026
+وقت: بعد نمازِ مغرب (شام 7:30 بجے)، ہمراہ طعام
+مقام: کمیونٹی ہال، پام اسپرنگ اپارٹمنٹس، فلیٹ 9B، نیو تنگرہ روڈ، کولکاتا
+
+*ایک پُرخلوص گزارش:*
+ماحول کے تحفظ کو پیشِ نظر رکھتے ہوئے ہم نے اس تقریب کا دعوت نامہ ڈیجیٹل طور پر محبت سے ترتیب دیا ہے۔ گزارش ہے کہ اسے ہماری دلی اور ذاتی دعوت قبول فرمائیں۔
+
+دعوت نامہ لنک:
+https://hammadaiman.in/ijtema_qgkcls0n/
+
+محفل میں آپ کی شرکت اور دعاؤں کے متمنی۔
+
+طالبِ دعا،
+*مسز فرح ناز و اہلِ خاندان*</div>
+    </div>
+
+    <div class="page-footer">
+        <span class="left">Hammad &amp; Aman Wedding Celebrations &bull; Kolkata 2026</span>
+        <span>Page 8 of 8 &bull; Ijtema (Urdu)</span>
+    </div>
+</div>
+
+</body>
+</html>
