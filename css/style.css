@@ -786,6 +786,15 @@ section {
        better trade - some of Dayland's texture stays visible at this
        size, but the name itself stays crisp. */
     text-shadow: 0 0 4px rgba(255,255,255,1), 0 0 8px rgba(212, 163, 115, 0.9), 0 2px 4px rgba(0,0,0,0.5); /* Highlight effect */
+    /* Android's font rasterizer renders Dayland's fine thorny serrations
+       as visibly jagged/pixelated at this element's large 2.5rem size -
+       noticeably rougher than iOS/macOS's smoother (if still textured)
+       rendering of the same glyphs. geometricPrecision asks the renderer
+       to prioritize curve/geometry accuracy over speed, which can reduce
+       that jaggedness on Chrome/Android's rasterizer - unlike blur, this
+       doesn't soften or haze the text, just changes how precisely its
+       existing edges get drawn. */
+    text-rendering: geometricPrecision;
 }
 
 .generic-message {
@@ -985,6 +994,10 @@ section {
     line-height: 1.6;
     display: inline-block;
     padding: 0.18em 0;
+    /* Same Android jagged-rendering issue as .couple-names above (not yet
+       reported at this smaller 1.6rem size, but same font/same cause) -
+       applied preemptively for consistency. */
+    text-rendering: geometricPrecision;
 }
 
 /* The address line read as too prominent relative to the rest of the
