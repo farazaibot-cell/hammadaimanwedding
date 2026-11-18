@@ -174,16 +174,18 @@ section {
     /* The redesigned border art uses a pointed arch, which peaks higher at
        center than the previous rounded-oval frames did - 25% left text
        crossing the arch outline, so this needed to go up again even after
-       trimming content to compensate. Right is wider than left: real
-       phones kept showing the last word of a wrapped line sitting right
-       up against the gold arch/lattice border on the right edge, across
-       several rounds of fixes that all looked clean in every simulated
-       browser/viewport tried - the actual real-device text-wrap margin
-       runs measurably tighter than any local testing reproduced, so this
-       errs generous rather than risking a repeat. See .invitation-text
-       for the matching font-size reduction on the cards that use this
-       default inset (Ijtema/Barat). */
-    top: 28%; left: 11%; right: 15%; bottom: 21%;
+       trimming content to compensate. Both left and right are now wider
+       than the original 11%: real phones kept showing wrapped lines
+       sitting right up against the gold arch/lattice border - first the
+       right edge ("for"), then after that was fixed, the left edge
+       ("cordially") - across several rounds of fixes that all looked
+       clean in every simulated browser/viewport tried. The actual
+       real-device text-wrap margin runs measurably tighter than any
+       local testing reproduced, so this errs generous rather than
+       risking yet another repeat. See .invitation-text for the matching
+       font-size reduction on the cards that use this default inset
+       (Ijtema/Barat). */
+    top: 28%; left: 13%; right: 15%; bottom: 21%;
     overflow-y: auto;
     padding: 0.5rem 0.4rem;
     box-sizing: border-box;
@@ -937,12 +939,14 @@ section {
    to fit this one outlier. Line-height loosened (1.22->1.4) per feedback
    that the card read as cluttered. */
 .card-walima.card-type-invitation .invitation-text {
-    /* 0.95->0.92: real-device screenshots kept showing "Merciful" sitting
-       right against the rose cluster even after widening this card's
-       inset twice - widening further overflowed the card vertically
-       instead (it's already the longest on the site), so the remaining
-       margin comes from the text itself rather than more inset. */
-    font-size: 0.92rem;
+    /* 0.95->0.92->0.9: real-device screenshots kept showing "Merciful"
+       sitting right against the rose cluster even after widening this
+       card's inset twice - widening further overflowed the card
+       vertically instead (it's already the longest on the site), so the
+       remaining margin comes from the text itself rather than more
+       inset. Down to a slight, barely-touching overlap by the second
+       font-size cut - this last nudge should clear it. */
+    font-size: 0.9rem;
     line-height: 1.2;
 }
 
