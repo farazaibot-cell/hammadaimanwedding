@@ -174,15 +174,16 @@ section {
     /* The redesigned border art uses a pointed arch, which peaks higher at
        center than the previous rounded-oval frames did - 25% left text
        crossing the arch outline, so this needed to go up again even after
-       trimming content to compensate. Right is a point wider than left as
-       extra margin against ordinary cross-browser text-wrapping variance
-       (a borderline-width line can wrap one word differently between
-       rendering engines) - real-device screenshots showed the last word
-       of a wrapped line sitting right up against the floral artwork
-       specifically on the right edge. Kept modest rather than wider,
-       since a bigger cut into the text column's width pushes extra
-       line-wraps that overflow short viewports vertically. */
-    top: 28%; left: 11%; right: 12%; bottom: 21%;
+       trimming content to compensate. Right is wider than left: real
+       phones kept showing the last word of a wrapped line sitting right
+       up against the gold arch/lattice border on the right edge, across
+       several rounds of fixes that all looked clean in every simulated
+       browser/viewport tried - the actual real-device text-wrap margin
+       runs measurably tighter than any local testing reproduced, so this
+       errs generous rather than risking a repeat. See .invitation-text
+       for the matching font-size reduction on the cards that use this
+       default inset (Ijtema/Barat). */
+    top: 28%; left: 11%; right: 15%; bottom: 21%;
     overflow-y: auto;
     padding: 0.5rem 0.4rem;
     box-sizing: border-box;
@@ -886,7 +887,15 @@ section {
 }
 
 .invitation-text {
-    font-size: 1.08rem;
+    /* Reduced from 1.08rem - this is the shared default used by the
+       Ijtema/Barat cards (Walima already has its own smaller 0.95rem
+       override below), and real-device screenshots kept showing text
+       sitting right up against the card's gold arch/lattice border even
+       after widening the inset twice - that border runs close to the
+       text column's edge by design, with very little room to spare, so
+       the text itself needed to come down a size rather than relying on
+       inset tuning alone. */
+    font-size: 0.98rem;
     font-family: var(--font-serif);
     padding: 0 0.5rem;
     text-shadow: 0 1px 2px rgba(0,0,0,0.05);
@@ -928,7 +937,12 @@ section {
    to fit this one outlier. Line-height loosened (1.22->1.4) per feedback
    that the card read as cluttered. */
 .card-walima.card-type-invitation .invitation-text {
-    font-size: 0.95rem;
+    /* 0.95->0.92: real-device screenshots kept showing "Merciful" sitting
+       right against the rose cluster even after widening this card's
+       inset twice - widening further overflowed the card vertically
+       instead (it's already the longest on the site), so the remaining
+       margin comes from the text itself rather than more inset. */
+    font-size: 0.92rem;
     line-height: 1.2;
 }
 
@@ -992,14 +1006,13 @@ section {
     top: 17%;
     bottom: 24%;
     left: 18%;
-    /* Widened a point (15%->16%) after a real-device screenshot showed
+    /* Widened from 15%->16% after a real-device screenshot showed
        "Merciful" sitting right up against the rose cluster on the right
-       edge - extra margin against cross-browser text-wrapping variance,
-       same reasoning as the shared .section-scroll default. Kept modest:
-       this card is already the longest on the site, and a bigger cut
-       into its width pushes extra line-wraps that overflow short
-       viewports vertically - the real fix for the actual observed bug is
-       text-size-adjust above; this is just insurance on top of it. */
+       edge. Pushing further to 18% was tried but overflowed this card
+       (the longest on the site) by 36-43px on narrow/short viewports -
+       a real regression, not the harmless few-px of scrollable slack
+       seen elsewhere - so this stays at 16% and leans on the font-size
+       reduction plus text-size-adjust fix instead of more margin. */
     right: 16%;
 }
 
