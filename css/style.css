@@ -39,6 +39,17 @@ html, body {
     font-size: 16px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    /* Mobile Safari/Chrome silently scale text up past the authored
+       font-size ("font boosting") when they judge a column of text to be
+       narrow relative to the device - a per-device heuristic, not driven
+       by CSS math, which is why card text can overlap the floral border
+       art on some real phones (iPhone Pro, iPhone "normal", Android) but
+       not others (iPhone Pro Max, where the same column reads as less
+       narrow) - and why it never reproduced in any desktop-engine
+       Chrome/WebKit testing at the same viewport sizes. This locks every
+       card's text to its authored size on every device. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 img {
@@ -163,8 +174,15 @@ section {
     /* The redesigned border art uses a pointed arch, which peaks higher at
        center than the previous rounded-oval frames did - 25% left text
        crossing the arch outline, so this needed to go up again even after
-       trimming content to compensate. */
-    top: 28%; left: 11%; right: 11%; bottom: 21%;
+       trimming content to compensate. Right is a point wider than left as
+       extra margin against ordinary cross-browser text-wrapping variance
+       (a borderline-width line can wrap one word differently between
+       rendering engines) - real-device screenshots showed the last word
+       of a wrapped line sitting right up against the floral artwork
+       specifically on the right edge. Kept modest rather than wider,
+       since a bigger cut into the text column's width pushes extra
+       line-wraps that overflow short viewports vertically. */
+    top: 28%; left: 11%; right: 12%; bottom: 21%;
     overflow-y: auto;
     padding: 0.5rem 0.4rem;
     box-sizing: border-box;
@@ -974,7 +992,15 @@ section {
     top: 17%;
     bottom: 24%;
     left: 18%;
-    right: 15%;
+    /* Widened a point (15%->16%) after a real-device screenshot showed
+       "Merciful" sitting right up against the rose cluster on the right
+       edge - extra margin against cross-browser text-wrapping variance,
+       same reasoning as the shared .section-scroll default. Kept modest:
+       this card is already the longest on the site, and a bigger cut
+       into its width pushes extra line-wraps that overflow short
+       viewports vertically - the real fix for the actual observed bug is
+       text-size-adjust above; this is just insurance on top of it. */
+    right: 16%;
 }
 
 /* walima-border.jpg's roses sit further into the corners than the other
